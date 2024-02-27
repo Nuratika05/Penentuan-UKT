@@ -1,0 +1,62 @@
+@extends('layouts.app')
+
+@section('content')
+<style>
+    .alert-success {
+    color: #005700; /* Warna hijau tua untuk teks */
+    background-color: #DFF0D8; /* Warna latar belakang hijau muda yang sesuai dengan kelas alert-success bawaan Bootstrap */
+    border-color: #005700; /* Warna border yang sesuai */
+}
+</style>
+<div class="row">
+    <div class="col-md-6">
+        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"></span> Data Prodi</h4>
+        @if (Session::has('success'))
+        <div class="alert alert-success" role="alert">
+            {{ Session::get('success') }}
+        </div>
+        @elseif (Session::has('error'))
+        <div class="alert alert-danger" role="alert">
+            {{ Session::get('error') }}
+        </div>
+        @endif
+    </div>
+    <div class="col-md-6 text-end m-auto">
+        <a href="{{ route('prodi.create') }}" class="btn btn-primary btn-sm">Tambah Data</a>
+    </div>
+</div>
+<div class="card p-4">
+    <div class="table-responsive text-nowrap">
+        <table class="datatable table py-3">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Nama prodi</th>
+                    <th>Jenjang</th>
+                    <th>Jurusan </th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody class="table-border-bottom-0">
+                @foreach($prodis as $item)
+                <tr>
+                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $item->nama}}</td>
+                    <td>{{ $item->jenjang }}</td>
+                    <td>{{ $item->jurusan->nama }}</td>
+
+                    <td>
+                        <a class="btn btn-sm btn-warning" href="{{ route('prodi.edit', $item->id) }}">Edit</a>
+                        <form action="{{ route('prodi.destroy', $item->id) }}" method="POST" style="display: inline">
+                            @csrf
+                            @method("DELETE")
+                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus data ini?')">Hapus</button>
+                        </form>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+</div>
+@endsection

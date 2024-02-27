@@ -1,0 +1,38 @@
+/* Reset some default margin and padding */
+body, h1, h5, table {
+    margin: 0;
+    padding: 0;
+}
+
+/* Style the container div */
+.card {
+    margin-bottom: 20px;
+}
+
+/* Style the heading */
+.card-header {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Style the table headers */
+table th {
+    text-align: left;
+}
+
+/* Style the table cells */
+table td {
+    padding-left: 10px;
+}
+
+/* Style the images */
+.img-fluid {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+/* Style the form */
+form {
+    margin-top: 20px;
+}
