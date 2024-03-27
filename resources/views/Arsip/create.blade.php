@@ -21,7 +21,7 @@
                     @csrf
                     <div class="mb-3">
                         <label for="nama" class="form-label">Nama Folder</label>
-                        <input type="date" name="nama" id="nama_folder" class="form-control" autofocus required>
+                        <input type="text" name="nama" id="nama_folder" class="form-control" autofocus required>
                     </div>
                     <button type="submit" class="btn btn-primary btn-sm" onClick="return confirm('Yakin akan membuat folder?')">Buat</button>
                     <a class="btn btn-secondary btn-sm" type="button" href="{{ route('arsip.index') }}">Kembali</a>
