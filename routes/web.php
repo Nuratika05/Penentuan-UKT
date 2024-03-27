@@ -12,7 +12,7 @@ use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\SubkriteriaController;
 use App\Http\Controllers\ArsipController;
-
+use App\Http\Controllers\FolderArsipController;
 
 // Route Mahasiswa
 Route::get('/', function () {
@@ -65,6 +65,8 @@ Route::middleware('auth:admin')->group(function () {
     Route::resource('admin/golongan', GolonganController::class);
     Route::resource('admin/admin', AdminController::class)->middleware('superadmin');
     Route::resource('admin/arsip', ArsipController::class);
+
+    Route::get('admin/folder', [FolderArsipController::class, 'index'])->name('admin.folderArsip');
 
     Route::get('admin/data-ukt', [DataUktController::class, 'index'])->name('admin.data-ukt');
     Route::get('admin/menunggu-verifikasi', [DataUktController::class, 'verif'])->name('admin.menunggu-verifikasi');

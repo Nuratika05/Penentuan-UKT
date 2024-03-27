@@ -12,13 +12,7 @@ class Arsip extends Model
     protected $guard = 'arsip';
 
     protected $guarded = [];
-    public function golongan(){
-        return $this->belongsTo(Golongan::class);
-    }
     public function folder(){
         return $this->belongsTo(Folder::class);
-    }
-    public function mahasiswa(){
-        return $this->belongsTo(Mahasiswa::class);
     }
 }

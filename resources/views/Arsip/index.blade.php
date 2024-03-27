@@ -33,7 +33,7 @@
                             @foreach ($folder as $fol)
                         <tr>
                             <td>
-                                <a href="#"> {{ $fol->nama }} </a></td>
+                                <a href="{{ route('admin.folderArsip') }}"> {{ $fol->nama }} </a></td>
                             <td>
                                 <a class="btn btn-sm btn-warning" href="{{ route('arsip.edit', $fol->id) }}">Edit</a>
                                 <form action="{{ route('arsip.destroy', $fol->id) }}" method="POST" style="display: inline">
