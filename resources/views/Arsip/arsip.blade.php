@@ -1,69 +1,30 @@
 @extends('layouts.app')
 
 @section('content')
-    <style>
-        .alert-success {
-            color: #005700;
-            /* Warna hijau tua untuk teks */
-            background-color: #DFF0D8;
-            /* Warna latar belakang hijau muda yang sesuai dengan kelas alert-success bawaan Bootstrap */
-            border-color: #005700;
-            /* Warna border yang sesuai */
-        }
-    </style>
+<style>
+    .alert-success {
+    color: #005700; /* Warna hijau tua untuk teks */
+    background-color: #DFF0D8; /* Warna latar belakang hijau muda yang sesuai dengan kelas alert-success bawaan Bootstrap */
+    border-color: #005700; /* Warna border yang sesuai */
+}
+</style>
     <div class="row">
         @if (Auth::guard('admin')->check())
-            <div class="col-md-6">
-                <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"></span> Data Kriteria Mahasiswa</h4>
-                @if (Session::has('success'))
-                    <div class="alert alert-success" role="alert">
-                        {{ Session::get('success') }}
-                    </div>
+        <div class="col-md-6">
+            <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"></span> Arsip Data UKT Mahasiswa</h4>
+            @if (Session::has('success'))
+            <div class="alert alert-success" role="alert">
+                {{ Session::get('success') }}
+            </div>
+            @endif
+        </div>
+            <div class="col-md-6 text-end m-auto">
+            <div class="col-md-12 mb-5">
+                @if (isset($dataExists) && $dataExists)
+                <a href="{{ route('datauktexport') }}" class="btn btn-sm btn-success" onClick="return confirm('Yakin akan melakukan export?')">Export</a>
+                <a href="{{ route('admin.data-ukt.printukt') }}" class="btn btn-sm btn-secondary">Print</a>
                 @endif
             </div>
-            <div class="col-md-6 text-end m-auto">
-                <div class="col-md-12 mb-5">
-                    @if (isset($dataExists) && $dataExists)
-                        <a href="{{ route('datauktexport') }}" class="btn btn-sm btn-success"
-                            onClick="return confirm('Yakin akan melakukan export?')">Export</a>
-                            @if (Auth::guard('admin')->check() && Auth::user()->role == 'verifikator')
-                        <a href="{{ route('admin.data-ukt.printukt') }}" class="btn btn-sm btn-secondary">Print</a>
-                        @endif
-                        <!-- Tombol Arsipkan -->
-                          <button class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#arsipModal">Arsipkan</button>
-
-                        <!-- Modal Arsip -->
-                        <div class="modal fade" id="arsipModal" tabindex="-1" role="dialog"
-                            aria-labelledby="arsipModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="arsipModalLabel">Pilih Folder Arsip</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form action="#" method="POST">
-                                            @csrf
-                                            <div class="form-group">
-                                                <label>Pilih Folder:</label>
-                                                <select name="id_folder" class="form-control">
-                                                      @foreach ($folder as $fol)
-                                                        <option value="{{ $fol->id }}">{{ $fol->nama }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <input type="hidden" name="id" value="#">
-                                            <button type="submit" class="btn btn-primary">Simpan</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endif
-                </div>
             </div>
             <div class="card p-4">
                 <div class="table-responsive text-nowrap">
@@ -138,10 +99,10 @@
             <div class="col-md-6">
                 <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"></span> Data Kriteria Mahasiswa</h4>
                 @if (Session::has('success'))
-                    <div class="alert alert-success" role="alert">
-                        {{ Session::get('success') }}
-                    </div>
-                @endif
+                <div class="alert alert-success" role="alert">
+                {{ Session::get('success') }}
+            </div>
+            @endif
             </div>
             @if ($berkas->status == 'Lengkap')
                 <div class="col-md-12 mb-5">
@@ -177,28 +138,28 @@
                                     <td> <span class="text-danger">{{ $berkas->keterangan }} !</span></td>
                             @endif
                             </tr>
-                        </table>
-                    </div>
+                    </table>
                 </div>
             </div>
+            </div>
             <div>
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <table class="table table-borderless w-75">
-                                <tr>
-                                    {{-- @php
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <table class="table table-borderless w-75">
+                            <tr>
+                                {{-- @php
                         dd($penilaians->first()->first()->subkriteria->nama);
                     @endphp --}}
                                     @foreach ($penilaians as $data => $nilai)
-                                        @foreach ($nilai as $data)
-                                <tr>
-                                    <th>{{ $data->kriteria->nama }}</th>
-                                    <td>:</td>
-                                    <td>{{ $data->subkriteria->nama }}</td>
-                                </tr>
-        @endforeach
-        @endforeach
+                                    @foreach ($nilai as $data)
+                                    <tr>
+                                        <th>{{ $data->kriteria->nama }}</th>
+                                        <td>:</td>
+                                        <td>{{ $data->subkriteria->nama }}</td>
+                                    </tr>
+                                    @endforeach
+                                    @endforeach
 
         <tr>
             <th>Foto Tempat Tinggal</th>
@@ -220,12 +181,12 @@
         </tr>
         @if ($berkas->foto_kendaraan === null || $berkas->foto_kendaraan === '')
         @else
-            <tr>
-                <th>Foto Kendaraan</th>
-                <td>:</td>
-                <td><img src="{{ asset('foto_kendaraan/' . $berkas->foto_kendaraan) }}" class="rounded img-fluid"
-                        width="250px"></td>
-            </tr>
+        <tr>
+            <th>Foto Kendaraan</th>
+            <td>:</td>
+            <td><img src="{{ asset('foto_kendaraan/' . $berkas->foto_kendaraan) }}" class="rounded img-fluid"
+                    width="250px"></td>
+        </tr>
         @endif
         </table>
     </div>

@@ -98,12 +98,12 @@
               <h3>Panduan pengguna bisa dilihat pada pdf berikut!
               </h3>
               <p>
-                @if (Auth::guard('mahasiswa')->check())
-                <a href="{{ asset('storage/pdf/Panduan Pengguna.pdf')}}" target="_blank"><img src="{{asset('assets/img/pdf.png')}}" style="width: 30px">Panduan Pengguna</a>
-                @elseif (Auth::guard('admin')->check() && Auth::user()->role == 'superadmin')
+                @if (Auth::guard('admin')->check() && Auth::user()->role == 'superadmin')
                 <a href="{{ asset('storage/pdf/Panduan Pengguna Admin.pdf')}}" target="_blank"><img src="{{asset('assets/img/pdf.png')}}" style="width: 30px">Panduan Pengguna</a>
-                @else
+                @elseif (Auth::guard('admin')->check() && Auth::user()->role == 'verifikator')
                 <a href="{{ asset('storage/pdf/Panduan Pengguna Verifikator.pdf')}}" target="_blank"><img src="{{asset('assets/img/pdf.png')}}" style="width: 30px">Panduan Pengguna</a>
+                @else
+                <a href="{{ asset('storage/pdf/Panduan Pengguna.pdf')}}" target="_blank"><img src="{{asset('assets/img/pdf.png')}}" style="width: 30px">Panduan Pengguna</a>
                 @endif
               </p>
             </div>

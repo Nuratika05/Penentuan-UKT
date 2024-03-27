@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
+use App\Models\Mahasiswa;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Providers\RouteServiceProvider;
@@ -38,19 +39,6 @@ class LoginController extends Controller
         return redirect()->route('mahasiswa.login')->with('loginErrorMahasiswa', 'No. Pendaftaran atau Password salah');
     }
 
-    // public function logoutMahasiswa(Request $request)
-    // {
-    //     if(Auth::guard('mahasiswa')->check())
-    //     {
-    //         Auth::guard('mahasiswa')->logout();
-    //         return redirect()->route('mahasiswa.login');
-    //     }
-
-    //     $this->guard()->logout();
-    //     $request->session()->invalidate();
-
-    //     return $this->loggedOut($request) ?: redirect('/');
-    // }
 
     public function formLoginAdmin()
     {

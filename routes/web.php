@@ -11,6 +11,7 @@ use App\Http\Controllers\KriteriaController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\SubkriteriaController;
+use App\Http\Controllers\ArsipController;
 
 
 // Route Mahasiswa
@@ -63,6 +64,7 @@ Route::middleware('auth:admin')->group(function () {
     Route::resource('admin/prodi', ProdiController::class);
     Route::resource('admin/golongan', GolonganController::class);
     Route::resource('admin/admin', AdminController::class)->middleware('superadmin');
+    Route::resource('admin/arsip', ArsipController::class);
 
     Route::get('admin/data-ukt', [DataUktController::class, 'index'])->name('admin.data-ukt');
     Route::get('admin/menunggu-verifikasi', [DataUktController::class, 'verif'])->name('admin.menunggu-verifikasi');
@@ -72,6 +74,7 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('admin/data-ukt/edit/{id}', [DataUktController::class, 'edit'])->name('admin.data-ukt.edit');
     Route::post('admin/data-ukt/update/{id}', [DataUktController::class, 'update'])->name('admin.data-ukt.update');
     Route::get('admin/data-ukt/print/{id}', [DataUktController::class, 'print'])->name('admin.data-ukt.print');
+    Route::get('admin/data-ukt/printukt', [DataUktController::class, 'printukt'])->name('admin.data-ukt.printukt');
 
 
 });

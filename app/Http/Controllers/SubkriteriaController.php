@@ -42,7 +42,20 @@ class SubkriteriaController extends Controller
 
     public function destroy($id)
     {
+        try{
         Subkriteria::find($id)->delete();
         return redirect()->route('sub-kriteria.index')->with('success', 'Berhasil Menghapus Data.');
+        } catch (QueryException $e) {
+            // Periksa apakah pengecualian disebabkan oleh foreign key constraint
+            $errorCode = $e->errorInfo[1];
+
+            if ($errorCode == 1451) {
+                // Jika kode error adalah 1451 (foreign key constraint), berikan pesan kesalahan khusus
+                return redirect()->route('sub-kriteria.index')->with('error', 'Data tidak dapat dihapus karena terkait dengan data lain.');
+            }
+
+            // Jika ada pengecualian lain, lemparkan kembali pengecualian
+            throw $e;
+        }
     }
 }

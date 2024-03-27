@@ -84,7 +84,7 @@
         <li
             class="menu-item {{ request()->is('admin/data-ukt*', 'admin/menunggu-verifikasi*', 'admin/data-belum-lengkap', 'admin/data-lengkap') ? 'active open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-book"></i>
+                <i class="menu-icon tf-icons bx bx-folder"></i>
                 <div data-i18n="Data Master">Data UKT</div>
             </a>
 
@@ -120,7 +120,7 @@
             <li class="menu-item {{ request()->is('data-ukt*') ? 'active' : '' }}">
             {{-- check guard --}}
             <a href="{{ route('mahasiswa.data-ukt') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-book"></i>
+                <i class="menu-icon tf-icons bx bx-folder"></i>
                 <div>Data UKT</div>
             </a>
         </li>
@@ -133,6 +133,32 @@
                 <div>Admin</div>
             </a>
         </li>
+        @endif
+        @if (Auth::guard('admin')->check())
+        <li
+            class="menu-item {{ request()->is('arsip/all-data*', 'admin/pencarian*') ? 'active open' : '' }}">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-archive"></i>
+                <div data-i18n="Data Master">Arsip</div>
+            </a>
+
+            <ul class="menu-sub">
+            <li class="menu-item {{ request()->is('admin/all-data*') ? 'active' : '' }}">
+                {{-- check guard --}}
+                <a href="{{ route('arsip.index') }}" class="menu-link">
+                    <div>All Data</div>
+                </a>
+            </li>
+            <li class="menu-item {{ request()->is('admin/pencarian*') ? 'active' : '' }}">
+                {{-- check guard --}}
+                <a href="{{ route('arsip.index') }}" class="menu-link">
+                    <div>Pencarian</div>
+                </a>
+            </li>
+
+        </ul>
+        </li>
+
         @endif
     </ul>
 </aside>

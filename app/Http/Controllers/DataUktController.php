@@ -8,6 +8,7 @@ use App\Models\Golongan;
 use App\Models\Kriteria;
 use App\Models\Penilaian;
 use App\Models\Prodi;
+use App\Models\Folder;
 use App\Models\Admin;
 use App\Models\Subkriteria;
 use Illuminate\Http\Request;
@@ -112,6 +113,7 @@ class DataUktController extends Controller
         }
         elseif(Auth::guard('admin')->check()){
             $admin = auth()->guard('admin')->user();
+            $folder = Folder::all();
             if(Auth::guard('admin')->check() && Auth::user()->role == 'superadmin')
             {
                 $berkas = Berkas::where('status', 'Lengkap')->get();
@@ -132,7 +134,7 @@ class DataUktController extends Controller
                 ->get();
             }
                 $dataExists = $berkas->isNotEmpty();
-                return view('ukt.index', compact('berkas', 'dataExists'));
+                return view('ukt.index', compact('berkas', 'dataExists' , 'folder'));
         }
     }
     public function tidaklengkap(){
@@ -567,4 +569,26 @@ class DataUktController extends Controller
         public function datauktexport(){
             return Excel::download(new DataUktExport, 'Data_Ukt.xlsx');
         }
+
+        public function printukt()
+        {
+            if(Auth::guard('admin')->check() && Auth::user()->role == 'verifikator'){
+                $admin = auth()->guard('admin')->user();
+                $berkas = Berkas::with(['admin', 'mahasiswa.prodi'])
+                ->where('status', 'Lengkap')
+                ->where(function ($query) use ($admin) {
+                    $query->whereHas('mahasiswa.prodi', function ($q) use ($admin) {
+                        $q->where('jurusan_id', $admin->jurusan_id);
+                    })
+                    ->orWhereHas('admin', function ($q) use ($admin) {
+                        $q->where('jurusan_id', $admin->jurusan_id);
+                    });
+                })
+                ->get();
+                $pdf = PDF::loadView('ukt.printukt', compact('berkas'));
+                $pdf->setBasePath('public_path');
+                $pdf->setPaper('F4', 'portrait');
+                return $pdf->stream("UKT_Mahasiswa.pdf");
+        }
+    }
 }
