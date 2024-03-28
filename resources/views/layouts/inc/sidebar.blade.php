@@ -1,10 +1,9 @@
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
     <div class="app-brand demo">
-        <a href="index.html" class="app-brand-link">
             <span class="app-brand-logo demo">
                 <img src="{{ asset('logo_politani.png') }}" alt="Logo Politani" width="36px">
             </span>
-            <span class="text-capitalize app-brand-text demo menu-text fw-bolder ms-2">Politani</span>
+            <span class="text-capitalize app-brand-text demo menu-text fw-bolder ms-2">POLITANI</span>
         </a>
 
         <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
@@ -28,8 +27,8 @@
         <li class="menu-item {{ request()->is('home*', 'admin/home*') ? 'active' : '' }}">
             @if (Auth::guard('mahasiswa')->check())
                 <a href="{{ route('mahasiswa.home') }}" class="menu-link">
-                    <i class="menu-icon tf-icons bx bx-home-circle"></i>
-                    <div>Profil</div>
+                    <i class="menu-icon tf-icons bx bx-user"></i>
+                    <div>Profile</div>
                 </a>
             @elseif (Auth::guard('admin')->check())
                 <a href="{{ route('admin.home') }}" class="menu-link">
@@ -117,7 +116,7 @@
             <li class="menu-item {{ request()->is('data-ukt*') ? 'active' : '' }}">
                 {{-- check guard --}}
                 <a href="{{ route('mahasiswa.data-ukt') }}" class="menu-link">
-                    <i class="menu-icon tf-icons bx bx-folder"></i>
+                    <i class="menu-icon tf-icons bx bx-money"></i>
                     <div>Data UKT</div>
                 </a>
             </li>
