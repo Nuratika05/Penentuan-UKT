@@ -8,7 +8,7 @@
                     <div class="row g-0">
                         <div class="col-md-4 m-auto text-center">
                             <span class="badge bg-label-primary rounded">
-                                <i class="m-0 menu-icon tf-icons bx bx-user bx-lg"></i></span>
+                                <i class="m-0 menu-icon tf-icons bx bx-group bx-lg"></i></span>
                         </div>
                         <div class="col-md-8">
                             <div class="card-body px-1">
@@ -30,7 +30,7 @@
                     <div class="row g-0">
                         <div class="col-md-4 m-auto text-center">
                             <span class="badge bg-label-danger rounded">
-                                <i class="m-0 menu-icon tf-icons bx bx-detail bx-lg"></i>
+                                <i class="m-0 menu-icon tf-icons bx bx-time bx-lg"></i>
                             </span>
                         </div>
                         <div class="col-md-8">
@@ -53,7 +53,7 @@
                     <div class="row g-0">
                         <div class="col-md-4 m-auto text-center">
                             <span class="badge bg-label-success rounded"><i
-                                    class="m-0 menu-icon tf-icons bx bx-detail bx-lg"></i></span>
+                                    class="m-0 menu-icon tf-icons bx bx-check bx-lg"></i></span>
                         </div>
                         <div class="col-md-8">
                             <div class="card-body px-1">
