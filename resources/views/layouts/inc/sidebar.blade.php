@@ -14,7 +14,7 @@
 
     <div class="menu-inner-shadow"></div>
 
-    <ul class="menu-inner py-1 ">
+    <ul class="menu-inner py-1">
         <li class="menu-item {{ request()->is('page*', 'admin/page*') ? 'active' : '' }}">
             @if (Auth::guard('mahasiswa')->check())
                 <a href="{{ route('mahasiswa.page') }}" class="menu-link">
@@ -33,7 +33,7 @@
                 </a>
             @elseif (Auth::guard('admin')->check())
                 <a href="{{ route('admin.home') }}" class="menu-link">
-                    <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                    <i class="menu-icon tf-icons bx bx-bar-chart"></i>
                     <div>Dashboard</div>
                 </a>
             @endif
@@ -84,7 +84,7 @@
             <li
                 class="menu-item {{ request()->is('admin/data-ukt*', 'admin/menunggu-verifikasi*', 'admin/data-belum-lengkap', 'admin/data-lengkap') ? 'active open' : '' }}">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
-                    <i class="menu-icon tf-icons bx bx-folder"></i>
+                    <i class="menu-icon tf-icons bx bx-money"></i>
                     <div data-i18n="Data Master">Data UKT</div>
                 </a>
 

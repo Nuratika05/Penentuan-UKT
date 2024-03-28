@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-    <title>Aplikasi Penentuan UKT Politani Samarinda</title>
+    <title>Penentuan UKT Politani Samarinda</title>
 
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="{{ asset('logo_politani.png') }}" />
