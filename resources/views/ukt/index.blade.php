@@ -14,7 +14,7 @@
     <div class="row">
         @if (Auth::guard('admin')->check())
             <div class="col-md-6">
-                <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"></span> Data Kriteria Mahasiswa</h4>
+                <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"></span> Data UKT Mahasiswa</h4>
                 @if (Session::has('success'))
                     <div class="alert alert-success" role="alert">
                         {{ Session::get('success') }}
@@ -28,13 +28,13 @@
                             onClick="return confirm('Yakin akan melakukan export?')">Export</a>
                             @if (Auth::guard('admin')->check() && Auth::user()->role == 'verifikator')
                         <a href="{{ route('admin.data-ukt.printukt') }}" class="btn btn-sm btn-secondary">Print</a>
-                        @endif
+                    @endif
                         <!-- Tombol Arsipkan -->
+                        @if (Auth::guard('admin')->check() && Auth::user()->role == 'superadmin')
                           <button class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#arsipModal">Arsipkan</button>
 
                         <!-- Modal Arsip -->
-                        <div class="modal fade" id="arsipModal" tabindex="-1" role="dialog"
-                            aria-labelledby="arsipModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="arsipModal" tabindex="-1" role="dialog" aria-labelledby="arsipModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -44,27 +44,28 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form action="#" method="POST">
+                                        <form action="{{ route('admin.data-ukt.arsip') }}" method="POST">
                                             @csrf
                                             <div class="form-group">
                                                 <label>Pilih Folder:</label>
-                                                <select name="id_folder" class="form-control">
-                                                      @foreach ($folder as $fol)
-                                                        <option value="{{ $fol->id }}">{{ $fol->nama }}
-                                                        </option>
+                                                <select name="id" class="form-control">
+                                                    @foreach ($folder as $fol)
+                                                        <option value="{{ $fol->id }}">{{ $fol->nama }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
                                             <input type="hidden" name="id" value="#">
-                                            <button type="submit" class="btn btn-primary">Simpan</button>
+                                            <button type="submit" class="btn btn-primary">Arsipkan</button>
                                         </form>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    @endif
+                        @endif
                 </div>
+                @endif
             </div>
+        </div>
             <div class="card p-4">
                 <div class="table-responsive text-nowrap">
                     <table class="datatable table py-3">

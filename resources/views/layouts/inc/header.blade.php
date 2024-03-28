@@ -50,7 +50,7 @@ id="layout-navbar">
                 <li>
                     <a class="dropdown-item" style="cursor: pointer;" onclick="event.preventDefault();
                     document.getElementById('logout-form').submit();">
-                        <i class="bx bx-power-off me-2"></i>
+                        <i class="bx bx-power-off me-2 alert-danger" ></i>
                         <span class="align-middle">Log Out</span>
                     </a>
                 </li>

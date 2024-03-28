@@ -17,4 +17,8 @@ class FolderArsipController extends Controller
             return view('arsip.folder', compact('arsip', 'dataExists' ));
 
     }
+    public function edit(Request $request, $id){
+        $item = Arsip::all();
+        return view('arsip.detail', compact('item'));
+    }
 }

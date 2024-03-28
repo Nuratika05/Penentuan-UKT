@@ -390,7 +390,6 @@
                     '<th>Keterangan</th><td>:</td><td><textarea name="keterangan" id="keterangan" class="form-control" required>{{ $berkas->keterangan }}</textarea></td>'
                 );
             }
-
         });
     </script>
     <script>

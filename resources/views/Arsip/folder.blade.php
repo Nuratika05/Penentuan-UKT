@@ -88,7 +88,7 @@
                                     </td>
                                     <td>
                                         <a class="btn btn-sm btn-primary"
-                                            href="#">Detail</a>
+                                            href="{{ route('admin.DetailFolderArsip') }}">Detail</a>
                                         @if ($item->status == 'Lengkap')
                                             <a class="btn btn-sm btn-secondary"
                                                 href="#">Print</a>

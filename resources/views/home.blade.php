@@ -3,20 +3,19 @@
 @section('content')
     <div class="row">
         @if (Auth::guard('admin')->check() && Auth::user()->role == 'superadmin')
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="card mb-3">
                     <div class="row g-0">
                         <div class="col-md-4 m-auto text-center">
-                            <span class="badge bg-label-primary rounded"><i
-                                    class="m-0 menu-icon tf-icons bx bx-user bx-lg"></i></span>
+                            <span class="badge bg-label-primary rounded">
+                                <i class="m-0 menu-icon tf-icons bx bx-user bx-lg"></i></span>
                         </div>
                         <div class="col-md-8">
                             <div class="card-body px-1">
                                 <h5 class="card-title">Jumlah Mahasiswa</h5>
                                 <p class="card-text">
                                     {{ $mahasiswa }} <br>
-                                    <a href="{{ route('mahasiswa.index') }}" style="text-decoration:underline; text-blue-600 hover:text-blue-800" >Klik disini untuk melihat
-                                        data mahasiswa!</a>
+                                    <a href="{{ route('mahasiswa.index') }}" style="text-decoration:underline; text-blue-600 hover:text-blue-800" >Lihat data!</a>
                                 </p>
                             </div>
                         </div>
@@ -25,7 +24,7 @@
             </div>
             @endif
             @if (Auth::guard('admin')->check())
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="card mb-3">
                     <div class="row g-0">
                         <div class="col-md-4 m-auto text-center">
@@ -38,29 +37,27 @@
                                 <p class="card-text">
                                     {{ $berkas }} <br>
                                     <a href="{{ route('admin.menunggu-verifikasi')}}" style="text-decoration:underline;
-                                    text-blue-600 hover:text-blue-800" >Klik disini untuk melihat
-                                        data yang perlu diverifikasi!</a>
+                                    text-blue-600 hover:text-blue-800" >Lihat data!</a>
                                 </p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="card mb-3">
                     <div class="row g-0">
                         <div class="col-md-4 m-auto text-center">
                             <span class="badge bg-label-success rounded"><i
-                                    class="m-0 menu-icon tf-icons bx bx-detail bx-lg"></i></span>
+                                    class="m-0 menu-icon tf-icons bx bx-detail bx-lg" ></i></span>
                         </div>
                         <div class="col-md-8">
                             <div class="card-body px-1">
-                                <h5 class="card-title">Data Yang Selesai di Verifikasi</h5>
+                                <h5 class="card-title">Data Yang Selesai di Verifikasi </a></h5>
                                 <p class="card-text">
                                     {{ $berkaslengkap }} <br>
                                     <a href="{{ route('admin.data-lengkap')}}" style="text-decoration:underline;
-                                    text-blue-600 hover:text-blue-800" >Klik disini untuk melihat
-                                        data yang selesai diverifikasi!</a>
+                                    text-blue-100 hover:text-blue-100">Lihat data!</a>
                                 </p>
                             </div>
                         </div>

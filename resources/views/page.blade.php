@@ -46,11 +46,11 @@
 
       <nav id="navbar" class="navbar">
         <ul>
-          <li><a class="nav-link scrollto active" href="#hero">Beranda</a></li>
+          <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
           <li><a class="nav-link scrollto" href="#about">Tentang</a></li>
           <li><a class="nav-link scrollto" href="#contact">Kontak</a></li>
           @if (Auth::guard('mahasiswa')->check())
-          <li><a class="nav-link scrollto" href="{{ route('mahasiswa.home') }}">Profil</a></li>
+          <li><a class="nav-link scrollto" href="{{ route('mahasiswa.home') }}">Profile</a></li>
           <br>
           @elseif (Auth::guard('admin')->check())
           <li><a class="nav-link scrollto" href="{{ route('admin.home') }}">Dashboard</a></li>
@@ -90,11 +90,9 @@
             <div class="col-lg-6">
               <h2 style="text-align: center">Tentang Penentuan UKT</h2>
                 <h5 style="text-align: justify">Penentuan UKT ini dirancang untuk membantu Anda menentukan besaran Uang Kuliah Tunggal (UKT) berdasarkan informasi yang Anda berikan.
+                    Secara sederhana, penentuan UKT ini bekerja dengan cara mengumpulkan informasi atau data mengenai kondisi ekonomi mahasiswa dan faktor-faktor lain yang dapat memengaruhi kemampuannya untuk membayar uang kuliah. Aplikasi ini kemudian melakukan perhitungan berdasarkan parameter-parameter yang telah ditetapkan oleh perguruan tinggi untuk menentukan besaran UKT yang sesuai dengan situasi finansial mahasiswa tersebut.
                 </h5></div>
             <div class="col-lg-6 pt-4 pt-lg-0">
-              <h5 style="text-align: justify">
-                Secara sederhana, penentuan UKT ini bekerja dengan cara mengumpulkan informasi atau data mengenai kondisi ekonomi mahasiswa dan faktor-faktor lain yang dapat memengaruhi kemampuannya untuk membayar uang kuliah. Aplikasi ini kemudian melakukan perhitungan berdasarkan parameter-parameter yang telah ditetapkan oleh perguruan tinggi untuk menentukan besaran UKT yang sesuai dengan situasi finansial mahasiswa tersebut.
-              </h5>
               <h3>Panduan pengguna bisa dilihat pada pdf berikut!
               </h3>
               <p>
@@ -125,7 +123,7 @@
           <div class="row">
             <div class="col-lg-4 info">
               <i class="ri-map-pin-line"></i>
-              <h4>Location:</h4>
+              <h4>Lokasi:</h4>
               <p>Jl. Samratulangi, Sungai keledang, Kec. Samarinda Seberang, Kota Samarinda<br>Kalimantan Timur, 75131</p>
             </div>
 
@@ -137,7 +135,7 @@
 
             <div class="col-lg-4 info mt-4 mt-lg-0">
               <i class="ri-phone-line"></i>
-              <h4>Call:</h4>
+              <h4>Telepon:</h4>
               <p>(0541) 260421, 260680</p>
               <p>(0541) 260680</p>
             </div>
