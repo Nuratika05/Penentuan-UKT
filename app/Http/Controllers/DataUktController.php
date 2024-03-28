@@ -20,6 +20,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use Intervention\Image\Facades\Image;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Support\Facades\DB;
+use App\Models\Arsip;
 
 class DataUktController extends Controller
 {
@@ -591,4 +592,5 @@ class DataUktController extends Controller
                 return $pdf->stream("UKT_Mahasiswa.pdf");
         }
     }
+
 }

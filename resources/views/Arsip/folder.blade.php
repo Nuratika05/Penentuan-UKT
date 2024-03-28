@@ -19,6 +19,8 @@
                         {{ Session::get('success') }}
                     </div>
                 @endif
+                <a class="btn btn-secondary btn-sm" type="close" href="{{ route('arsip.index') }}">kembali</a>
+                <br><br>
             </div>
             <div class="col-md-6 text-end m-auto">
                 <div class="col-md-12 mb-5">
@@ -40,10 +42,9 @@
                                 <th>Nama</th>
                                 <th>Prodi</th>
                                 <th>Jurusan</th>
-                                <th>Status</th>
-                                <th>Verifikator</th>
                                 <th>Golongan </th>
                                 <th>Nominal </th>
+                                <th>Angkatan </th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -56,36 +57,9 @@
                                     <td>{{ $item->nama_mahasiswa }}</td>
                                     <td>{{ $item->nama_prodi }}</td>
                                     <td>{{ $item->nama_jurusan }}</td>
-                                    <td>
-                                        @if ($item->status == 'Menunggu Verifikasi')
-                                            <span class="badge bg-label-warning rounded">{{ $item->status }}</span>
-                                        @elseif ($item->status == 'Belum Lengkap')
-                                            <span class="badge bg-label-danger rounded">{{ $item->status }}</span>
-                                        @else
-                                            <span class="badge bg-label-primary rounded">{{ $item->status }}</span>
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if ($item->admin == null)
-                                            -
-                                        @else
-                                            {{ $item->admin }}
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if ($item->status == 'Menunggu Verifikasi' || $item->status == 'Belum Lengkap' || $item->golongan_id == null)
-                                            -
-                                        @else
-                                            {{ $item->nama_golongan }}
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if ($item->status == 'Menunggu Verifikasi' || $item->status == 'Belum Lengkap' || $item->nama_golongan == null)
-                                            -
-                                        @else
-                                            Rp{{ number_format($item->nominal) }}
-                                        @endif
-                                    </td>
+                                    <td>{{ $item->nama_golongan }}</td>
+                                    <td>Rp{{ number_format($item->nominal) }}</td>
+                                    <td>{{ $item->tahun_angkatan }}</td>
                                     <td>
                                         <a class="btn btn-sm btn-primary"
                                             href="{{ route('admin.DetailFolderArsip') }}">Detail</a>

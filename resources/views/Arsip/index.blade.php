@@ -20,9 +20,10 @@
                 </div>
             @endif
         </div>
-            <div class="col-md-12 mb-8">
+            <div class="col-md-6 text-end m-auto">
                 <a href="{{ route('arsip.create') }}" class="btn btn-sm btn-primary">Tambah Folder</a>
             </div>
+            <br><br>
         </div>
             <div class="card p-4">
                     <table class="table">
@@ -32,8 +33,8 @@
                         </tr>
                             @foreach ($folder as $fol)
                         <tr>
-                            <td>
-                                <a href="{{ route('admin.folderArsip') }}"> {{ $fol->nama }} </a></td>
+                            <td class="menu-icon tf-icons bx bx-book">
+                                <a href="{{ route('admin.folderArsip', ['nama' => $fol->nama]) }}"> {{ $fol->nama }} </a></td>
                             <td>
                                 <a class="btn btn-sm btn-warning" href="{{ route('arsip.edit', $fol->id) }}">Edit</a>
                                 <form action="{{ route('arsip.destroy', $fol->id) }}" method="POST" style="display: inline">

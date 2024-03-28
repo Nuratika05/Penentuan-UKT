@@ -42,7 +42,7 @@
             <li
                 class="menu-item {{ request()->is('admin/kriteria*', 'admin/sub-kriteria*', 'admin/jurusan*', 'admin/prodi*', 'admin/mahasiswa*', 'admin/golongan*') ? 'active open' : '' }}">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
-                    <i class="menu-icon tf-icons bx bx-book"></i>
+                    <i class="menu-icon tf-icons bx bx-folder"></i>
                     <div data-i18n="Data Master">Semua Data</div>
                 </a>
 

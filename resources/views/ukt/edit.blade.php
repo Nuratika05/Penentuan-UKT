@@ -103,7 +103,7 @@
                                 <td><a href="{{ asset('foto_slip_gaji/' . $berkas->foto_slip_gaji) }}" data-fancybox="gallery">
                                     <img src="{{ asset('foto_slip_gaji/' . $berkas->foto_slip_gaji) }}" class="rounded img-fluid" width="300px" alt="Deskripsi Gambar"></a></td>
                             </tr>
-                            <tr>s
+                            <tr>
                                 <th>Foto Daya Listrik</th>
                                 <td>:</td>
                                 <td><a href="{{ asset('foto_daya_listrik/' . $berkas->foto_daya_listrik) }}" data-fancybox="gallery">

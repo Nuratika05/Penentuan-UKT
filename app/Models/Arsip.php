@@ -12,7 +12,8 @@ class Arsip extends Model
     protected $guard = 'arsip';
 
     protected $guarded = [];
-    public function folder(){
-        return $this->belongsTo(Folder::class);
+    public function folder()
+    {
+        return $this->belongsTo(Folder::class, 'id_folder', 'id');
     }
 }
