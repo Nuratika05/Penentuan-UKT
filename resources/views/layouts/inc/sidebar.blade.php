@@ -14,7 +14,7 @@
 
     <div class="menu-inner-shadow"></div>
 
-    <ul class="menu-inner py-1">
+    <ul class="menu-inner py-1 ">
         <li class="menu-item {{ request()->is('page*', 'admin/page*') ? 'active' : '' }}">
             @if (Auth::guard('mahasiswa')->check())
                 <a href="{{ route('mahasiswa.page') }}" class="menu-link">
@@ -46,7 +46,7 @@
                     <div data-i18n="Data Master">Semua Data</div>
                 </a>
 
-                <ul class="menu-sub">
+                <ul class="menu-sub menu-inner py-1" style="margin-left: 15px;">
                     <li class="menu-item {{ request()->is('admin/kriteria*') ? 'active' : '' }}">
                         <a href="{{ route('kriteria.index') }}" class="menu-link">
                             <div>Kriteria</div>
@@ -88,7 +88,7 @@
                     <div data-i18n="Data Master">Data UKT</div>
                 </a>
 
-                <ul class="menu-sub">
+                <ul class="menu-sub menu-inner py-1" style="margin-left: 15px;">
                     <li class="menu-item {{ request()->is('admin/data-ukt*') ? 'active' : '' }}">
                         {{-- check guard --}}
                         <a href="{{ route('admin.data-ukt') }}" class="menu-link">
