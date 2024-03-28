@@ -42,7 +42,7 @@
             <li
                 class="menu-item {{ request()->is('admin/kriteria*', 'admin/sub-kriteria*', 'admin/jurusan*', 'admin/prodi*', 'admin/mahasiswa*', 'admin/golongan*') ? 'active open' : '' }}">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
-                    <i class="menu-icon tf-icons bx bx-folder"></i>
+                    <i class="menu-icon tf-icons bx bx-layer"></i>
                     <div data-i18n="Data Master">Semua Data</div>
                 </a>
 
@@ -134,7 +134,7 @@
         @if (Auth::guard('admin')->check() && Auth::user()->role == 'superadmin')
             <li class="menu-item {{ request()->is('admin/arsip*') ? 'active' : '' }}">
                 <a href="{{ route('arsip.index') }}" class="menu-link">
-                    <i class="menu-icon tf-icons bx bx-archive"></i>
+                    <i class="menu-icon tf-icons bx bx-lock"></i>
                     <div>Arsip</div>
                 </a>
             </li>
