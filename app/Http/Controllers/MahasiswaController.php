@@ -162,7 +162,6 @@ class MahasiswaController extends Controller
                 $file = $request->file('excel_upload');
                 $upload_code = uniqid();
                 session(['upload_code' => $upload_code]);
-                $row = 2;
                 Excel::import(new MahasiswaImport($upload_code), $file, 'Xlsx');
                 $excel = MahasiswaTemps::where('upload_code', '=', $upload_code)->get()->toArray();
                 foreach ($excel as $d) {
@@ -176,53 +175,53 @@ class MahasiswaController extends Controller
                     ->first();
                     if ($duplicateDataMahasiswaTemps != null) {
                         $check = "False";
-                        array_push($error_location, "DUPLICATE DATA ". $row);
+                        array_push($error_location, "DUPLICATE DATA ");
                     }
                     $duplicateDataMahasiswa = Mahasiswa::where('id', '=', $d['id_temps'])->first();
                     if ($duplicateDataMahasiswa != null) {
                         $check = "False";
-                        array_push($error_location, "NO PENDAFTARAN SUDAH DIGUNAKAN " . $row);
+                        array_push($error_location, "NO PENDAFTARAN SUDAH DIGUNAKAN " );
                     }
                     if ($d['id_temps'] == null) {
                         $check = "False";
-                        array_push($error_location, "NO PENDAFTARAN TIDAK BOLEH KOSONG " . $row);
+                        array_push($error_location, "NO PENDAFTARAN TIDAK BOLEH KOSONG ");
                     }
 
                     //B
                     if ($d['nama_temps'] == null) {
                         $check = "False";
-                        array_push($error_location, "NAMA TIDAK BOLEH KOSONG " . $row);
+                        array_push($error_location, "NAMA TIDAK BOLEH KOSONG ");
                     }
 
                     //C
                     if (!in_array($d['jenis_kelamin_temps'], ['Laki-laki', 'Perempuan'])) {
                         $check = "False";
-                        array_push($error_location, "JENIS KELAMIN TIDAK VALID " . $row);
+                        array_push($error_location, "JENIS KELAMIN TIDAK VALID " );
                     }
 
                     //D
                     if (!is_numeric($d['no_telepon_temps'])) {
                         $check = "False";
-                        array_push($error_location, "NO TELEPON HARUS ANGKA " . $row);
+                        array_push($error_location, "NO TELEPON HARUS ANGKA ");
                     }
 
                     //E
                     if ($d['alamat_temps'] == null) {
                         $check = "False";
-                        array_push($error_location, "ALAMAT TIDAK BOLEH KOSONG " . $row);
+                        array_push($error_location, "ALAMAT TIDAK BOLEH KOSONG " );
                     }
 
                     //F
                     $prodi = Prodi::where('nama', '=', $d['prodi_id_temps'])->first();
                     if ($prodi != null) {
                         $check = "False";
-                        array_push($error_location, "PRODI TIDAK VALID " . $row);
+                        array_push($error_location, "PRODI TIDAK VALID ");
                     }
 
                     //G
                     if (preg_match('/^[0-9]{8}$/', $d['password_temps']) == false) {
                         $check = "False";
-                        array_push($error_location, "PASSWORD HARUS TERDIRI DARI 8 ANGKA " . $row);
+                        array_push($error_location, "PASSWORD HARUS TERDIRI DARI 8 ANGKA ");
                     }
 
 
@@ -230,7 +229,6 @@ class MahasiswaController extends Controller
                     $mhs_temps->eror_location = $error_location ?? [];
                     $mhs_temps->check = $check;
                     $mhs_temps->save();
-                    $row++;
                 }
 
             return redirect()->route('mahasiswaimport')->with('success', 'Data Excel Berhasil di Upload!');
