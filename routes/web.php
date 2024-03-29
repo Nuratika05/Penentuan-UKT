@@ -66,9 +66,9 @@ Route::middleware('auth:admin')->group(function () {
     Route::resource('admin/admin', AdminController::class)->middleware('superadmin');
     Route::resource('admin/arsip', ArsipController::class);
 
-    Route::get('admin/folder/{nama}', [FolderArsipController::class, 'index'])->name('admin.folderArsip');
-    Route::post('admin/folder/arsip', [FolderArsipController::class, 'arsip'])->name('admin.folder.arsip');
+    Route::get('admin/folder/{id}', [FolderArsipController::class, 'index'])->name('admin.folderarsip');
     Route::get('admin/folder/edit/{id}', [FolderArsipController::class, 'edit'])->name('admin.DetailFolderArsip');
+    Route::post('admin/data-lengkap/arsip', [FolderArsipController::class, 'arsip'])->name('admin.lengkap.arsip');
 
     Route::get('admin/data-ukt', [DataUktController::class, 'index'])->name('admin.data-ukt');
     Route::get('admin/menunggu-verifikasi', [DataUktController::class, 'verif'])->name('admin.menunggu-verifikasi');

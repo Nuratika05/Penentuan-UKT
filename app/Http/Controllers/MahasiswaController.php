@@ -234,7 +234,7 @@ class MahasiswaController extends Controller
             return redirect()->route('mahasiswaimport')->with('success', 'Data Excel Berhasil di Upload!');
         } catch (\Throwable $th) {
             $errorMessage = $th->getMessage();
-            return redirect()->route('mahasiswaimport')->with('error', 'Data Excel Gagal di Upload, Pastikan Tabel Excel Benar dan Tidak Ada Data Yang Kosong');
+            return redirect()->route('mahasiswaimport')->with('error', 'Data Excel Gagal di Upload, Pastikan  Tidak Ada Baris Yang Kosong');
         }
     }
 
