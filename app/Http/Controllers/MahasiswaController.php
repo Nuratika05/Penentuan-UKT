@@ -242,7 +242,7 @@ class MahasiswaController extends Controller
     {
             try
             {
-                $mhs_temps = MahasiswaTemps::where('check', 'True')->get();
+                $mhs_temps = MahasiswaTemps::where('check', 'Valid')->get();
                 $successCount = 0;
                 foreach ($mhs_temps as $bt) {
                     Mahasiswa::insert([
@@ -258,7 +258,7 @@ class MahasiswaController extends Controller
                     $successCount++;
                 }
 
-                MahasiswaTemps::where('check', 'True')->delete();
+                MahasiswaTemps::where('check', 'Valid')->delete();
 
                 $successMessage = $successCount > 0 ? "Berhasil Mengirim $successCount Data ke Data Mahasiswa!" : "Tidak ada data yang dikirim.";
                 return redirect()->route('mahasiswaimport')->with('success', $successMessage);

@@ -52,7 +52,7 @@ class FolderArsipController extends Controller
         ]);
         /* $mahasiswa = Mahasiswa::find($berkas->mahasiswa_id);
         $mahasiswa->delete(); */
-        $berkas->delete();
+        Berkas::truncate();
 
         return redirect()->route('admin.data-lengkap')->with('success', 'Data berhasil diarsipkan');
     }
