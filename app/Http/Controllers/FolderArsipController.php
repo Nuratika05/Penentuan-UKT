@@ -19,11 +19,11 @@ class FolderArsipController extends Controller
         $dataExists = $arsip->isNotEmpty();
 
         // Teruskan data ke tampilan
-        return view('arsip.folder', compact('arsip', 'dataExists'));
+        return view('folderarsip.folder', compact('arsip', 'dataExists'));
     }
     public function edit(Request $request, $id){
         $item = Arsip::all();
-        return view('arsip.detail', compact('item'));
+        return view('folderarsip.detail', compact('item'));
     }
     public function arsip(Request $request)
     {

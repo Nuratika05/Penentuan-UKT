@@ -10,10 +10,10 @@ class ArsipController extends Controller
 {
     public function index(){
         $folder = Folder::All();
-        return view('arsip.index' , compact('folder'));
+        return view('folderarsip.index' , compact('folder'));
     }
     public function create(){
-        return view('arsip.create');
+        return view('folderarsip.create');
     }
     public function store(Request $request)
     {
@@ -26,7 +26,7 @@ class ArsipController extends Controller
     public function edit($id)
     {
         $folder = Folder::find($id);
-        return view ('arsip.edit', compact ('folder'));
+        return view ('folderarsip.edit', compact ('folder'));
     }
 
     public function update(Request $request, $id)
