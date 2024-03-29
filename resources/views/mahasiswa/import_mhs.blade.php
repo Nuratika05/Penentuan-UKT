@@ -59,7 +59,7 @@
     @if (count($mhs_temps) > 0)
         <div class="row">
             <div class="col-md-12">
-                @if ($mhs_temps->where('check', 'True')->count() != null)
+                @if ($mhs_temps->where('check', 'Valid')->count() != null)
                     <a class="btn btn-outline-primary float-end mb-1 "onClick="return confirm('Apakah sudah yakin?')"
                         href="{{ route('mahasiswaimportsave') }}">Kirim<i class="bx bx-share"></i>
                     </a>
@@ -89,8 +89,8 @@
                                     <th>Alamat</th>
                                     <th>Prodi</th>
                                     <th>Password</th>
-                                    <th>Check</th>
-                                    <th>Lokasi Salah</th>
+                                    <th>Validasi</th>
+                                    <th>Pesan Kesalahan</th>
                                     <th>Status Upload</th>
                                 </tr>
                             </thead>
@@ -99,7 +99,7 @@
                                     $row = 1;
                                 @endphp
                                 @foreach ($mhs_temps as $bt)
-                                    <tr {!! $bt->check == 'False' ? "style='background-color : goldenrod'" : '' !!}>
+                                    <tr {!! $bt->check == 'Tidak Valid' ? "style='background-color : goldenrod'" : '' !!}>
                                         <td>{{ $loop->iteration }}</td>
                                         <td {!! str_contains($bt->eror_location, 'A' . $row) ? "style='background-color: red'" : '' !!}>{{ $bt->id_temps }}</td>
                                         <td {!! str_contains($bt->eror_location, 'B' . $row) ? "style='background-color: red'" : '' !!}>{{ $bt->nama_temps }}</td>
@@ -138,7 +138,7 @@
         table.columns(8).every(function() {
             var column = this;
             var select = $(
-                    '<select class="form-select"><option value="" disabled selected>--Pilih Check--</option></select>'
+                    '<select class="form-select"><option value="" disabled selected>--Pilih Validasi Data--</option></select>'
                     )
                 .appendTo($('#search').empty())
                 .appendTo($('#search').empty())
@@ -148,8 +148,8 @@
                 });
 
             // Menambahkan opsi true dan false ke dropdown
-            select.append('<option value="true">True</option>')
-                .append('<option value="false">False</option>');
+            select.append('<option value="Valid">Valid</option>')
+                .append('<option value="Tidak Valid">Tidak Valid</option>');
         });
     });
 </script>
