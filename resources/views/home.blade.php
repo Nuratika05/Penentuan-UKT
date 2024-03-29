@@ -35,7 +35,7 @@
                         </div>
                         <div class="col-md-8">
                             <div class="card-body px-1">
-                                <h5 class="card-title">Data Yang Perlu di Verifikasi</h5>
+                                <h5 class="card-title">Menunggu Verifikasi</h5>
                                 <p class="card-text">
                                     {{ $berkas }} <br>
                                     <a href="{{ route('admin.menunggu-verifikasi') }}"
@@ -57,7 +57,7 @@
                         </div>
                         <div class="col-md-8">
                             <div class="card-body px-1">
-                                <h5 class="card-title">Data Yang Selesai di Verifikasi </a></h5>
+                                <h5 class="card-title">Lulus Verifikasi </a></h5>
                                 <p class="card-text">
                                     {{ $berkaslengkap }} <br>
                                     <a href="{{ route('admin.data-lengkap') }}"

@@ -104,8 +104,8 @@
                     </div>
                     <div class="col-lg-6 pt-4 pt-lg-0">
                         <div class="card p-3">
-                            <h4>Panduan pengguna bisa dilihat pada pdf berikut!
-                            </h4>
+                            <h5>Panduan pengguna bisa dilihat pada pdf berikut!
+                            </h5>
                             <p>
                                 @if (Auth::guard('admin')->check() && Auth::user()->role == 'superadmin')
                                     <a href="{{ asset('storage/pdf/Panduan Pengguna Admin.pdf') }}"
@@ -137,7 +137,7 @@
             <div class="container">
                 <div class="row">
 
-                    <div class="col-lg-5 info mt-4 mt-lg-0">
+                    <div class="col-lg-4 info mt-4 mt-lg-0">
                         <div class="card p-4" style="width: 100%; background-color: #f8f9fa; box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1); border: none;">
                             <i class="ri-map-pin-line" style="font-size: 50px;"></i>
                             <div class="ms-3">
@@ -148,7 +148,7 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-3 info mt-4 mt-lg-0">
+                    <div class="col-lg-4 info mt-4 mt-lg-0">
                         <div class="card p-4" style="width: 100%; background-color: #f8f9fa; box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1); border: none;">
                             <i class="ri-mail-line" style="font-size: 50px;"></i>
                             <div class="ms-3">
