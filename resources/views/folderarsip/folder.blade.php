@@ -24,8 +24,8 @@
             </div>
             <div class="col-md-6 text-end m-auto">
                 <div class="col-md-12 mb-5">
-                        <a href="#" class="btn btn-sm btn-success"
-                            onClick="return confirm('Yakin akan melakukan export?')">Export</a>
+                    <a href="#{{-- {{ route('arsip.export', ['id_folder' => $id]) }} --}}" class="btn btn-outline-success float-end mb-1 btn-sm"
+                        onClick="return confirm('Yakin akan melakukan export?')">Export</a>
                 </div>
             </div>
             <div class="card p-4">

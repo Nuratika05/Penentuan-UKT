@@ -22,7 +22,7 @@
         @endif
     </div>
     <div class="col-md-6 text-end m-auto">
-        <a href="{{ route('prodi.create') }}" class="btn btn-primary btn-sm">Tambah Data</a>
+        <a href="{{ route('prodi.create') }}" class="btn btn-outline-primary float-end mb-1 btn-sm">Tambah Data</a>
     </div>
 </div>
 <div class="card p-4">

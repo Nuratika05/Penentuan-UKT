@@ -17,6 +17,7 @@ class ArsipExport implements FromCollection, WithHeadings, ShouldAutoSize, WithS
         $this->id = $id;
     }
 
+
     /**
     * @return \Illuminate\Support\Collection
     */

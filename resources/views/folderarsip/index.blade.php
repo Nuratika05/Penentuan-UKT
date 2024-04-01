@@ -25,7 +25,7 @@
             @endif
         </div>
         <div class="col-md-6 text-end m-auto">
-            <a href="{{ route('arsip.create') }}" class="btn btn-sm btn-primary">Tambah Folder</a>
+            <a href="{{ route('arsip.create') }}" class="btn btn-outline-primary float-end mb-1 btn-sm">Tambah Folder</a>
         </div>
     </div>
     <div class="card p-4">

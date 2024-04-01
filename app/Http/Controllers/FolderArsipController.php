@@ -113,7 +113,7 @@ class FolderArsipController extends Controller
         $item->delete();
     }
     $idsToDelete = $berkas->pluck('mahasiswa_id');
-    Penilaian::whereIn('mahasiswa_id', $idsToDelete)->delete();
+        Penilaian::whereIn('mahasiswa_id', $idsToDelete)->delete();
         return redirect()->back()->with('success', 'Semua Data berhasil diarsipkan');
     }
     public function detail($id = null){
@@ -122,8 +122,8 @@ class FolderArsipController extends Controller
             return view('folderarsip.detail', compact('arsip' , 'penilaianarsip'));
 
     }
-    public function arsipexport($id){
-
+    public function arsipexport($id)
+    {
         return Excel::download(new ArsipExport($id), 'UKT Mahasiswa.xlsx');
     }
 

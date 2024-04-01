@@ -22,9 +22,9 @@
             @endif
         </div>
         <div class="col-md-6 text-end m-auto">
-            <a href="{{ route('mahasiswa.create') }}" class="btn btn-primary btn-sm">Tambah Data</a>
-            <a href="{{ route('mahasiswaimport') }}" class="btn btn-success btn-sm">Import</a>
-            <a href="{{ route('mahasiswaexport') }}" class="btn btn-sm btn-warning" onClick="return confirm('Yakin akan melakukan export?')">Export</a>
+            <a href="{{ route('mahasiswa.create') }}" class="btn btn-outline-primary float-end mb-1 btn-sm">Tambah Data</a>
+            <a href="{{ route('mahasiswaimport') }}" class="btn btn-outline-warning float-end mb-1 btn-sm">Import</a>
+            <a href="{{ route('mahasiswaexport') }}" class="btn btn-outline-success float-end mb-1 btn-sm" onClick="return confirm('Yakin akan melakukan export?')">Export</a>
         </div>
     </div>
     <div class="card p-4">
@@ -74,6 +74,7 @@
             </table>
         </div>
     </div>
+</div>
 @endsection
 
 

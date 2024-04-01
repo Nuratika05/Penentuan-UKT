@@ -164,21 +164,18 @@
                                         </tr>
                                         <tr id="keterangan"></tr>
                                         <tr>
-                                            <th>Rekomendasi Golongan</th>
+                                            <th>Prodi/Jenjang</th>
                                             <td>:</td>
-                                            <td style="font-size: 16px">
-                                                {{ $berkas->golongan->nama }} | {{ $berkas->mahasiswa->prodi->jenjang }}
-                                                | {{ $berkas->mahasiswa->prodi->nama }}
+                                            <td>{{ $berkas->mahasiswa->prodi->nama }}/{{ $berkas->mahasiswa->prodi->jenjang }}
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th></th>
+                                            <th>Rekomendasi Golongan</th>
                                             <td>:</td>
-                                            <td>Rp {{ number_format($berkas->golongan->nominal) }}</td>
-                                        </tr>
-                                        </tr>
+                                            <td>{{ $berkas->golongan->nama }} = Rp {{ number_format($berkas->golongan->nominal) }}
+                                            </td>
                                         <tr>
-                                            <th>Golongan UKT</th>
+                                            <th>Tetapkan Golongan UKT</th>
                                             <td>:</td>
                                             <td>
                                                 <select name="golongan" class="form-select golongan" style="font-size: 15px"
@@ -252,22 +249,23 @@
                 </div>
                 <div>
                     @if ($berkas->status != 'Lengkap')
-                        <button required id="status" type="submit" class="btn btn-primary"
+                        <button required id="status" type="submit" class="btn btn-primary btn-sm"
                             onClick="return confirm('Apakah sudah yakin ?')">Simpan</button>
                     @endif
                     @if ($berkas->status == 'Menunggu Verifikasi')
-                        <a class="btn btn-secondary" type="button"
+                        <a class="btn btn-secondary btn-sm" type="button"
                             href="{{ route('admin.menunggu-verifikasi') }}">Kembali</a>
                     @elseif ($berkas->status == 'Belum Lengkap')
-                        <a class="btn btn-secondary" type="button"
+                        <a class="btn btn-secondary btn-sm" type="button"
                             href="{{ route('admin.data-belum-lengkap') }}">Kembali</a>
                     @else
-                        <a class="btn btn-secondary" type="button" href="{{ route('admin.data-lengkap') }}">Kembali</a>
+                        <a class="btn btn-secondary btn-sm" type="button"
+                            href="{{ route('admin.data-lengkap') }}">Kembali</a>
                     @endif
                 </div>
         @endif
         @if (Auth::guard('admin')->check() && Auth::user()->role == 'superadmin')
-            <div><button class="btn btn-secondary " type="button" onclick="goBack()">Kembali</button></div>
+            <div><button class="btn btn-secondary btn-sm" type="button" onclick="goBack()">Kembali</button></div>
         @endif
     </div>
 @else
@@ -388,10 +386,11 @@
                 @endif
 
                 <br>
-                <button type="submit" class="btn btn-primary"onClick="return confirm('Yakin ingin mengubah data?')">Ubah
+                <button type="submit"
+                    class="btn btn-primary btn-sm"onClick="return confirm('Yakin ingin mengubah data?')">Ubah
                     Data</button>
-                <a class="btn btn-danger"onClick="return confirm('Yakin ingin membatalkan perubahan?')" type="button"
-                    href="{{ route('mahasiswa.data-ukt') }}">Batal</a>
+                <a class="btn btn-danger btn-sm"onClick="return confirm('Yakin ingin membatalkan perubahan?')"
+                    type="button" href="{{ route('mahasiswa.data-ukt') }}">Batal</a>
                 </form>
             </div>
         </div>
@@ -450,19 +449,5 @@
         function goBack() {
             window.history.back();
         }
-    </script>
-    <script>
-        // Ambil status berkas
-        /*   var statusBerkas = document.getElementById("status").value;
-
-           // Jika status berkas adalah "Menunggu Verifikasi" atau "Belum Lengkap"
-           if (statusBerkas === "Menunggu Verifikasi" || statusBerkas === "Belum Lengkap") {
-               // Nonaktifkan input
-               document.getElementById("golongan").disabled = true;
-           }
-           else {
-               // Aktifkan input
-               document.getElementById("golongan").disabled = false;
-           }
     </script>
 @endpush

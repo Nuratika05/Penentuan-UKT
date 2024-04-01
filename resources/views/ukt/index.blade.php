@@ -24,14 +24,14 @@
             <div class="col-md-6 text-end m-auto">
                 <div class="col-md-12 mb-5">
                     @if (isset($dataExists) && $dataExists)
-                        <a href="{{ route('datauktexport') }}" class="btn btn-sm btn-success"
+                        <a href="{{ route('datauktexport') }}" class="btn btn-outline-success float-end mb-1 btn-sm"
                             onClick="return confirm('Yakin akan melakukan export?')">Export</a>
                         @if (Auth::guard('admin')->check() && Auth::user()->role == 'verifikator')
-                            <a href="{{ route('admin.data-ukt.printukt') }}" class="btn btn-sm btn-secondary">Print</a>
+                            <a href="{{ route('admin.data-ukt.printukt') }}" class="btn btn-outline-secondary float-end mb-1 btn-sm">Print</a>
                         @endif
                         <!-- Tombol Arsipkan -->
                         @if (Auth::guard('admin')->check() && Auth::user()->role == 'superadmin')
-                            <button class="btn btn-sm btn-secondary" data-toggle="modal"
+                            <button class="btn btn-outline-secondary float-end mb-1 btn-sm" data-toggle="modal"
                                 data-target="#arsipModal">Arsipkan</button>
 
                             <!-- Modal Arsip -->
@@ -155,12 +155,12 @@
     </div>
     @if ($berkas->status == 'Lengkap')
         <div class="col-md-12 mb-5">
-            <a href="{{ route('data-ukt.print') }}" target="_blank" class="btn btn-secondary">Print</a>
+            <a href="{{ route('data-ukt.print') }}" target="_blank" class="btn btn-outline-secondary float-end mb-1 btn-sm">Print</a>
         </div>
     @endif
     <div class="col-md-6 text-end m-auto">
         @if ($berkas->status == 'Belum Lengkap' || $berkas->status == 'Menunggu Verifikasi')
-            <a href="{{ route('data-ukt.edit', $berkas->id) }}" class="btn btn-primary">Edit Kriteria</a>
+            <a href="{{ route('data-ukt.edit', $berkas->id) }}" class="btn btn-outline-primary float-end mb-1 ">Edit Data</a>
         @endif
     </div>
     <div class="col-md-12">
