@@ -24,11 +24,8 @@
             </div>
             <div class="col-md-6 text-end m-auto">
                 <div class="col-md-12 mb-5">
-                    @if (isset($dataExists) && $dataExists)
-                        <a href="{{ route('datauktexport') }}" class="btn btn-sm btn-success"
+                        <a href="#" class="btn btn-sm btn-success"
                             onClick="return confirm('Yakin akan melakukan export?')">Export</a>
-                        <a href="{{ route('admin.data-ukt.printukt') }}" class="btn btn-sm btn-secondary">Print</a>
-                    @endif
                 </div>
             </div>
             <div class="card p-4">
@@ -41,6 +38,7 @@
                                 <th>No.Pendaftaran</th>
                                 <th>Nama</th>
                                 <th>Prodi</th>
+                                <th>Jenjang</th>
                                 <th>Jurusan</th>
                                 <th>Golongan </th>
                                 <th>Nominal </th>
@@ -56,17 +54,16 @@
                                     <td>{{ $item->no_pendaftaran }}</td>
                                     <td>{{ $item->nama_mahasiswa }}</td>
                                     <td>{{ $item->nama_prodi }}</td>
+                                    <td>{{ $item->jenjang }}</td>
                                     <td>{{ $item->nama_jurusan }}</td>
                                     <td>{{ $item->nama_golongan }}</td>
                                     <td>Rp{{ number_format($item->nominal) }}</td>
                                     <td>{{ $item->tahun_angkatan }}</td>
                                     <td>
                                         <a class="btn btn-sm btn-primary"
-                                            href="{{ route('admin.DetailFolderArsip') }}">Detail</a>
-                                        @if ($item->status == 'Lengkap')
+                                            href="{{ route('arsip.detail', $item->id) }}">Detail</a>
                                             <a class="btn btn-sm btn-secondary"
-                                                href="#">Print</a>
-                                        @endif
+                                                href="{{ route('arsip.print', $item->id) }}">Print</a>
                                     </td>
                                 </tr>
                             @endforeach

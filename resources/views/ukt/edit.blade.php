@@ -62,11 +62,6 @@
                                     <td>{{ $berkas->mahasiswa->alamat }}</td>
                                 </tr>
                                 <tr>
-                                    <th>Jurusan</th>
-                                    <td>:</td>
-                                    <td>{{ $berkas->mahasiswa->prodi->jurusan->nama }}</td>
-                                </tr>
-                                <tr>
                                     <th>Prodi</th>
                                     <td>:</td>
                                     <td>{{ $berkas->mahasiswa->prodi->nama }}</td>
@@ -75,6 +70,11 @@
                                     <th>Jenjang</th>
                                     <td>:</td>
                                     <td>{{ $berkas->mahasiswa->prodi->jenjang }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Jurusan</th>
+                                    <td>:</td>
+                                    <td>{{ $berkas->mahasiswa->prodi->jurusan->nama }}</td>
                                 </tr>
                             </table>
                         </div>
@@ -167,8 +167,8 @@
                                             <th>Rekomendasi Golongan</th>
                                             <td>:</td>
                                             <td style="font-size: 16px">
-                                                {{ $berkas->golongan->nama }} - {{ $berkas->mahasiswa->prodi->jenjang }}
-                                                || {{ $berkas->mahasiswa->prodi->nama }}
+                                                {{ $berkas->golongan->nama }} | {{ $berkas->mahasiswa->prodi->jenjang }}
+                                                | {{ $berkas->mahasiswa->prodi->nama }}
                                             </td>
                                         </tr>
                                         <tr>
@@ -187,28 +187,28 @@
                                                         @foreach ($golongan_d3 as $item)
                                                             <option value="{{ $item->id }}"
                                                                 {{ $berkas->golongan_id == $item->id ? 'selected' : '' }}>
-                                                                {{ $item->nama }} - {{ $item->jenjang }} =
+                                                                {{ $item->nama }} =
                                                                 Rp{{ number_format($item->nominal) }}</option>
                                                         @endforeach
                                                     @elseif ($berkas->mahasiswa->prodi->nama == 'Teknologi Rekayasa Geomatika dan Survey')
                                                         @foreach ($golongan_TRGS as $item)
                                                             <option value="{{ $item->id }}"
                                                                 {{ $berkas->golongan_id == $item->id ? 'selected' : '' }}>
-                                                                {{ $item->nama }} - {{ $item->jenjang }} =
+                                                                {{ $item->nama }} =
                                                                 Rp{{ number_format($item->nominal) }}</option>
                                                         @endforeach
                                                     @elseif ($berkas->mahasiswa->prodi->nama == 'Rekayasa Kayu')
                                                         @foreach ($golongan_RK as $item)
                                                             <option value="{{ $item->id }}"
                                                                 {{ $berkas->golongan_id == $item->id ? 'selected' : '' }}>
-                                                                {{ $item->nama }} - {{ $item->jenjang }} =
+                                                                {{ $item->nama }} =
                                                                 Rp{{ number_format($item->nominal) }}</option>
                                                         @endforeach
                                                     @else
                                                         @foreach ($golongan_d4 as $item)
                                                             <option value="{{ $item->id }}"
                                                                 {{ $berkas->golongan_id == $item->id ? 'selected' : '' }}>
-                                                                {{ $item->nama }} - {{ $item->jenjang }} =
+                                                                {{ $item->nama }} =
                                                                 Rp{{ number_format($item->nominal) }}</option>
                                                         @endforeach
                                                     @endif
@@ -220,8 +220,7 @@
                                             <th>Golongan</th>
                                             <td>:</td>
                                             <td style="font-size: 16px">
-                                                {{ $berkas->golongan->nama }} - {{ $berkas->mahasiswa->prodi->jenjang }}
-                                                || {{ $berkas->mahasiswa->prodi->nama }}
+                                                {{ $berkas->golongan->nama }}
                                             </td>
                                         </tr>
                                         <tr>

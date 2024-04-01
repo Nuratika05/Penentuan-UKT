@@ -116,11 +116,6 @@
                                 <td>{{ $mahasiswa->alamat }}</td>
                             </tr>
                             <tr>
-                                <th>Jurusan</th>
-                                <td>:</td>
-                                <td>{{ $mahasiswa->prodi->jurusan->nama }}</td>
-                            </tr>
-                            <tr>
                                 <th>Program Studi</th>
                                 <td>:</td>
                                 <td>{{ $mahasiswa->prodi->nama }}</td>
@@ -129,6 +124,11 @@
                                 <th>Jenjang</th>
                                 <td>:</td>
                                 <td>{{ $mahasiswa->prodi->jenjang }}</td>
+                            </tr>
+                            <tr>
+                                <th>Jurusan</th>
+                                <td>:</td>
+                                <td>{{ $mahasiswa->prodi->jurusan->nama }}</td>
                             </tr>
                         </table>
                     </div>
@@ -142,7 +142,7 @@
                                     <tr>
                                         <th>Golongan</th>
                                         <td>:</td>
-                                        <td>{{ $berkas->golongan->nama }}-{{ $mahasiswa->prodi->jenjang }}</td>
+                                        <td>{{ $berkas->golongan->nama }}
                                     </tr>
                                     <tr>
                                         <th>Nominal</th>

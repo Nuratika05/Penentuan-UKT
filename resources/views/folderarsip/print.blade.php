@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $berkas->mahasiswa->id }}-{{ $berkas->mahasiswa->nama }}</title>
+    <title>{{ $arsip->no_pendaftaran }}-{{ $arsip->nama_mahasiswa }}</title>
     <style type="text/css">
     .bodyy {font-family: arial;background-color: #f8f8f8}
     .rangkasurat {width: 700px;margin: 0 auto;background-color: #fff;height: 150px;padding: 1px;}
@@ -71,76 +71,77 @@
             <tr>
                 <td>No. Pendaftaran</td>
                 <td>:</td>
-                <td>{{ $berkas->mahasiswa->id }}</td>
+                <td>{{ $arsip->no_pendaftaran }}</td>
             </tr>
             <tr>
                 <td>Nama</td>
                 <td>:</td>
-                <td>{{ $berkas->mahasiswa->nama }}</td>
+                <td>{{ $arsip->nama_mahasiswa }}</td>
             </tr>
             <tr>
                 <td>Jenis Kelamin</td>
                 <td>:</td>
-                <td>{{ $berkas->mahasiswa->jenis_kelamin }}</td>
+                <td>{{ $arsip->jenis_kelamin }}</td>
             </tr>
+
             <tr>
                 <td>No. Telepon</td>
                 <td>:</td>
-                <td>{{ $berkas->mahasiswa->no_telepon }}</td>
+                <td>{{ $arsip->no_telepon }}</td>
             </tr>
             <tr>
                 <td>Alamat</td>
                 <td>:</td>
-                <td>{{ $berkas->mahasiswa->alamat }}</td>
+                <td>{{ $arsip->alamat }}</td>
             </tr>
             <tr>
                 <td>Prodi</td>
                 <td>:</td>
-                <td>{{ $berkas->mahasiswa->prodi->nama }}</td>
+                <td>{{ $arsip->nama_prodi }}</td>
             </tr>
             <tr>
                 <td>Jenjang</td>
                 <td>:</td>
-                <td>{{ $berkas->mahasiswa->prodi->jenjang }}</td>
+                <td>{{ $arsip->jenjang }}</td>
             </tr>
             <tr>
                 <td>Jurusan</td>
                 <td>:</td>
-                <td>{{ $berkas->mahasiswa->prodi->jurusan->nama }}</td>
+                <td>{{ $arsip->nama_jurusan }}</td>
             </tr>
             <h5 class="card-header">II. DATA KRITERIA MAHASISWA</h5>
-            @foreach ($penilaians as $data => $nilai)
+            @foreach ($penilaianarsip as $data => $nilai)
                 @foreach ($nilai as $data)
                     <tr>
-                        <td>{{ $data->kriteria->nama }}</td>
+                        <td>{{ $data->kriteria }}</td>
                         <td>:</td>
-                        <td>{{ $data->subkriteria->nama }}</td>
+                        <td>{{ $data->subkriteria }}</td>
                     </tr>
                 @endforeach
             @endforeach
             <tr>
                 <td>Foto Tempat Tinggal</td>
                 <td>:</td>
-                <td><img src="{{ public_path('foto_tempat_tinggal/' . $berkas->foto_tempat_tinggal) }}"
+                <td><img src="{{ public_path('fotoarsip/foto_tempat_tinggal/' . $arsip->foto_tempat_tinggal) }}"
                         class="img-fluid"></td>
             </tr>
             <tr>
                 <td>Foto Slip Gaji</td>
                 <td>:</td>
-                <td><img src="{{ public_path('foto_slip_gaji/' . $berkas->foto_slip_gaji) }}" class="img-fluid"></td>
+                <td><img src="{{ public_path('fotoarsip/foto_slip_gaji/' . $arsip->foto_slip_gaji) }}" class="img-fluid"></td>
             </tr>
             <tr>
                 <td>Foto Daya Listrik</td>
                 <td>:</td>
-                <td><img src="{{ public_path('foto_daya_listrik/' . $berkas->foto_daya_listrik) }}" class="img-fluid">
+                <td><img src="{{ public_path('fotoarsip/foto_daya_listrik/' . $arsip->foto_daya_listrik) }}" class="img-fluid">
                 </td>
             </tr>
             <tr>
-                @if ($berkas->foto_kendaraan === null || $berkas->foto_kendaraan === '')
+                @if ($arsip->foto_kendaraan === null || $arsip->foto_kendaraan === '')
                 @else
                 <td>Foto Kendaraan</td>
                 <td>:</td>
-                <td><img src="{{ public_path('foto_kendaraan/' . $berkas->foto_kendaraan) }}" class="img-fluid"></td>
+                <td><img src="{{ public_path('fotoarsip/foto_kendaraan/' . $arsip->foto_kendaraan) }}" class="img-fluid"></td>
                 @endif
             </tr>
             <h5 class="card-header">III. GOLONGAN UKT</h5>
@@ -148,38 +149,16 @@
                         <td>Golongan</td>
                         <td>:</td>
                         <td>
-                            {{ $berkas->golongan->nama }}
+                            {{ $arsip->nama_golongan }}
+
                         </td>
                     </tr>
                     <tr>
                         <td>Nominal</td>
                         <td>:</td>
-                        <td>Rp{{ number_format($berkas->golongan->nominal) }}</td>
+                        <td>Rp{{ number_format($arsip->nominal) }}</td>
                     </tr>
          </div>
         </table>
-        <br>
-
-
-{{--    <div style="width: 30%;; text-align:left; float: right;">
-            POLITANI Samarinda, <br>
-            Yang Bertanda Tangan,
-        <br><br><br><br><br>
-        <table width='350'>
-            <tr>
-                <td>Nama</td>
-                <td>:</td>
-                <td>{{ $berkas->admin->nama }}</td>
-            </tr>
-            <tr>
-                <td>Jabatan</td>
-                <td>:</td>
-                @if ($berkas->admin->jurusan_id == null)
-                @else
-                <td>Ketua Jurusan {{ $berkas->admin->jurusan->nama }}</td>
-                @endif
-            </tr>
-        </div>
-        </table>{{--  --}}
 </body>
 </html>

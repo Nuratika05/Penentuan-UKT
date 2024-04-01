@@ -32,14 +32,15 @@ class ArsipController extends Controller
     public function update(Request $request, $id)
     {
         Folder::find($id)->update($request->all());
-        return redirect()->route('arsip.index')->with('success', 'Berhasil Mengubah Data.');
+        return redirect()->route('arsip.index')->with('success', 'Berhasil Mengubah Folder.');
     }
 
     public function destroy($id)
     {
         try{
+
             Folder::find($id)->delete();
-            return redirect()->route('arsip.index')->with('success', 'Berhasil Menghapus Data.');
+            return redirect()->route('arsip.index')->with('success', 'Berhasil Menghapus Folder.');
         }
         catch (QueryException $e) {
             // Periksa apakah pengecualian disebabkan oleh foreign key constraint

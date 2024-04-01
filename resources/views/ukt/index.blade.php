@@ -44,7 +44,7 @@
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            <form action="{{ route('admin.folder.arsip') }}" method="POST">
+                                            <form action="{{ route('admin.lengkap.arsip') }}" method="POST">
                                                 @csrf
                                                 <div class="form-group">
                                                     <label for="id_folder">Pilih Folder:</label>
@@ -60,7 +60,7 @@
                                                     <input type="number" id="tahun_angkatan" name="tahun_angkatan" class="form-control" placeholder="Masukkan Tahun Angkatan">
                                                 </div>
                                                 <br>
-                                                <button type="submit" class="btn btn-primary btn-sm">Arsipkan</button>
+                                                <button type="submit" class="btn btn-primary btn-sm" onClick="return confirm('Yakin akan mengarsipkan data?')">Arsipkan</button>
                                                 <a class=" close btn btn-secondary btn-sm" type="button"
                                                     data-dismiss="modal">Kembali</a>
                                             </form>
@@ -82,6 +82,7 @@
                         <th>No.Pendaftaran</th>
                         <th>Nama</th>
                         <th>Prodi</th>
+                        <th>Jenjang</th>
                         <th>Jurusan</th>
                         <th>Status</th>
                         <th>Verifikator</th>
@@ -97,6 +98,7 @@
                             <td>{{ $item->mahasiswa->id }}</td>
                             <td>{{ $item->mahasiswa->nama }}</td>
                             <td>{{ $item->mahasiswa->prodi->nama }}</td>
+                            <td>{{ $item->mahasiswa->prodi->jenjang }}</td>
                             <td>{{ $item->mahasiswa->prodi->jurusan->nama }}</td>
                             <td>
                                 @if ($item->status == 'Menunggu Verifikasi')
@@ -118,7 +120,7 @@
                                 @if ($item->status == 'Menunggu Verifikasi' || $item->status == 'Belum Lengkap' || $item->golongan_id == null)
                                     -
                                 @else
-                                    {{ $item->golongan->nama }} - {{ $item->mahasiswa->prodi->jenjang }}
+                                    {{ $item->golongan->nama }}
                                 @endif
                             </td>
                             <td>

@@ -41,7 +41,7 @@
                     @foreach ($folder as $fol)
                         <tr>
                             <td class="menu-icon tf-icons bx bx-folder">
-                                <a href="{{ route('admin.folderArsip', ['nama' => $fol->nama]) }}"> {{ $fol->nama }} </a>
+                                <a href="{{ route('admin.arsip', $fol->id) }}"> {{ $fol->nama }} </a>
                             </td>
                             <td>
                                 <a class="btn btn-sm btn-warning" href="{{ route('arsip.edit', $fol->id) }}">Edit</a>
