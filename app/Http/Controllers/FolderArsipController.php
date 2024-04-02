@@ -115,11 +115,10 @@ class FolderArsipController extends Controller
         }
 
         $item->delete();
-    }
-
         $idsToDelete = $berkas->pluck('mahasiswa_id');
-        Mahasiswa::whereIn('id', $idsToDelete)->delete();
         Penilaian::whereIn('mahasiswa_id', $idsToDelete)->delete();
+        Mahasiswa::whereIn('id', $idsToDelete)->delete();
+    }
         return redirect()->back()->with('success', 'Semua Data berhasil diarsipkan');
     }
     public function detail($id = null){
@@ -132,7 +131,7 @@ class FolderArsipController extends Controller
     {
 
         // Ekspor data menggunakan Laravel Excel
-        return Excel::download(new ArsipExport($id), 'UKT Mahasiswa.xlsx');
+        return Excel::download(new ArsipExport($id), 'id_folder' . $id . 'UKT Mahasiswa.xlsx');
     }
 
     public function print($id = null){

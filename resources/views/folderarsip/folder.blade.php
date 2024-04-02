@@ -20,7 +20,7 @@
                     </div>
                 @endif
                 <a class="btn btn-secondary btn-sm" type="close" href="{{ route('arsip.index') }}">kembali</a>
-                <br><br>
+                <br>
             </div>
             <div class="col-md-6 text-end m-auto">
                 <div class="col-md-12 mb-5">
