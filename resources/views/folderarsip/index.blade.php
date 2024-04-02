@@ -44,12 +44,12 @@
                                 <a href="{{ route('admin.arsip', $fol->id) }}"> {{ $fol->nama }} </a>
                             </td>
                             <td>
-                                <a class="btn btn-sm btn-warning" href="{{ route('arsip.edit', $fol->id) }}">Edit</a>
+                                <a class="btn btn-xs btn-warning" href="{{ route('arsip.edit', $fol->id) }}">Edit</a>
                                 <form action="{{ route('arsip.destroy', $fol->id) }}" method="POST"
                                     style="display: inline">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-danger"
+                                    <button type="submit" class="btn btn-xs btn-danger"
                                         onclick="return confirm('Yakin ingin menghapus folder ini?')">Hapus</button>
                                 </form>
                             </td>

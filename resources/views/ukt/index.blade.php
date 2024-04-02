@@ -131,10 +131,10 @@
                                 @endif
                             </td>
                             <td>
-                                <a class="btn btn-sm btn-primary"
+                                <a class="btn btn-xs btn-primary"
                                     href="{{ route('admin.data-ukt.edit', $item->id) }}">Detail</a>
                                 @if ($item->status == 'Lengkap')
-                                    <a class="btn btn-sm btn-secondary"
+                                    <a class="btn btn-xs btn-secondary"
                                         href="{{ route('admin.data-ukt.print', $item->id) }}">Print</a>
                                 @endif
                             </td>

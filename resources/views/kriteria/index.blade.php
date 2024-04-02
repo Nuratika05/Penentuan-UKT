@@ -41,11 +41,11 @@
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $item->nama}}</td>
                     <td>
-                        <a class="btn btn-sm btn-warning" href="{{ route('kriteria.edit', $item->id) }}">Edit</a>
+                        <a class="btn btn-xs btn-warning" href="{{ route('kriteria.edit', $item->id) }}">Edit</a>
                         <form action="{{ route('kriteria.destroy', $item->id) }}" method="POST" style="display: inline">
                             @csrf
                             @method("DELETE")
-                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus data ini?')">Hapus</button>
+                            <button type="submit" class="btn btn-xs btn-danger" onclick="return confirm('Yakin ingin menghapus data ini?')">Hapus</button>
                         </form>
                     </td>
                 </tr>

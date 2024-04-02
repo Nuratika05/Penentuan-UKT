@@ -60,14 +60,14 @@
         <div class="row">
             <div class="col-md-12">
                 @if ($mhs_temps->where('check', 'Valid')->count() != null)
-                    <a class="btn btn-outline-primary float-end mb-1 "onClick="return confirm('Semua data yang dikirim hanya data Valid. Apakah sudah yakin?')"
+                    <a class="btn btn-outline-primary float-end mb-1 btn-sm "onClick="return confirm('Semua data yang dikirim hanya data Valid. Apakah sudah yakin?')"
                         href="{{ route('mahasiswaimportsave') }}">Kirim<i class="bx bx-share"></i>
                     </a>
                 @endif
-                <a class="btn btn-outline-danger mb-1 float-end"
+                <a class="btn btn-outline-danger mb-1 float-end btn-sm"
                     onClick="return confirm('Yakin akan menghapus data import?')"
                     href="{{ route('mahasiswaimportbatal') }}">
-                    Hapus Import</i>
+                    Hapus</i>
                 </a>
                 <div id="search" class="text-align =center">
                 </div>

@@ -60,9 +60,9 @@
                                     <td>Rp{{ number_format($item->nominal) }}</td>
                                     <td>{{ $item->tahun_angkatan }}</td>
                                     <td>
-                                        <a class="btn btn-sm btn-primary"
+                                        <a class="btn btn-xs btn-primary"
                                             href="{{ route('arsip.detail', $item->id) }}">Detail</a>
-                                            <a class="btn btn-sm btn-secondary"
+                                            <a class="btn btn-xs btn-secondary"
                                                 href="{{ route('arsip.print', $item->id) }}">Print</a>
                                     </td>
                                 </tr>
