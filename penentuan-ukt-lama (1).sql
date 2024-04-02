@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Mar 28, 2024 at 02:32 PM
+-- Generation Time: Apr 02, 2024 at 05:59 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -44,7 +44,7 @@ CREATE TABLE `admins` (
 
 INSERT INTO `admins` (`id`, `nama`, `email`, `role`, `jurusan_id`, `password`, `created_at`, `updated_at`) VALUES
 (11, 'tika', 'nuratika0552@gmail.com', 'superadmin', NULL, '$2y$10$Z9N.ecX5A3K3HYImn/GZAO9Ak28lK.A1RBIOm92Gjlk2bLEgIlKOm', '2023-11-29 01:06:26', '2023-12-29 02:56:44'),
-(22, 'rizkypratama', 'ku@gmail.com', 'verifikator', 3, '$2y$10$kLSJQ9/PmPiGmginZcHTSugwdOpDPcQowQla5OVtodjbRhNqVZSm.', '2023-12-29 01:39:07', '2024-01-10 17:28:15'),
+(22, 'rizkypratama', 'ku@gmail.com', 'verifikator', 3, '$2y$10$3xQlkpWqyO/pDlon.OoxO.1rZ9KZJcNDVWVXL7FBR8xU35lhebu8u', '2023-12-29 01:39:07', '2024-03-31 17:41:19'),
 (30, 'tika', 'tikaa@gmail.com', 'verifikator', 1, '$2y$10$YVWSnzDGj3E1FQ7OMU8/ee4v4ASX4vg.Vj5cxzToiAQTOyiXETwu2', '2023-12-29 21:33:37', '2024-03-09 20:12:57'),
 (33, 'Rizky', 'rizkyganteng@gmail.com', 'verifikator', 2, '$2y$10$tr2QM96JsYKlMwhoB0BQreYjBc4R43Uno.foz37DlQl6HAKhoVJBy', '2024-01-02 03:59:51', '2024-01-02 04:07:16');
 
@@ -57,28 +57,35 @@ INSERT INTO `admins` (`id`, `nama`, `email`, `role`, `jurusan_id`, `password`, `
 CREATE TABLE `arsips` (
   `id` bigint UNSIGNED NOT NULL,
   `id_folder` bigint NOT NULL,
-  `no_pendaftaran` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `nama_mahasiswa` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `no_telepon` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `alamat` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `jenis_kelamin` enum('Laki-laki','Perempuan') COLLATE utf8mb4_general_ci NOT NULL,
-  `nama_prodi` varchar(225) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `jenjang` enum('D3','D4','S1 Terapan') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `no_pendaftaran` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `nama_mahasiswa` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `no_telepon` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `alamat` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+  `jenis_kelamin` enum('Laki-laki','Perempuan') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `nama_prodi` varchar(225) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `jenjang` enum('D3','D4','S1 Terapan') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `nama_jurusan` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
   `nama_golongan` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `nominal` int DEFAULT NULL,
   `foto_slip_gaji` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `foto_tempat_tinggal` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `foto_kendaraan` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `foto_daya_listrik` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `tahun_angkatan` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL
+  `tahun_angkatan` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `arsips`
 --
 
-INSERT INTO `arsips` (`id`, `id_folder`, `no_pendaftaran`, `nama_mahasiswa`, `no_telepon`, `alamat`, `jenis_kelamin`, `nama_prodi`, `jenjang`, `nama_golongan`, `nominal`, `foto_slip_gaji`, `foto_tempat_tinggal`, `foto_kendaraan`, `foto_daya_listrik`, `tahun_angkatan`) VALUES
-(2, 3, '788jjb', 'tikk', '00', 'hbh', 'Perempuan', 'trpl', 'D3', NULL, NULL, NULL, NULL, NULL, NULL, '2024');
+INSERT INTO `arsips` (`id`, `id_folder`, `no_pendaftaran`, `nama_mahasiswa`, `no_telepon`, `alamat`, `jenis_kelamin`, `nama_prodi`, `jenjang`, `nama_jurusan`, `nama_golongan`, `nominal`, `foto_slip_gaji`, `foto_tempat_tinggal`, `foto_kendaraan`, `foto_daya_listrik`, `tahun_angkatan`, `created_at`, `updated_at`) VALUES
+(14, 8, '34', 'nu', '085823593942', 'gtong royong', 'Perempuan', 'Teknologi Rekayasa Perangkat Lunak', 'S1 Terapan', 'Rekayasa dan Komputer', 'K3', 1000000, '20240401014340_foto tempat tinggal rizky.jpeg', '20240401014340_foto tempat tinggal tika.jpeg', '20240401014340_erd.png', '20240401014340_foto tempat tinggal.jpeg', '0000', '2024-03-31 17:48:58', '2024-03-31 17:48:58'),
+(18, 3, '190014567', 'Soleha Purnamasari', '085823593921', 'gotong royong', 'Perempuan', 'Teknologi Rekayasa Pangan', 'S1 Terapan', 'Pertanian', 'K5', 1500000, '20240401023318_foto tempat tinggal rizky.jpeg', '20240401023318_foto tempat tinggal rizky.jpeg', '20240401023318_foto tempat tinggal rizky.jpeg', '20240401023318_foto tempat tinggal rizky.jpeg', '2024', '2024-03-31 18:37:50', '2024-03-31 18:37:50'),
+(19, 3, '321', 'nur', '085823593942', 'gtong royong', 'Perempuan', 'Teknologi Rekayasa Perangkat Lunak', 'S1 Terapan', 'Rekayasa dan Komputer', 'K3', 1000000, '20240401112111_foto tempat tinggal tika.jpeg', '20240401112111_foto tempat tinggal tika.jpeg', '20240401112111_foto tempat tinggal.jpeg', '20240401112111_foto tempat tinggal.jpeg', '34', '2024-04-01 03:56:40', '2024-04-01 03:56:40'),
+(20, 8, '3211', 'nur', '085823593942', 'gtong royong', 'Perempuan', 'Teknologi Rekayasa Perangkat Lunak', 'S1 Terapan', 'Rekayasa dan Komputer', 'K2', 750000, '20240401122433_foto tempat tinggal.jpeg', '20240401122433_foto tempat tinggal tika.jpeg', NULL, '20240401122433_foto tempat tinggal rizky.jpeg', '3', '2024-04-01 04:26:23', '2024-04-01 04:26:23'),
+(21, 8, '00000', 'nur', '085823593942', 'gtong royong', 'Perempuan', 'Teknologi Rekayasa Perangkat Lunak', 'S1 Terapan', 'Rekayasa dan Komputer', 'K3', 1000000, '20240401123414_foto tempat tinggal rizky.jpeg', '20240401123414_foto tempat tinggal.jpeg', '20240401123414_daya listrik.jpg', '20240401123414_erd.png', '4', '2024-04-01 04:35:42', '2024-04-01 04:35:42');
 
 -- --------------------------------------------------------
 
@@ -101,15 +108,6 @@ CREATE TABLE `berkas` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `berkas`
---
-
-INSERT INTO `berkas` (`id`, `mahasiswa_id`, `foto_slip_gaji`, `foto_tempat_tinggal`, `foto_kendaraan`, `foto_daya_listrik`, `status`, `keterangan`, `admin_id`, `golongan_id`, `created_at`, `updated_at`) VALUES
-(74, '190014567', '20240111020419_slipgajji.png', '20240111020419_foto tempat tinggal tika.jpeg', NULL, '20240111020419_daya listrik.jpg', 'Menunggu Verifikasi', NULL, 30, 9, '2024-01-10 18:04:19', '2024-01-10 18:42:43'),
-(75, '1233444555', '20240111074342_slipgajji.png', '20240111074342_foto tempat tinggal tika.jpeg', '20240111074342_motor.jpeg', '20240111074342_daya listrik.jpg', 'Lengkap', NULL, 30, 2, '2024-01-10 18:25:36', '2024-01-10 23:44:30'),
-(76, '1314111111', '20240111022745_slipgajji.png', '20240111022745_foto tempat tinggal.jpeg', '20240111022745_kendaraan.jpg', '20240111022745_daya listrik.jpg', 'Belum Lengkap', NULL, NULL, 23, '2024-01-10 18:27:45', '2024-01-10 18:27:45');
-
 -- --------------------------------------------------------
 
 --
@@ -128,9 +126,8 @@ CREATE TABLE `folders` (
 --
 
 INSERT INTO `folders` (`id`, `nama`, `created_at`, `updated_at`) VALUES
-(3, '2024 SNBT', '2024-03-21 04:33:39', '2024-03-27 15:17:23'),
-(4, '2023', '2024-03-21 04:55:54', '2024-03-27 15:17:01'),
-(6, '5555', '2024-03-28 05:04:04', '2024-03-28 05:04:04');
+(3, '2024 january', '2024-03-21 04:33:39', '2024-03-31 18:37:25'),
+(8, 'SNBT 2024', '2024-03-28 22:18:39', '2024-03-28 22:18:39');
 
 -- --------------------------------------------------------
 
@@ -248,10 +245,8 @@ CREATE TABLE `mahasiswas` (
 --
 
 INSERT INTO `mahasiswas` (`id`, `nama`, `jenis_kelamin`, `no_telepon`, `alamat`, `prodi_id`, `password`, `created_at`, `updated_at`) VALUES
-('1000011111', 'Nuratika', 'Perempuan', '85823593942', 'lekopadis dusun 1', 10, '$2y$10$k/FB.Hv3fgmWBryHLTFtN.R.8Z6V1Swm9EApXvvP.xrOb3hFU4FWC', '2024-01-10 17:08:00', '2024-03-26 17:50:54'),
-('1233444555', 'Mardiana', 'Perempuan', '8582359397', 'Samarinda Seberang', 3, '$2y$10$HoH5oeeqobDJsan6yYlpWOcnBhuqm5N1M615akigRv0jp7sKtxTMy', '2024-01-10 17:08:00', '2024-01-10 17:23:35'),
-('1314111111', 'Rizky Pratama', 'Laki-laki', '8582359398', 'Harapan Baru', 5, '$2y$10$isuP1BsS0GARMR/EPhHLuu0UVdmjQ/yrmjAvwh/00sOMDnCTeQqYe', '2024-01-10 17:08:00', '2024-01-10 17:23:46'),
-('190014567', 'Soleha Purnamasari', 'Perempuan', '085823593921', 'gotong royong', 5, '$2y$10$sQf3tRDdiyr2HhxY076bm.B6XMROHBJ8xBrNLJkkOmMlcAVCskjbW', '2024-01-10 17:22:50', '2024-01-10 17:23:58');
+('00000', 'nur', 'Perempuan', '085823593942', 'gtong royong', 10, '$2y$10$6KOgSVH9Wtf89HH5vsOVjuyum96GVD01zjonzmrGdhsczWZmkBVOe', '2024-03-31 17:40:35', '2024-04-01 04:33:19'),
+('nuratika0552@gmail.com', 'tika', 'Perempuan', '085823593942', 'gtong royong', 11, '$2y$10$8EeS5ZwGASRQrKistW5mduApAp0BTCEZ8bAW2YS.kBmdgd3lZ1.eq', '2024-03-31 04:55:12', '2024-03-31 04:55:12');
 
 -- --------------------------------------------------------
 
@@ -275,15 +270,6 @@ CREATE TABLE `mahasiswa_temps` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `mahasiswa_temps`
---
-
-INSERT INTO `mahasiswa_temps` (`code_temps`, `id_temps`, `nama_temps`, `jenis_kelamin_temps`, `no_telepon_temps`, `alamat_temps`, `prodi_id_temps`, `password_temps`, `status_upload`, `check`, `eror_location`, `upload_code`, `created_at`, `updated_at`) VALUES
-(1, '1000011111', 'Nuratika', 'Perempuan', '85823593942', 'lekopadis dusun 1', 10, '12052002', 'Draft', 'False', '[\"NO PENDAFTARAN SUDAH DIGUNAKAN 2\"]', '65e84d4f6dbb4', '2024-03-06 03:02:42', '2024-03-06 03:02:42'),
-(2, '1314111111', 'Rizky Pratama', 'Laki-laki', '8582359398', 'Harapan Baru', 12, '12102002', 'Draft', 'False', '[\"NO PENDAFTARAN SUDAH DIGUNAKAN 3\"]', '65e84d4f6dbb4', '2024-03-06 03:02:42', '2024-03-06 03:02:42'),
-(3, '1233444555', 'Mardiana', 'Perempuan', '8582359397', 'Samarinda Seberang', 3, '14082003', 'Draft', 'False', '[\"NO PENDAFTARAN SUDAH DIGUNAKAN 4\"]', '65e84d4f6dbb4', '2024-03-06 03:02:42', '2024-03-06 03:02:42');
 
 -- --------------------------------------------------------
 
@@ -321,9 +307,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 
 CREATE TABLE `penilaians` (
   `id` bigint UNSIGNED NOT NULL,
+  `mahasiswa_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `kriteria_id` bigint UNSIGNED NOT NULL,
   `subkriteria_id` bigint UNSIGNED NOT NULL,
-  `mahasiswa_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -332,31 +318,76 @@ CREATE TABLE `penilaians` (
 -- Dumping data for table `penilaians`
 --
 
-INSERT INTO `penilaians` (`id`, `kriteria_id`, `subkriteria_id`, `mahasiswa_id`, `created_at`, `updated_at`) VALUES
-(975, 1, 4, '190014567', NULL, NULL),
-(976, 2, 16, '190014567', NULL, NULL),
-(977, 3, 17, '190014567', NULL, NULL),
-(978, 4, 24, '190014567', NULL, NULL),
-(979, 5, 32, '190014567', NULL, NULL),
-(980, 6, 64, '190014567', NULL, NULL),
-(981, 7, 67, '190014567', NULL, NULL),
-(982, 9, 70, '190014567', NULL, NULL),
-(983, 1, 3, '1233444555', NULL, NULL),
-(984, 2, 16, '1233444555', NULL, NULL),
-(985, 3, 19, '1233444555', NULL, NULL),
-(986, 4, 30, '1233444555', NULL, NULL),
-(987, 5, 32, '1233444555', NULL, NULL),
-(988, 6, 64, '1233444555', NULL, NULL),
-(989, 7, 68, '1233444555', NULL, NULL),
-(990, 9, 71, '1233444555', NULL, NULL),
-(991, 1, 9, '1314111111', NULL, NULL),
-(992, 2, 16, '1314111111', NULL, NULL),
-(993, 3, 23, '1314111111', NULL, NULL),
-(994, 4, 30, '1314111111', NULL, NULL),
-(995, 5, 35, '1314111111', NULL, NULL),
-(996, 6, 66, '1314111111', NULL, NULL),
-(997, 7, 67, '1314111111', NULL, NULL),
-(998, 9, 71, '1314111111', NULL, NULL);
+INSERT INTO `penilaians` (`id`, `mahasiswa_id`, `kriteria_id`, `subkriteria_id`, `created_at`, `updated_at`) VALUES
+(1063, '00000', 1, 7, NULL, NULL),
+(1064, '00000', 2, 16, NULL, NULL),
+(1065, '00000', 3, 19, NULL, NULL),
+(1066, '00000', 4, 24, NULL, NULL),
+(1067, '00000', 5, 32, NULL, NULL),
+(1068, '00000', 6, 65, NULL, NULL),
+(1069, '00000', 7, 68, NULL, NULL),
+(1070, '00000', 9, 70, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `penilaian_arsips`
+--
+
+CREATE TABLE `penilaian_arsips` (
+  `id` bigint NOT NULL,
+  `no_pendaftaran` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `kriteria` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `subkriteria` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `penilaian_arsips`
+--
+
+INSERT INTO `penilaian_arsips` (`id`, `no_pendaftaran`, `kriteria`, `subkriteria`, `created_at`, `updated_at`) VALUES
+(1, '34', 'Penghasilan Orang Tua', 'Rp. 1.000.000 s.d Rp. 1.500.000', '2024-03-31 17:58:42', '2024-03-31 17:58:42'),
+(2, '34', 'Status Tempat Tinggal', 'Milik Sendiri', '2024-03-31 17:58:42', '2024-03-31 17:58:42'),
+(3, '34', 'Kendaraan', 'Motor', '2024-03-31 17:58:42', '2024-03-31 17:58:42'),
+(4, '34', 'Fasilitas Rumah', 'TV/Kulkas/Mesin Cuci', '2024-03-31 17:58:42', '2024-03-31 17:58:42'),
+(5, '34', 'Penggunaan Daya Listrik', '1300Kwh', '2024-03-31 17:58:42', '2024-03-31 17:58:42'),
+(6, '34', 'Fasilitas Lain', 'HP', '2024-03-31 17:58:42', '2024-03-31 17:58:42'),
+(7, '34', 'Jumlah Tanggungan Keluarga', '4-6', '2024-03-31 17:58:42', '2024-03-31 17:58:42'),
+(8, '34', 'Penerimaan Bantuan dari Pemerintah', 'Tidak Terima', '2024-03-31 17:58:42', '2024-03-31 17:58:42'),
+(9, '190014567', 'Penghasilan Orang Tua', 'Rp. 4.000.000', '2024-03-31 18:37:50', '2024-03-31 18:37:50'),
+(10, '190014567', 'Status Tempat Tinggal', 'Milik Sendiri', '2024-03-31 18:37:50', '2024-03-31 18:37:50'),
+(11, '190014567', 'Kendaraan', 'Motor', '2024-03-31 18:37:50', '2024-03-31 18:37:50'),
+(12, '190014567', 'Fasilitas Rumah', 'TV/Kulkas/Mesin Cuci', '2024-03-31 18:37:50', '2024-03-31 18:37:50'),
+(13, '190014567', 'Penggunaan Daya Listrik', '1300Kwh', '2024-03-31 18:37:50', '2024-03-31 18:37:50'),
+(14, '190014567', 'Fasilitas Lain', 'HP/Gadget', '2024-03-31 18:37:50', '2024-03-31 18:37:50'),
+(15, '190014567', 'Jumlah Tanggungan Keluarga', '4-6', '2024-03-31 18:37:50', '2024-03-31 18:37:50'),
+(16, '190014567', 'Penerimaan Bantuan dari Pemerintah', 'Tidak Terima', '2024-03-31 18:37:50', '2024-03-31 18:37:50'),
+(17, '321', 'Penghasilan Orang Tua', 'Rp. 1.000.000 s.d Rp. 1.500.000', '2024-04-01 03:56:40', '2024-04-01 03:56:40'),
+(18, '321', 'Status Tempat Tinggal', 'Milik Sendiri', '2024-04-01 03:56:40', '2024-04-01 03:56:40'),
+(19, '321', 'Kendaraan', 'Motor Lebih dari satu', '2024-04-01 03:56:40', '2024-04-01 03:56:40'),
+(20, '321', 'Fasilitas Rumah', 'TV/Kulkas', '2024-04-01 03:56:40', '2024-04-01 03:56:40'),
+(21, '321', 'Penggunaan Daya Listrik', '1300Kwh', '2024-04-01 03:56:40', '2024-04-01 03:56:40'),
+(22, '321', 'Fasilitas Lain', 'HP/Gadget', '2024-04-01 03:56:40', '2024-04-01 03:56:40'),
+(23, '321', 'Jumlah Tanggungan Keluarga', '4-6', '2024-04-01 03:56:40', '2024-04-01 03:56:40'),
+(24, '321', 'Penerimaan Bantuan dari Pemerintah', 'Tidak Terima', '2024-04-01 03:56:40', '2024-04-01 03:56:40'),
+(25, '3211', 'Penghasilan Orang Tua', 'Rp. 1.500.000 s.d Rp. 2.000.000', '2024-04-01 04:26:23', '2024-04-01 04:26:23'),
+(26, '3211', 'Status Tempat Tinggal', 'Sewa', '2024-04-01 04:26:23', '2024-04-01 04:26:23'),
+(27, '3211', 'Kendaraan', 'tidak ada', '2024-04-01 04:26:23', '2024-04-01 04:26:23'),
+(28, '3211', 'Fasilitas Rumah', 'TV/Kulkas', '2024-04-01 04:26:23', '2024-04-01 04:26:23'),
+(29, '3211', 'Penggunaan Daya Listrik', '900Kwh', '2024-04-01 04:26:23', '2024-04-01 04:26:23'),
+(30, '3211', 'Fasilitas Lain', 'HP', '2024-04-01 04:26:23', '2024-04-01 04:26:23'),
+(31, '3211', 'Jumlah Tanggungan Keluarga', '4-6', '2024-04-01 04:26:23', '2024-04-01 04:26:23'),
+(32, '3211', 'Penerimaan Bantuan dari Pemerintah', 'Tidak Terima', '2024-04-01 04:26:23', '2024-04-01 04:26:23'),
+(33, '00000', 'Penghasilan Orang Tua', 'Rp. 2.000.000', '2024-04-01 04:35:42', '2024-04-01 04:35:42'),
+(34, '00000', 'Status Tempat Tinggal', 'Milik Sendiri', '2024-04-01 04:35:42', '2024-04-01 04:35:42'),
+(35, '00000', 'Kendaraan', 'Motor', '2024-04-01 04:35:42', '2024-04-01 04:35:42'),
+(36, '00000', 'Fasilitas Rumah', 'Tidak ada', '2024-04-01 04:35:42', '2024-04-01 04:35:42'),
+(37, '00000', 'Penggunaan Daya Listrik', '900Kwh', '2024-04-01 04:35:42', '2024-04-01 04:35:42'),
+(38, '00000', 'Fasilitas Lain', 'HP/Gadget', '2024-04-01 04:35:42', '2024-04-01 04:35:42'),
+(39, '00000', 'Jumlah Tanggungan Keluarga', '4-6', '2024-04-01 04:35:42', '2024-04-01 04:35:42'),
+(40, '00000', 'Penerimaan Bantuan dari Pemerintah', 'Terima', '2024-04-01 04:35:42', '2024-04-01 04:35:42');
 
 -- --------------------------------------------------------
 
@@ -546,6 +577,12 @@ ALTER TABLE `penilaians`
   ADD KEY `FK_penilaians_mahasiswas` (`mahasiswa_id`);
 
 --
+-- Indexes for table `penilaian_arsips`
+--
+ALTER TABLE `penilaian_arsips`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
@@ -581,19 +618,19 @@ ALTER TABLE `admins`
 -- AUTO_INCREMENT for table `arsips`
 --
 ALTER TABLE `arsips`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `berkas`
 --
 ALTER TABLE `berkas`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
 
 --
 -- AUTO_INCREMENT for table `folders`
 --
 ALTER TABLE `folders`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `golongans`
@@ -617,7 +654,7 @@ ALTER TABLE `kriterias`
 -- AUTO_INCREMENT for table `mahasiswa_temps`
 --
 ALTER TABLE `mahasiswa_temps`
-  MODIFY `code_temps` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `code_temps` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -629,7 +666,13 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `penilaians`
 --
 ALTER TABLE `penilaians`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=999;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1071;
+
+--
+-- AUTO_INCREMENT for table `penilaian_arsips`
+--
+ALTER TABLE `penilaian_arsips`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
