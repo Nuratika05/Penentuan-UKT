@@ -130,10 +130,9 @@ class FolderArsipController extends Controller
     }
     public function arsipexport($id)
     {
-        $data = Arsip::where('id_folder', $id)->get();
 
         // Ekspor data menggunakan Laravel Excel
-        return Excel::download(new ArsipExport($data), 'arsip_folder_' . $id . 'UKT Mahasiswa.xlsx');
+        return Excel::download(new ArsipExport($id), 'UKT Mahasiswa.xlsx');
     }
 
     public function print($id = null){

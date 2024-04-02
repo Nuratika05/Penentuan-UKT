@@ -24,9 +24,27 @@ class ArsipExport implements FromCollection, WithHeadings, ShouldAutoSize, WithS
     public function collection()
     {
 
-        return Arsip::select('no_pendaftaran', 'nama_mahasiswa', 'nama_prodi', 'jenjang', 'nama_jurusan', 'nama_golongan', 'nominal', 'tahun_angkatan')
-            ->where('id_folder', $this->id)
-            ->get();
+        $arsips = Arsip::where('id_folder', $this->id)->get();
+        $exportData = collect();
+        foreach ($arsips as $arsip) {
+            // Format nominal
+            $nominalFormatted = 'Rp '.number_format($arsip->nominal, 0, ',', '.');
+
+            // Tambahkan data arsip yang telah diformat ke dalam koleksi untuk diekspor
+            $exportData->push([
+                'no_pendaftaran' => $arsip->no_pendaftaran,
+                'nama_mahasiswa' => $arsip->nama_mahasiswa,
+                'nama_prodi' => $arsip->nama_prodi,
+                'jenjang' => $arsip->jenjang,
+                'nama_jurusan' => $arsip->nama_jurusan,
+                'nama_golongan' => $arsip->nama_golongan,
+                'nominal' => $nominalFormatted,
+                'tahun_angkatan' => $arsip->tahun_angkatan
+            ]);
+        }
+
+        // Kembalikan koleksi data yang telah diformat
+        return $exportData;
     }
 
     /**
@@ -35,14 +53,14 @@ class ArsipExport implements FromCollection, WithHeadings, ShouldAutoSize, WithS
     public function headings(): array
     {
         return [
-            'no_pendaftaran',
-            'nama_mahasiswa',
-            'nama_prodi',
-            'jenjang',
-            'nama_jurusan',
-            'nama_golongan',
-            'nominal (Rp)',
-            'tahun_angkatan'
+            'No Pendaftaran',
+            'Nama',
+            'Prodi',
+            'Jenjang',
+            'Jurusan',
+            'Golongan',
+            'Nominal',
+            'Tahun Angkatan'
         ];
     }
 

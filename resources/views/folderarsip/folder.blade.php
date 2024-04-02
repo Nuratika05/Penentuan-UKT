@@ -24,7 +24,7 @@
             </div>
             <div class="col-md-6 text-end m-auto">
                 <div class="col-md-12 mb-5">
-                    <a href="#{{-- {{ route('arsip.export', ['id_folder' => $id]) }} --}}" class="btn btn-outline-success float-end mb-1 btn-sm"
+                    <a href="{{ route('arsip.export', $folder->id)}}" class="btn btn-outline-success float-end mb-1 btn-sm"
                         onClick="return confirm('Yakin akan melakukan export?')">Export</a>
                 </div>
             </div>

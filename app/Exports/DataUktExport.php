@@ -29,7 +29,7 @@ class DataUktExport implements FromCollection, WithHeadings, ShouldAutoSize, Wit
             $admin = Admin::find($DataUKT->admin_id);
             $golongan = Golongan::find($DataUKT->golongan_id);
             $prodi = Prodi::find($mahasiswa->prodi_id);
-            $nominalFormatted = number_format($golongan->nominal, 0, ',', '.');
+            $nominalFormatted = 'Rp '. number_format($golongan->nominal, 0, ',', '.');
 
             $exportData = [
                 'no_pendaftaran' => $mahasiswa->id,
