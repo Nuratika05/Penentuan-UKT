@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\File;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\PenilaianArsip;
 use App\Models\Penilaian;
+use App\Models\Mahasiswa;
+use App\Models\Folder;
 
 use Illuminate\Http\Request;
 
@@ -18,12 +20,13 @@ class FolderArsipController extends Controller
     public function index($id){
 
         $arsip = Arsip::where('id_folder', $id)->get();
+        $folder = Folder::findOrFail($id);
 
         // Periksa apakah data arsip ada
         $dataExists = $arsip->isNotEmpty();
 
         // Teruskan data ke tampilan
-        return view('folderarsip.folder', compact('arsip', 'dataExists'));
+        return view('folderarsip.folder', compact('arsip', 'folder', 'dataExists'));
     }
     /*public function edit(Request $request, $id){
         $item = Arsip::all();
@@ -33,6 +36,7 @@ class FolderArsipController extends Controller
     {
 
         $berkas = Berkas::where('status', 'Lengkap')->get();
+
         foreach ($berkas as $item) {
         $mahasiswaId = $item->mahasiswa_id;
         //foto_tempat_tinggal
@@ -112,7 +116,9 @@ class FolderArsipController extends Controller
 
         $item->delete();
     }
-    $idsToDelete = $berkas->pluck('mahasiswa_id');
+
+        $idsToDelete = $berkas->pluck('mahasiswa_id');
+        Mahasiswa::whereIn('id', $idsToDelete)->delete();
         Penilaian::whereIn('mahasiswa_id', $idsToDelete)->delete();
         return redirect()->back()->with('success', 'Semua Data berhasil diarsipkan');
     }
@@ -124,7 +130,10 @@ class FolderArsipController extends Controller
     }
     public function arsipexport($id)
     {
-        return Excel::download(new ArsipExport($id), 'UKT Mahasiswa.xlsx');
+        $data = Arsip::where('id_folder', $id)->get();
+
+        // Ekspor data menggunakan Laravel Excel
+        return Excel::download(new ArsipExport($data), 'arsip_folder_' . $id . 'UKT Mahasiswa.xlsx');
     }
 
     public function print($id = null){

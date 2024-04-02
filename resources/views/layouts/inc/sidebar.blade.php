@@ -1,15 +1,13 @@
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
     <div class="app-brand demo">
-            <span class="app-brand-logo demo">
-                <img src="{{ asset('logo_politani.png') }}" alt="Logo Politani" width="36px">
-            </span>
-            <span class="text-capitalize app-brand-text demo menu-text fw-bolder ms-2">POLITANI</span>
-        </a>
-
-        <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
-            <i class="bx bx-chevron-left bx-sm align-middle"></i>
-        </a>
+        <span class="app-brand-logo demo">
+            <img src="{{ asset('logo_politani.png') }}" alt="Logo Politani" width="36px">
+        </span>
+        <span class="text-capitalize app-brand-text demo menu-text fw-bolder ms-2">POLITANI</span>
     </div>
+    <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
+        <i class="bx bx-chevron-left bx-sm align-middle"></i>
+    </a>
 
     <div class="menu-inner-shadow"></div>
 
@@ -140,3 +138,4 @@
         @endif
     </ul>
 </aside>
+

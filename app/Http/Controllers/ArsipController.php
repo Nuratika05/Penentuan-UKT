@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use App\Models\Folder;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
+use Illuminate\Validation\Rule;
+
 use PhpOffice\PhpSpreadsheet\Calculation\Statistical\Distributions\F;
 
 class ArsipController extends Controller
@@ -17,6 +19,16 @@ class ArsipController extends Controller
     }
     public function store(Request $request)
     {
+        $message = [
+            'nama.unique' => 'Nama folder sudah ada. Silakan gunakan nama yang berbeda.'
+        ];
+        $request->validate([
+            'nama' => [
+                'required',
+                Rule::unique('folders')->ignore($request->id)
+            ]
+        ],$message);
+
         Folder::create([
             'nama' => $request->nama
         ]);
@@ -31,6 +43,15 @@ class ArsipController extends Controller
 
     public function update(Request $request, $id)
     {
+        $message = [
+            'nama.unique' => 'Nama folder sudah ada. Silakan gunakan nama yang berbeda.'
+        ];
+        $request->validate([
+            'nama' => [
+                'required',
+                Rule::unique('folders')->ignore($id)]
+            ],$message);
+
         Folder::find($id)->update($request->all());
         return redirect()->route('arsip.index')->with('success', 'Berhasil Mengubah Folder.');
     }

@@ -13,6 +13,16 @@
          <div class="alert alert-success" role="alert">
         {{ Session::get('success') }} </div>
         @endif
+@if (count($errors)>0)
+<div class="alert alert-danger">
+    <ul>
+        @foreach ($errors->all() as $error )
+            <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div>
+
+@endif
 <div class="card">
     <div class="row">
         <div class="col-md-8">
@@ -21,7 +31,12 @@
                     @csrf
                     <div class="mb-3">
                         <label for="nama" class="form-label">Nama Folder</label>
-                        <input type="text" name="nama" id="nama_folder" class="form-control" autofocus required>
+                        <input type="text" name="nama" id="nama_folder" class="form-control @error('nama') is-invalid @enderror" autofocus required>
+                        @error('nama')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                        @enderror
                     </div>
                     <button type="submit" class="btn btn-primary btn-sm" onClick="return confirm('Yakin akan membuat folder?')">Buat Folder</button>
                     <a class="btn btn-secondary btn-sm" type="button" href="{{ route('arsip.index') }}">Kembali</a>

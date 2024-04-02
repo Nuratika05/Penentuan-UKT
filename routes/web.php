@@ -67,7 +67,7 @@ Route::middleware('auth:admin')->group(function () {
     Route::resource('admin/arsip', ArsipController::class);
 
     Route::get('admin/arsipp/folder/{id}', [FolderArsipController::class, 'index'])->name('admin.arsip');
-    Route::get('admin/arsipp/folder/export/{id}', [FolderArsipController::class, 'arsipexport'])->name('arsip.export');
+    Route::get('admin/arsipp/folder/{id}/export', [FolderArsipController::class, 'arsipexport'])->name('arsip.export');
     Route::get('admin/arsipp/folder/print/{id}', [FolderArsipController::class, 'print'])->name('arsip.print');
     Route::get('admin/arsipp/folder/detail/{id}', [FolderArsipController::class, 'detail'])->name('arsip.detail');
     Route::post('admin/arsipp/data-lengkap/arsip', [FolderArsipController::class, 'arsip'])->name('admin.lengkap.arsip');
