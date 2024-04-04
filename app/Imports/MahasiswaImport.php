@@ -40,6 +40,7 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
         'no_telepon_temps' => $row['no_telepon'] ?? null,
         'alamat_temps' => $row['alamat'] ?? null,
         'prodi_id_temps' => $prodiId,
+        'jalur_temps' => $row['jalur'] ?? null,
         'password_temps' => $row['password'] ?? null,
         'status_upload' => 'Draft',
         'upload_code' => $this->upload_code, // Tambahkan tanda koma di sini
@@ -47,21 +48,3 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
     ]);
     }
 }
-
-   /* } catch (Exception $e) {
-        // Log pesan kesalahan untuk debugging
-        Log::error('Error importing Mahasiswa data: ' . $e->getMessage());
-        return null;
-        }
-    }
-    public static function getSuccessCount()
-    {
-        return static::$successCount;
-    }
-
-    public static function getFailCount()
-    {
-        return static::$failCount;
-    }
-
-    } */

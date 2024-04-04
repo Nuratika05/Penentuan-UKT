@@ -52,7 +52,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="app-brand justify-content-center">
-                            <a href="#" class="app-brand-link gap-2">
+                            <a class="app-brand-link gap-2">
                                 <span class="app-brand-logo demo">
                                     <img src="{{ asset('logo_politani.png') }}" alt="Logo Politani" width="40px" />
                                 </span>

@@ -46,6 +46,7 @@ class MahasiswaController extends Controller
             'no_telepon' => $request->no_telepon,
             'alamat' => $request->alamat,
             'prodi_id' => $request->prodi_id,
+            'jalur' => $request->jalur,
             'password' => Hash::make($request->password),
 
         ]);
@@ -92,6 +93,7 @@ class MahasiswaController extends Controller
             'no_telepon' => $request->no_telepon,
             'alamat' => $request->alamat,
             'prodi_id' => $request->prodi_id,
+            'jalur' => $request->jalur,
 
         ]);
 
@@ -104,6 +106,7 @@ class MahasiswaController extends Controller
             'no_telepon' => $request->no_telepon,
             'alamat' => $request->alamat,
             'prodi_id' => $request->prodi_id,
+            'jalur' => $request->jalur,
             'password' => Hash::make($request->password),
         ]);
 
@@ -218,6 +221,11 @@ class MahasiswaController extends Controller
                         array_push($error_location, "PRODI TIDAK VALID ");
                     }
 
+                    if ($d['jalur_temps'] == null) {
+                        $check = "Tidak Valid";
+                        array_push($error_location, "JALUR PENDAFTARAN TIDAK BOLEH KOSONG " );
+                    }
+
                     //G
                     if (preg_match('/^[0-9]{8}$/', $d['password_temps']) == false) {
                         $check = "Tidak Valid";
@@ -252,6 +260,7 @@ class MahasiswaController extends Controller
                         'no_telepon' => $bt->no_telepon_temps,
                         'alamat' => $bt->alamat_temps,
                         'prodi_id' => $bt->prodi_id_temps,
+                        'jalur_temps' => $bt->jalur_temps,
                         'password' => Hash::make($request->password_temps),
                         'created_at' => now(),
                     ]);

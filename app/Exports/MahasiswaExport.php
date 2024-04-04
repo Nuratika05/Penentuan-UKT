@@ -16,13 +16,19 @@ class MahasiswaExport implements FromCollection, WithHeadings, ShouldAutoSize, W
     * @return \Illuminate\Support\Collection
     */
     public function collection()
+
     {
-        $mahasiswaData=Mahasiswa::select('id', 'nama', 'jenis_kelamin', 'no_telepon', 'alamat', 'prodi_id')
-        ->get();
+        $mahasiswaData = Mahasiswa::select('id', 'nama', 'jenis_kelamin', 'no_telepon', 'alamat', 'prodi_id', 'jalur')
+            ->get();
+
         $mahasiswaData = $mahasiswaData->map(function ($mahasiswa) {
             $prodiNama = Prodi::where('id', $mahasiswa->prodi_id)->value('nama');
-            unset($mahasiswa->prodi_id);   //Menghilangkan kolom prodi_id
+            $jalur = $mahasiswa->jalur; // Simpan data jalur sebelum menghapus
+            unset($mahasiswa->prodi_id); // Menghilangkan kolom prodi_id
+            unset($mahasiswa->jalur); // Menghapus kolom jalur sementara
+
             $mahasiswa['nama_prodi'] = $prodiNama;
+            $mahasiswa['jalur'] = $jalur; // Kembalikan data jalur yang disimpan sebelumnya
             return $mahasiswa;
         });
 
@@ -40,6 +46,7 @@ class MahasiswaExport implements FromCollection, WithHeadings, ShouldAutoSize, W
             'No Telepon',
             'Alamat',
             'Prodi',
+            'Jalur Pendaftaran',
             'Password',
         ];
     }
@@ -55,7 +62,7 @@ class MahasiswaExport implements FromCollection, WithHeadings, ShouldAutoSize, W
                 'alignment' => ['horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER],
             ],
              // Style untuk data
-            'A2:F' . ($sheet->getHighestRow()) => [
+            'A2:H' . ($sheet->getHighestRow()) => [
                 'alignment' => ['horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT],
             ],
         ];

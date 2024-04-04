@@ -32,7 +32,7 @@ class AdminController extends Controller
             'password' => 'Password harus berisi minimal 8 karakter',
         ];
         $request->validate([
-            'password' => ['required', Password::min(8)],
+            'password' => ['required', Password::min(4)],
         ],$message);
 
         try {

@@ -24,6 +24,7 @@ class Mahasiswa extends Authenticatable
         'alamat',
         'prodi_id',
         'password' ,
+        'jalur',
     ];
     public static function rules($id = null)
     {
@@ -43,6 +44,7 @@ class Mahasiswa extends Authenticatable
             'no_telepon' => 'required',
             'alamat' => 'required',
             'prodi_id' => 'required',
+            'jalur' => 'required',
         ];
     }
 
@@ -57,7 +59,8 @@ class Mahasiswa extends Authenticatable
         'no_telepon.required' => 'Nomor Telepon harus diisi.',
         'alamat.required' => 'Alamat harus diisi.',
         'prodi_id.required' => 'Prodi harus diisi.',
-       
+        'jalur.required' => 'Jalur harus diisi',
+
     ];
 
 

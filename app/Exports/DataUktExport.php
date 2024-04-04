@@ -40,6 +40,7 @@ class DataUktExport implements FromCollection, WithHeadings, ShouldAutoSize, Wit
                 'verifikator' => $admin->nama,
                 'golongan' => $golongan->nama,
                 'nominal' => 'Rp ' . $nominalFormatted,
+                'jalur' => $mahasiswa->jalur,
             ];
 
             return $exportData;
@@ -62,6 +63,7 @@ class DataUktExport implements FromCollection, WithHeadings, ShouldAutoSize, Wit
             'Verifikator',
             'Golongan',
             'Nominal',
+            'Jalur Pendaftaran',
         ];
     }
     public function map($row): array
@@ -76,6 +78,7 @@ class DataUktExport implements FromCollection, WithHeadings, ShouldAutoSize, Wit
         $row->verifikator,
         $row->golongan,
         $row->nominal,
+        $row->jalur,
     ];
 }
 
@@ -91,7 +94,7 @@ class DataUktExport implements FromCollection, WithHeadings, ShouldAutoSize, Wit
                 'alignment' => ['horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER],
             ],
              // Style untuk data
-            'A2:F' . ($sheet->getHighestRow()) => [
+            'A2:I' . ($sheet->getHighestRow()) => [
                 'alignment' => ['horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT],
             ],
         ];

@@ -24,6 +24,7 @@ class MahasiswaTemps extends  Model
         'no_telepon_temps',
         'alamat_temps',
         'prodi_id_temps',
+        'jalur_temps',
         'password_temps' ,
         'status_upload',
         'check',

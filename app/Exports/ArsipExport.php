@@ -39,7 +39,8 @@ class ArsipExport implements FromCollection, WithHeadings, ShouldAutoSize, WithS
                 'nama_jurusan' => $arsip->nama_jurusan,
                 'nama_golongan' => $arsip->nama_golongan,
                 'nominal' => $nominalFormatted,
-                'tahun_angkatan' => $arsip->tahun_angkatan
+                'tahun_angkatan' => $arsip->tahun_angkatan,
+                'jalur' => $arsip->jalur,
             ]);
         }
 
@@ -60,7 +61,8 @@ class ArsipExport implements FromCollection, WithHeadings, ShouldAutoSize, WithS
             'Jurusan',
             'Golongan',
             'Nominal',
-            'Tahun Angkatan'
+            'Tahun Angkatan',
+            'Jalur Pendaftaran',
         ];
     }
 
@@ -76,7 +78,7 @@ class ArsipExport implements FromCollection, WithHeadings, ShouldAutoSize, WithS
                 'alignment' => ['horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER],
             ],
             // Style untuk data
-            'A2:G' . ($sheet->getHighestRow()) => [
+            'A2:I' . ($sheet->getHighestRow()) => [
                 'alignment' => ['horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT],
             ],
         ];

@@ -44,14 +44,9 @@
                 </a>
 
                 <ul class="menu-sub menu-inner py-1" style="margin-left: 15px;">
-                    <li class="menu-item {{ request()->is('admin/semua-data/kriteria*') ? 'active' : '' }}">
-                        <a href="{{ route('kriteria.index') }}" class="menu-link">
-                            <div>Kriteria</div>
-                        </a>
-                    </li>
-                    <li class="menu-item {{ request()->is('admin/semua-data/sub-kriteria*') ? 'active' : '' }}">
-                        <a href="{{ route('sub-kriteria.index') }}" class="menu-link">
-                            <div>Sub Kriteria</div>
+                    <li class="menu-item {{ request()->is('admin/semua-data/mahasiswa*') ? 'active' : '' }}">
+                        <a href="{{ route('mahasiswa.index') }}" class="menu-link">
+                            <div>Mahasiswa</div>
                         </a>
                     </li>
                     <li class="menu-item {{ request()->is('admin/semua-data/jurusan*') ? 'active' : '' }}">
@@ -64,14 +59,19 @@
                             <div>Prodi</div>
                         </a>
                     </li>
-                    <li class="menu-item {{ request()->is('admin/semua-data/mahasiswa*') ? 'active' : '' }}">
-                        <a href="{{ route('mahasiswa.index') }}" class="menu-link">
-                            <div>Mahasiswa</div>
-                        </a>
-                    </li>
                     <li class="menu-item {{ request()->is('admin/semua-data/golongan*') ? 'active' : '' }}">
                         <a href="{{ route('golongan.index') }}" class="menu-link">
                             <div>Golongan</div>
+                        </a>
+                    </li>
+                    <li class="menu-item {{ request()->is('admin/semua-data/kriteria*') ? 'active' : '' }}">
+                        <a href="{{ route('kriteria.index') }}" class="menu-link">
+                            <div>Kriteria</div>
+                        </a>
+                    </li>
+                    <li class="menu-item {{ request()->is('admin/semua-data/sub-kriteria*') ? 'active' : '' }}">
+                        <a href="{{ route('sub-kriteria.index') }}" class="menu-link">
+                            <div>Sub Kriteria</div>
                         </a>
                     </li>
                 </ul>
@@ -119,7 +119,6 @@
                 </a>
             </li>
         @endif
-
         @if (Auth::guard('admin')->check() && Auth::user()->role == 'superadmin')
             <li class="menu-item {{ request()->is('admin/admin*') ? 'active' : '' }}">
                 <a href="{{ route('admin.index') }}" class="menu-link">

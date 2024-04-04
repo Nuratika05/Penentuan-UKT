@@ -98,6 +98,7 @@ class FolderArsipController extends Controller
             'nama_golongan' => $item->golongan->nama,
             'nominal' => $item->golongan->nominal,
             'tahun_angkatan' => $request->tahun_angkatan,
+            'jalur' => $item->mahasiswa->jalur,
             'foto_slip_gaji' => $item->foto_slip_gaji,
             'foto_tempat_tinggal' => $item->foto_tempat_tinggal,
             'foto_kendaraan' => $item->foto_kendaraan,
@@ -131,7 +132,7 @@ class FolderArsipController extends Controller
     {
 
         // Ekspor data menggunakan Laravel Excel
-        return Excel::download(new ArsipExport($id), 'id_folder' . $id . 'UKT Mahasiswa.xlsx');
+        return Excel::download(new ArsipExport($id), 'UKT Mahasiswa.xlsx');
     }
 
     public function print($id = null){

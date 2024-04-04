@@ -88,6 +88,7 @@
                         <th>Verifikator</th>
                         <th>Golongan </th>
                         <th>Nominal </th>
+                        <th>Jalur Pendaftaran</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -130,6 +131,7 @@
                                     Rp{{ number_format($item->golongan->nominal) }}
                                 @endif
                             </td>
+                            <td>{{ $item->mahasiswa->jalur }}</td>
                             <td>
                                 <a class="btn btn-xs btn-primary"
                                     href="{{ route('admin.data-ukt.edit', $item->id) }}">Detail</a>

@@ -19,7 +19,7 @@
                         {{ Session::get('success') }}
                     </div>
                 @endif
-                <a class="btn btn-secondary btn-sm" type="close" href="{{ route('arsip.index') }}">kembali</a>
+                <a class="btn btn-secondary btn-sm" type="close" href="{{ route('arsip.index') }}">kembali</a><br>
                 <br>
             </div>
             <div class="col-md-6 text-end m-auto">
@@ -43,6 +43,7 @@
                                 <th>Golongan </th>
                                 <th>Nominal </th>
                                 <th>Angkatan </th>
+                                <th>Jalur Pendaftaran</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -59,6 +60,7 @@
                                     <td>{{ $item->nama_golongan }}</td>
                                     <td>Rp{{ number_format($item->nominal) }}</td>
                                     <td>{{ $item->tahun_angkatan }}</td>
+                                    <td>{{ $item->jalur }}</td>
                                     <td>
                                         <a class="btn btn-xs btn-primary"
                                             href="{{ route('arsip.detail', $item->id) }}">Detail</a>

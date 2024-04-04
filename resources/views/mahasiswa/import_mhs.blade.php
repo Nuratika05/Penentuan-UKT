@@ -88,6 +88,7 @@
                                     <th>No Telepon</th>
                                     <th>Alamat</th>
                                     <th>Prodi</th>
+                                    <th>Jalur Pendaftaran</th>
                                     <th>Password</th>
                                     <th>Validasi</th>
                                     <th>Pesan Kesalahan</th>
@@ -106,8 +107,9 @@
                                         <td {!! str_contains($bt->eror_location, 'C' . $row) ? "style='background-color: red'" : '' !!}>{{ $bt->jenis_kelamin_temps }}</td>
                                         <td {!! str_contains($bt->eror_location, 'D' . $row) ? "style='background-color: red'" : '' !!}>{{ $bt->no_telepon_temps }}</td>
                                         <td {!! str_contains($bt->eror_location, 'E' . $row) ? "style='background-color: red'" : '' !!}>{{ $bt->alamat_temps }}</td>
-                                        <td {!! str_contains($bt->eror_location, 'F' . $row) ? "style='background-color: red'" : '' !!}>{{ $bt->prodi->nama }}</td>
-                                        <td {!! str_contains($bt->eror_location, 'G' . $row) ? "style='background-color: red'" : '' !!}>{{ $bt->password_temps }}</td>
+                                        <td {!! str_contains($bt->eror_location, 'F' . $row) ? "style='background-color: red'" : '' !!}>{{ $bt->prodi_temps }}</td>
+                                        <td {!! str_contains($bt->eror_location, 'G' . $row) ? "style='background-color: red'" : '' !!}>{{ $bt->jalur_temps }}</td>
+                                        <td {!! str_contains($bt->eror_location, 'H' . $row) ? "style='background-color: red'" : '' !!}>{{ $bt->password_temps }}</td>
                                         <td>{{ $bt->check }}</td>
                                         <td>{{ $bt->eror_location }}</td>
                                         <td>{{ $bt->status_upload }}</td>
@@ -127,6 +129,7 @@
                 @method('DELETE')
             </form>
     @endif
+@endsection
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
@@ -153,4 +156,3 @@
         });
     });
 </script>
-@endsection

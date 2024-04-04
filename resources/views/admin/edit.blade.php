@@ -36,8 +36,6 @@
                             <option value="verifikator" {{ old('verifikator',$admin->role ) == 'verifikator' ? 'selected' : '' }}>Verifikator</option>
                         </select>
                     </div>
-                    @if ($admin->jurusan_id === null || $admin->jurusan_id === '')
-                    @else
                     <div class="mb-3" id="jurusan_id">
                         <label for="jurusan">Jurusan </label>
                         <select name="jurusan_id" id="jurusan" class="form-select" required>
@@ -47,11 +45,13 @@
                             @endforeach
                         </select>
                     </div>
-                    @endif
                     <div class="mb-3">
                         <label for="password" class="form-label">Password</label><span
                         class="text-danger" style="font-size: 10px;"><i> *Kosongkan jika tidak ingin mengubah password</i></span>
-                        <input type="password" name="password" id="password" maxlength="20" class="form-control @error('password') is-invalid @enderror">
+                        <div class="input-group">
+                            <input type="password" name="password" id="password" maxlength="40" class="form-control @error('password') is-invalid @enderror">
+                            <button type="button" id="showPasswordBtn" class="btn btn-outline-secondary"><i id="showPasswordIcon" class="bx bx-hide"></i></button>
+                        </div>
                         @error('password')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -71,17 +71,35 @@
 @push('js')
 <script
     {{-- if onchange status belum lengkap append tr textarea keterangan --}}>
-        $(document).ready(function() {
-            $('#role').on('change', function() {
-                if (this.value == 'verifikator') {
-                    $('#jurusan_id').append();
+    if ($('#role').val() == 'superadmin') {
+        $('#jurusan_id').hide();
+    }
+
+    // Atur event listener untuk perubahan pada select dengan id 'role'
+    $('#role').on('change', function() {
+        // Periksa nilai yang dipilih pada select 'role'
+        if (this.value == 'superadmin') {
+            // Jika role adalah superadmin, sembunyikan kolom jurusan
+            $('#jurusan_id').hide();
+        } else {
+            // Jika role bukan superadmin, tampilkan kolom jurusan
+            $('#jurusan_id').show();
+        }
+    });
+    </script>
+        <script>
+            document.getElementById('showPasswordBtn').addEventListener('click', function() {
+                var passwordInput = document.getElementById('password');
+                var passwordIcon = document.getElementById('showPasswordIcon');
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    passwordIcon.classList.remove('bx-hide');
+                    passwordIcon.classList.add('bx-show');
                 } else {
-                    $('#jurusan_id').empty();
+                    passwordInput.type = 'password';
+                    passwordIcon.classList.remove('bx-show');
+                    passwordIcon.classList.add('bx-hide');
                 }
             });
-            if ($('#role').val() == 'verifikator') {
-                $('#jurusan').append();
-            }
-        });
-    </script>
+        </script>
 @endpush

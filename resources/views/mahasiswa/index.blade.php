@@ -24,7 +24,7 @@
         <div class="col-md-6 text-end m-auto">
             <a href="{{ route('mahasiswa.create') }}" class="btn btn-outline-primary float-end mb-1 btn-sm">Tambah Data</a>
             <a href="{{ route('mahasiswaimport') }}" class="btn btn-outline-warning float-end mb-1 btn-sm">Import</a>
-            <a href="{{ route('mahasiswaexport') }}" class="btn btn-outline-success float-end mb-1 btn-sm" onClick="return confirm('Yakin akan melakukan export?')">Export</a>
+            <a href="{{ route('mahasiswaexport') }}" class="btn btn-outline-success float-end mb-1 btn-sm">Export</a>
         </div>
     </div>
     <div class="card p-4">
@@ -41,6 +41,7 @@
                         <th>Prodi </th>
                         <th>Jenjang</th>
                         <th>Jurusan </th>
+                        <th>Jalur Pendaftaran</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -56,6 +57,7 @@
                             <td>{{ $item->prodi->nama }}</td>
                             <td>{{ $item->prodi->jenjang }}</td>
                             <td>{{ $item->prodi->jurusan->nama }}</td>
+                            <td>{{ $item->jalur }}</td>
                             {{-- @php dd($item); // Gunakan dd() di luar tag HTML untuk debugging
                             @endphp --}}
                             <td>

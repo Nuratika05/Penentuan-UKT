@@ -108,8 +108,8 @@
                 <th style="border-right: 1px solid #000;">Golongan</th>
                 <th>Nominal UKT</th>
             </tr>
+            @foreach ($berkas as $id)
             <tr class="table-td">
-                @foreach ($berkas as $id)
                 <td style="border-right: 1px solid #000;">{{ $loop->iteration }}</td>
                 <td style="border-right: 1px solid #000;">{{ $id->mahasiswa->id }}</td>
                 <td style="border-right: 1px solid #000;">{{ $id->mahasiswa->nama }}</td>
@@ -118,8 +118,8 @@
                 <td style="border-right: 1px solid #000;">{{ $id->mahasiswa->prodi->jurusan->nama }}</td>
                 <td style="border-right: 1px solid #000;">{{ $id->golongan->nama }}</td>
                 <td style="border-right: 1px solid #000;">Rp{{ number_format ($id->golongan->nominal )}}</td>
-                @endforeach
             </tr>
+            @endforeach
         </table>
     </div>
 </body>

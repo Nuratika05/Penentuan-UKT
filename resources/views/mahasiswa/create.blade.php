@@ -69,9 +69,18 @@
                             @endforeach
                         </select>
                     </div>
+
+                    <div class="mb-3">
+                        <label for="jalur" class="form-label">Jalur Pendaftaran</label>
+                        <input type="text" name="jalur" id="jalur" class="form-control" value="{{ old('jalur') }}" required>
+                    </div>
+
                     <div class="mb-3">
                         <label for="password" class="form-label">Password</label><span class="text-danger" style="font-size: 15px;"><i> *tanggal lahir (cth: 05052002)</i>
-                        <input type="password" name="password" id="password" maxlength="8" class="form-control @error('password') is-invalid @enderror" required>
+                        <div class="input-group">
+                            <input type="password" name="password" id="password" maxlength="8" class="form-control @error('password') is-invalid @enderror">
+                            <button type="button" id="showPasswordBtn" class="btn btn-outline-secondary"><i id="showPasswordIcon" class="bx bx-hide"></i></button>
+                        </div>
                         @error('password')
                         <div class="invalid-feedback">
                             {{ $message }}
@@ -91,5 +100,20 @@
         </div>
     </div>
 </div>
+<script>
+    document.getElementById('showPasswordBtn').addEventListener('click', function() {
+        var passwordInput = document.getElementById('password');
+        var passwordIcon = document.getElementById('showPasswordIcon');
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            passwordIcon.classList.remove('bx-hide');
+            passwordIcon.classList.add('bx-show');
+        } else {
+            passwordInput.type = 'password';
+            passwordIcon.classList.remove('bx-show');
+            passwordIcon.classList.add('bx-hide');
+        }
+    });
+</script>
 @endsection
 

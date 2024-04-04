@@ -59,7 +59,10 @@
 
                     <div class="mb-3" autocomplete="off">
                         <label for="password" class="form-label">Password</label>
-                        <input type="password" name="password" id="password" maxlength="20" class="form-control @error('password') is-invalid @enderror" required>
+                        <div class="input-group">
+                            <input type="password" name="password" id="password" maxlength="40" class="form-control @error('password') is-invalid @enderror">
+                            <button type="button" id="showPasswordBtn" class="btn btn-outline-secondary"><i id="showPasswordIcon" class="bx bx-hide"></i></button>
+                        </div>
                         @error('password')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -80,15 +83,30 @@
         $(document).ready(function() {
             $('#role').on('change', function() {
                 if (this.value == 'verifikator') {
-                    $('#jurusan_id').append();
+                    $('#jurusan_id').show();
                 } else {
-                    $('#jurusan_id').empty();
+                    $('#jurusan_id').hide();
                 }
             });
             if ($('#role').val() == 'verifikator') {
-                $('#jurusan').append();
+                $('#jurusan').show();
             }
 
+        });
+    </script>
+    <script>
+        document.getElementById('showPasswordBtn').addEventListener('click', function() {
+            var passwordInput = document.getElementById('password');
+            var passwordIcon = document.getElementById('showPasswordIcon');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                passwordIcon.classList.remove('bx-hide');
+                passwordIcon.classList.add('bx-show');
+            } else {
+                passwordInput.type = 'password';
+                passwordIcon.classList.remove('bx-show');
+                passwordIcon.classList.add('bx-hide');
+            }
         });
     </script>
 @endpush
