@@ -34,7 +34,7 @@ class LoginController extends Controller
         ]);
 
         if (Auth::guard('mahasiswa')->attempt(['id' => $request->id, 'password' => $request->password])) {
-            return redirect()->intended('/');
+            return redirect()->route('mahasiswa.home');
         }
         return redirect()->route('mahasiswa.login')->with('loginErrorMahasiswa', 'No. Pendaftaran atau Password salah');
     }
@@ -63,7 +63,7 @@ class LoginController extends Controller
         if(Auth::guard('mahasiswa')->check())
         {
             Auth::guard('mahasiswa')->logout();
-            return redirect()->route('mahasiswa.login');
+            return redirect()->intended('/');
         }
 
         if(Auth::guard('admin')->check())

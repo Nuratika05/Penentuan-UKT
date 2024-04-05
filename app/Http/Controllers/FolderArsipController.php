@@ -12,19 +12,33 @@ use App\Models\PenilaianArsip;
 use App\Models\Penilaian;
 use App\Models\Mahasiswa;
 use App\Models\Folder;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Admin;
 
 use Illuminate\Http\Request;
 
 class FolderArsipController extends Controller
 {
     public function index($id){
-
-        $arsip = Arsip::where('id_folder', $id)->get();
+        $admin = auth()->guard('admin')->user();
         $folder = Folder::findOrFail($id);
 
-        // Periksa apakah data arsip ada
-        $dataExists = $arsip->isNotEmpty();
+        if(Auth::guard('admin')->check() && Auth::user()->role == 'superadmin'){
 
+        $arsip = Arsip::where('id_folder', $id)->get();
+        // Periksa apakah data arsip ada
+        }
+
+        elseif(Auth::guard('admin')->check() && Auth::user()->role == 'verifikator'){
+            $arsip = Arsip::where('id_folder', $id)
+            ->where(function ($query) use ($admin) {
+                $query->whereHas('admin', function ($q) use ($admin) {
+                    $q->where('nama_jurusan', $admin->jurusan->nama);
+                });
+            })
+            ->get();
+        }
+        $dataExists = $arsip->isNotEmpty();
         // Teruskan data ke tampilan
         return view('folderarsip.folder', compact('arsip', 'folder', 'dataExists'));
     }
@@ -35,7 +49,7 @@ class FolderArsipController extends Controller
     public function arsip(Request $request)
     {
 
-        $berkas = Berkas::where('status', 'Lengkap')->get();
+        $berkas = Berkas::where('status', 'Lulus Verifikasi')->get();
 
         foreach ($berkas as $item) {
         $mahasiswaId = $item->mahasiswa_id;
@@ -99,6 +113,7 @@ class FolderArsipController extends Controller
             'nominal' => $item->golongan->nominal,
             'tahun_angkatan' => $request->tahun_angkatan,
             'jalur' => $item->mahasiswa->jalur,
+            'admin_id' => $item->admin_id,
             'foto_slip_gaji' => $item->foto_slip_gaji,
             'foto_tempat_tinggal' => $item->foto_tempat_tinggal,
             'foto_kendaraan' => $item->foto_kendaraan,

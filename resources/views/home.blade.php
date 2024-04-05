@@ -134,7 +134,7 @@
                     </div>
                 </div>
                 @if (isset($berkas))
-                    @if ($berkas->status == 'Lengkap')
+                    @if ($berkas->status == 'Lulus Verifikasi')
                         <div class="card mt-3">
                             <h5 class="card-header">Penetapan UKT</h5>
                             <div class="card-body">

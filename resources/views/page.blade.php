@@ -40,8 +40,6 @@
 
             <div class="logo">
                 <h2><img src="{{ asset('logo_politani.png') }}" alt="">POLITANI</a></h2>
-                <!-- Uncomment below if you prefer to use an image logo -->
-                <!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
             </div>
 
             <nav id="navbar" class="navbar">
@@ -108,15 +106,15 @@
                             </h5>
                             <p>
                                 @if (Auth::guard('admin')->check() && Auth::user()->role == 'superadmin')
-                                    <a href="{{ asset('storage/pdf/Panduan Pengguna Admin.pdf') }}"
+                                    <a href="{{ asset('storage/pdf/PanduanPenggunaAdmin.pdf') }}"
                                         target="_blank"><img src="{{ asset('assets/img/pdf.png') }}"
                                             style="width: 30px">Panduan Pengguna</a>
                                 @elseif (Auth::guard('admin')->check() && Auth::user()->role == 'verifikator')
-                                    <a href="{{ asset('storage/pdf/Panduan Pengguna Verifikator.pdf') }}"
+                                    <a href="{{ asset('storage/pdf/PanduanPenggunaVerifikator.pdf') }}"
                                         target="_blank"><img src="{{ asset('assets/img/pdf.png') }}"
                                             style="width: 30px">Panduan Pengguna</a>
                                 @else
-                                    <a href="{{ asset('storage/pdf/Panduan Pengguna.pdf') }}" target="_blank"><img
+                                    <a href="{{ asset('storage/pdf/PanduanPenggunaMahasiswa.pdf') }}" target="_blank"><img
                                             src="{{ asset('assets/img/pdf.png') }}" style="width: 30px">Panduan
                                         Pengguna</a>
                                 @endif

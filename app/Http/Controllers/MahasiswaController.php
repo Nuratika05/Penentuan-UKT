@@ -69,14 +69,14 @@ class MahasiswaController extends Controller
     }
 
 
-    public function edit(mahasiswa $mahasiswa)
+    public function edit(Mahasiswa $mahasiswa)
     {
         $mahasiswa->find($mahasiswa);
         $prodis = Prodi::all();
         return view ('mahasiswa.edit', compact ('mahasiswa','prodis'));
     }
 
-    public function update(Request $request, mahasiswa $mahasiswa)
+    public function update(Request $request, Mahasiswa $mahasiswa)
     {
         $validator = Validator::make($request->all(), Mahasiswa::rules($mahasiswa->id));
         $request->validate(Mahasiswa::rules($mahasiswa->id), Mahasiswa::$messages);

@@ -30,7 +30,7 @@ return new class extends Migration
             // $table->string('alat_elektronik');
             // $table->string('jumlah_tanggungan');
             // $table->enum('penerima_bantuan', ['Terima', 'Tidak Terima']);
-            // $table->enum('status', ['Belum Lengkap', 'Menunggu Verifikasi', 'Lengkap']);
+            // $table->enum('status', ['Belum Lengkap', 'Menunggu Verifikasi', 'Lulus Verifikasi']);
             // $table->foreignId('admin_id')->nullable()->constrained();
             // $table->foreignId('golongan_id')->nullable()->constrained();
             $table->timestamps();

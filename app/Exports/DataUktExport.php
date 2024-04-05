@@ -20,7 +20,7 @@ class DataUktExport implements FromCollection, WithHeadings, ShouldAutoSize, Wit
     */
     public function collection()
     {
-        $Data = Berkas::where('status', 'Lengkap')
+        $Data = Berkas::where('status', 'Lulus Verifikasi')
         ->select('mahasiswa_id', 'admin_id', 'golongan_id')
         ->get();
 

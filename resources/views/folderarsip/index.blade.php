@@ -24,9 +24,11 @@
                 </div>
             @endif
         </div>
+        @if (Auth::guard('admin')->check() && Auth::user()->role == 'superadmin')
         <div class="col-md-6 text-end m-auto">
             <a href="{{ route('arsip.create') }}" class="btn btn-outline-primary float-end mb-1 btn-sm">Tambah Folder</a>
         </div>
+        @endif
     </div>
     <div class="card p-4">
         <div class="table-responsive text-nowrap">
@@ -34,7 +36,9 @@
                 <thead>
                     <tr>
                         <th>Folder</th>
+                        @if (Auth::guard('admin')->check() && Auth::user()->role == 'superadmin')
                         <th>Aksi</th>
+                        @endif
                     </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
@@ -43,6 +47,7 @@
                             <td class="menu-icon tf-icons bx bx-folder">
                                 <a href="{{ route('admin.arsip', $fol->id) }}"> {{ $fol->nama }} </a>
                             </td>
+                            @if (Auth::guard('admin')->check() && Auth::user()->role == 'superadmin')
                             <td>
                                 <a class="btn btn-xs btn-warning" href="{{ route('arsip.edit', $fol->id) }}">Edit</a>
                                 <form action="{{ route('arsip.destroy', $fol->id) }}" method="POST"
@@ -53,6 +58,7 @@
                                         onclick="return confirm('Yakin ingin menghapus folder ini?')">Hapus</button>
                                 </form>
                             </td>
+                            @endif
                         </tr>
                         @endforeach
                 </tbody>

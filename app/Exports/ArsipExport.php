@@ -2,6 +2,7 @@
 namespace App\Exports;
 
 use App\Models\Arsip;
+use App\Models\Admin;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
@@ -25,6 +26,7 @@ class ArsipExport implements FromCollection, WithHeadings, ShouldAutoSize, WithS
     {
 
         $arsips = Arsip::where('id_folder', $this->id)->get();
+        $admin = Admin::find($arsips->admin_id);
         $exportData = collect();
         foreach ($arsips as $arsip) {
             // Format nominal
@@ -37,6 +39,7 @@ class ArsipExport implements FromCollection, WithHeadings, ShouldAutoSize, WithS
                 'nama_prodi' => $arsip->nama_prodi,
                 'jenjang' => $arsip->jenjang,
                 'nama_jurusan' => $arsip->nama_jurusan,
+                'verifikator' => $admin->nama,
                 'nama_golongan' => $arsip->nama_golongan,
                 'nominal' => $nominalFormatted,
                 'tahun_angkatan' => $arsip->tahun_angkatan,
@@ -59,6 +62,7 @@ class ArsipExport implements FromCollection, WithHeadings, ShouldAutoSize, WithS
             'Prodi',
             'Jenjang',
             'Jurusan',
+            'Verifikator',
             'Golongan',
             'Nominal',
             'Tahun Angkatan',

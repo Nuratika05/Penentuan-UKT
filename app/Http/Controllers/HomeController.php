@@ -23,7 +23,7 @@ class HomeController extends Controller
             // count mahasiswa
             $mahasiswa = Mahasiswa::count();
             $berkas = Berkas::where('status', 'Menunggu Verifikasi')->count();
-            $berkaslengkap = Berkas::where('status', 'Lengkap')->count();
+            $berkaslengkap = Berkas::where('status', 'Lulus Verifikasi')->count();
             return view('home' , compact('mahasiswa', 'berkas' , 'berkaslengkap'));
             }
             elseif(Auth::guard('admin')->check() && Auth::user()->role == 'verifikator'){
@@ -38,7 +38,7 @@ class HomeController extends Controller
                 });
             })->count();
             $berkaslengkap = Berkas::with(['admin', 'mahasiswa.prodi'])
-            ->where('status', 'Lengkap')
+            ->where('status', 'Lulus Verifikasi')
             ->where(function ($query) use ($admin) {
                 $query->whereHas('mahasiswa.prodi', function ($q) use ($admin) {
                     $q->where('jurusan_id', $admin->jurusan_id);

@@ -63,7 +63,7 @@
 
                     <div class="mb-3">
                         <label for="jalur" class="form-label">Jalur Pendaftaran</label>
-                        <input type="jalur" name="jalur" id="jalur" class="form-control" value="{{ old('jalur', $mahasiswa->jalur) }}">
+                        <input type="text" name="jalur" id="jalur" class="form-control" value="{{ old('jalur', $mahasiswa->jalur) }}">
                     </div>
 
                     <div class="mb-3">

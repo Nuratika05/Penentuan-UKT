@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('foto_tempat_tinggal');
             $table->string('foto_kendaraan');
             $table->string('foto_daya_listrik');
-            $table->enum('status', ['Belum Lengkap', 'Menunggu Verifikasi', 'Lengkap']);
+            $table->enum('status', ['Belum Lengkap', 'Menunggu Verifikasi', 'Lulus Verifikasi']);
             $table->text('keterangan')->nullable();
             $table->foreignId('admin_id')->nullable()->constrained();
             $table->foreignId('golongan_id')->nullable()->constrained();

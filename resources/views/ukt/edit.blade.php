@@ -157,7 +157,7 @@
                                                         {{ $berkas->status == 'Belum Lengkap' ? 'selected' : '' }}>
                                                         Belum Lengkap</option>
                                                     <option value="Lengkap"
-                                                        {{ $berkas->status == 'Lengkap' ? 'selected' : '' }}>
+                                                        {{ $berkas->status == 'Lulus Verifikasi' ? 'selected' : '' }}>
                                                         Lengkap</option>
                                                 </select>
                                             </td>
@@ -237,7 +237,7 @@
                                 UKT belum terverifikasi!
                             </li>
                             <li>
-                                Jika status sudah diubah menjadi 'LENGKAP' maka Penetapan Golongan UKT akan terverifikasi
+                                Jika status sudah diubah menjadi 'Lulus Verifikasi' maka Penetapan Golongan UKT akan terverifikasi
                                 setelah data berhasil disimpan!
                             </li>
                             <li>
@@ -248,7 +248,7 @@
                     </span>
                 </div>
                 <div>
-                    @if ($berkas->status != 'Lengkap')
+                    @if ($berkas->status != 'Lulus Verifikasi')
                         <button required id="status" type="submit" class="btn btn-primary btn-sm"
                             onClick="return confirm('Apakah sudah yakin ?')">Simpan</button>
                     @endif

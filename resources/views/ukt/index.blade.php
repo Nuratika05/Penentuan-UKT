@@ -133,9 +133,12 @@
                             </td>
                             <td>{{ $item->mahasiswa->jalur }}</td>
                             <td>
+                                @if ($item->status == 'Menunggu Verifikasi' || $item->status == 'Belum Lengkap')
                                 <a class="btn btn-xs btn-primary"
-                                    href="{{ route('admin.data-ukt.edit', $item->id) }}">Detail</a>
-                                @if ($item->status == 'Lengkap')
+                                    href="{{ route('admin.data-ukt.edit', $item->id) }}">Verifikasi</a>
+                                @elseif ($item->status == 'Lulus Verifikasi')
+                                <a class="btn btn-xs btn-primary"
+                                href="{{ route('admin.data-ukt.edit', $item->id) }}">Detail</a>
                                     <a class="btn btn-xs btn-secondary"
                                         href="{{ route('admin.data-ukt.print', $item->id) }}">Print</a>
                                 @endif
@@ -155,7 +158,7 @@
             </div>
         @endif
     </div>
-    @if ($berkas->status == 'Lengkap')
+    @if ($berkas->status == 'Lulus Verifikasi')
         <div class="col-md-12 mb-5">
             <a href="{{ route('data-ukt.print') }}" target="_blank" class="btn btn-outline-secondary float-end mb-1 btn-sm">Print</a>
         </div>

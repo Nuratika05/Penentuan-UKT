@@ -13,17 +13,18 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\SubkriteriaController;
 use App\Http\Controllers\ArsipController;
 use App\Http\Controllers\FolderArsipController;
+use App\Http\Controllers\KelompokUKTController;
 
-// Route Mahasiswa
-Route::get('/', function () {
-    return view('page');
-});
+    // Route Mahasiswa
+    Route::get('/', function () {
+        return view('page');
+    });
 
-Route::get('/login', [LoginController::class, 'formLoginMahasiswa'])->name('mahasiswa.login');
-Route::post('/login', [LoginController::class, 'storeLoginMahasiswa'])->name('store.mahasiswa.login');
-Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+    Route::get('/login', [LoginController::class, 'formLoginMahasiswa'])->name('mahasiswa.login');
+    Route::post('/login', [LoginController::class, 'storeLoginMahasiswa'])->name('store.mahasiswa.login');
+    Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-Route::middleware('auth:mahasiswa')->group(function () {
+    Route::middleware('auth:mahasiswa')->group(function () {
     Route::get('/home', function(){
         return redirect('/');
     })->name('mahasiswa.page');
@@ -38,10 +39,10 @@ Route::middleware('auth:mahasiswa')->group(function () {
 });
 
 // Route Admin
-Route::get('/admin/login', [LoginController::class, 'formLoginAdmin'])->name('admin.login');
-Route::post('/admin/login', [LoginController::class, 'storeLoginAdmin'])->name('store.admin.login');
+    Route::get('/admin/login', [LoginController::class, 'formLoginAdmin'])->name('admin.login');
+    Route::post('/admin/login', [LoginController::class, 'storeLoginAdmin'])->name('store.admin.login');
 
-Route::middleware('auth:admin')->group(function () {
+    Route::middleware('auth:admin')->group(function () {
     Route::get('/admin', function () {
         return redirect('/');
     });
@@ -63,6 +64,8 @@ Route::middleware('auth:admin')->group(function () {
     Route::resource('admin/semua-data/jurusan', JurusanController::class);
     Route::resource('admin/semua-data/prodi', ProdiController::class);
     Route::resource('admin/semua-data/golongan', GolonganController::class);
+    Route::resource('admin/semua-data/kelompokUKT', KelompokUKTController::class);
+
     Route::resource('admin/admin', AdminController::class)->middleware('superadmin');
     Route::resource('admin/arsip', ArsipController::class);
 
@@ -75,7 +78,7 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('admin/data-ukt/semua-data-ukt', [DataUktController::class, 'index'])->name('admin.data-ukt');
     Route::get('admin/data-ukt/menunggu-verifikasi', [DataUktController::class, 'verif'])->name('admin.menunggu-verifikasi');
     Route::get('admin/data-ukt/belum-lengkap', [DataUktController::class, 'tidaklengkap'])->name('admin.data-belum-lengkap');
-    Route::get('admin/data-ukt/lengkap', [DataUktController::class, 'lengkap'])->name('admin.data-lengkap');
+    Route::get('admin/data-ukt/lengkap', [DataUktController::class, 'Lulus Verifikasi'])->name('admin.data-lengkap');
     Route::get('admin/data-ukt/lengkap/export', [DataUktController::class, 'datauktexport'])->name('datauktexport');
     Route::get('admin/data-ukt/detail/{id}', [DataUktController::class, 'edit'])->name('admin.data-ukt.edit');
     Route::post('admin/data-ukt/update/{id}', [DataUktController::class, 'update'])->name('admin.data-ukt.update');
@@ -84,4 +87,4 @@ Route::middleware('auth:admin')->group(function () {
 
 
 });
-Route::get('get-sub-kriteria/{id}',[KriteriaController::class, 'getSubKriteria']);
+    Route::get('get-sub-kriteria/{id}',[KriteriaController::class, 'getSubKriteria']);

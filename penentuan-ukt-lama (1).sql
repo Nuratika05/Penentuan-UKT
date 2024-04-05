@@ -100,7 +100,7 @@ CREATE TABLE `berkas` (
   `foto_tempat_tinggal` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `foto_kendaraan` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `foto_daya_listrik` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` enum('Belum Lengkap','Menunggu Verifikasi','Lengkap') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` enum('Belum Lengkap','Menunggu Verifikasi','Lulus Verifikasi') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `keterangan` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `admin_id` bigint UNSIGNED DEFAULT NULL,
   `golongan_id` bigint UNSIGNED DEFAULT NULL,

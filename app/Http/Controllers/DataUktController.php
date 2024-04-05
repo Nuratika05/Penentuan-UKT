@@ -117,13 +117,13 @@ class DataUktController extends Controller
             $folder = Folder::all();
             if(Auth::guard('admin')->check() && Auth::user()->role == 'superadmin')
             {
-                $berkas = Berkas::where('status', 'Lengkap')->get();
+                $berkas = Berkas::where('status', 'Lulus Verifikasi')->get();
                 $dataExists = $berkas->isNotEmpty();
 
             }
             elseif(Auth::guard('admin')->check() && Auth::user()->role == 'verifikator'){
                 $berkas = Berkas::with(['admin', 'mahasiswa.prodi'])
-                ->where('status', 'Lengkap')
+                ->where('status', 'Lulus Verifikasi')
                 ->where(function ($query) use ($admin) {
                     $query->whereHas('mahasiswa.prodi', function ($q) use ($admin) {
                         $q->where('jurusan_id', $admin->jurusan_id);
@@ -576,7 +576,7 @@ class DataUktController extends Controller
             if(Auth::guard('admin')->check() && Auth::user()->role == 'verifikator'){
                 $admin = auth()->guard('admin')->user();
                 $berkas = Berkas::with(['admin', 'mahasiswa.prodi'])
-                ->where('status', 'Lengkap')
+                ->where('status', 'Lulus Verifikasi')
                 ->where(function ($query) use ($admin) {
                     $query->whereHas('mahasiswa.prodi', function ($q) use ($admin) {
                         $q->where('jurusan_id', $admin->jurusan_id);

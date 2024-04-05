@@ -16,4 +16,8 @@ class Arsip extends Model
     {
         return $this->belongsTo(Folder::class, 'id_folder', 'id');
     }
+    public function admin()
+    {
+        return $this->belongsTo(Admin::class, 'admin_id', 'id');
+    }
 }

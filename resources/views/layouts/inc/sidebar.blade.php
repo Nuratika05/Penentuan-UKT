@@ -37,7 +37,7 @@
         </li>
         @if (Auth::guard('admin')->check() && Auth::user()->role == 'superadmin')
             <li
-                class="menu-item {{ request()->is('admin/semua-data/kriteria*', 'admin/semua-data/sub-kriteria*', 'admin/semua-data/jurusan*', 'admin/semua-data/prodi*', 'admin/semua-data/mahasiswa*', 'admin/semua-data/golongan*') ? 'active open' : '' }}">
+                class="menu-item {{ request()->is('admin/semua-data/mahasiswa*', 'admin/semua-data/jurusan*', 'admin/semua-data/prodi*' , 'admin/semua-data/kelompokUKT*' , 'admin/semua-data/golongan*','admin/semua-data/kriteria*','admin/semua-data/sub-kriteria*') ? 'active open' : '' }}">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
                     <i class="menu-icon tf-icons bx bx-layer"></i>
                     <div data-i18n="Data Master">Semua Data</div>
@@ -57,6 +57,11 @@
                     <li class="menu-item {{ request()->is('admin/semua-data/prodi*') ? 'active' : '' }}">
                         <a href="{{ route('prodi.index') }}" class="menu-link">
                             <div>Prodi</div>
+                        </a>
+                    </li>
+                    <li class="menu-item {{ request()->is('admin/semua-data/kelompokUKT*') ? 'active' : '' }}">
+                        <a href="{{ route('kelompokUKT.index') }}" class="menu-link">
+                            <div>Kelompok UKT</div>
                         </a>
                     </li>
                     <li class="menu-item {{ request()->is('admin/semua-data/golongan*') ? 'active' : '' }}">
@@ -104,7 +109,7 @@
                     </li>
                     <li class="menu-item {{ request()->is('admin/data-ukt/lengkap*') ? 'active' : '' }}">
                         <a href="{{ route('admin.data-lengkap') }}" class="menu-link">
-                            <div>Lengkap</div>
+                            <div>Lulus Verifikasi</div>
                         </a>
                     </li>
                 </ul>
@@ -115,7 +120,7 @@
                 {{-- check guard --}}
                 <a href="{{ route('mahasiswa.data-ukt') }}" class="menu-link">
                     <i class="menu-icon tf-icons bx bx-money"></i>
-                    <div>Data UKT</div>
+                    <div>Pendaftaran</div>
                 </a>
             </li>
         @endif
@@ -127,7 +132,7 @@
                 </a>
             </li>
         @endif
-        @if (Auth::guard('admin')->check() && Auth::user()->role == 'superadmin')
+        @if (Auth::guard('admin')->check())
             <li class="menu-item {{ request()->is('admin/arsip*') ? 'active' : '' }}">
                 <a href="{{ route('arsip.index') }}" class="menu-link">
                     <i class="menu-icon tf-icons bx bx-lock"></i>
