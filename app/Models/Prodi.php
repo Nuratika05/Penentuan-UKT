@@ -15,8 +15,5 @@ class Prodi extends Model
     {
         return $this->belongsTo(Jurusan::class);
     }
-    public function kelompokukt(){
-        return $this->belongsTo(KelompokUKT::class, 'prodi_id');
-    }
 
 }

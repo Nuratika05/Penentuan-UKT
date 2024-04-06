@@ -10,16 +10,16 @@
                     @csrf
                     @method('PUT')
                     <div class="mb-3">
-                        <label for="nama" class="form-label">Nama Sub Kriteria</label>
-                        <input type="text" name="nama" id="nama" class="form-control" autofocus value="{{ $subkriteria->nama }}">
-                    </div>
-                    <div class="mb-3">
                         <label for="kriteria">Kriteria</label>
                         <select name="kriteria_id" id="kriteria" class="form-select">
                             @foreach($kriterias as $item)
                                 <option value="{{ $item->id }}" {{ $subkriteria->kriteria_id == $item->id ? 'selected' : '' }}>{{ $item->nama }}</option>
                             @endforeach
                         </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="nama" class="form-label">Nama Sub Kriteria</label>
+                        <input type="text" name="nama" id="nama" class="form-control" value="{{ $subkriteria->nama }}">
                     </div>
                     <div class="mb-3">
                         <label for="nilai" class="form-label">Nilai</label>

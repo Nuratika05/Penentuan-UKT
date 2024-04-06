@@ -49,13 +49,13 @@
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $item->prodi->nama }}</td>
                     <td>{{ $item->prodi->jenjang }}</td>
-                    <td>Rp{{number_format($item->kategori1) }}</td>
-                    <td>Rp{{number_format($item->kategori2) }}</td>
-                    <td>Rp{{number_format($item->kategori3) }}</td>
-                    <td>Rp{{number_format($item->kategori4) }}</td>
-                    <td>Rp{{number_format($item->kategori5) }}</td>
-                    <td>Rp{{number_format($item->kategori6) }}</td>
-                    <td>Rp{{number_format($item->kategori7) }}</td>
+                    <td>Rp{{number_format($item->kategori1,0,',','.') }}</td>
+                    <td>Rp{{number_format($item->kategori2,0,',','.') }}</td>
+                    <td>Rp{{number_format($item->kategori3,0,',','.') }}</td>
+                    <td>Rp{{number_format($item->kategori4,0,',','.') }}</td>
+                    <td>Rp{{number_format($item->kategori5,0,',','.') }}</td>
+                    <td>Rp{{number_format($item->kategori6,0,',','.') }}</td>
+                    <td>Rp{{number_format($item->kategori7,0,',','.') }}</td>
                     <td>
                         <a class="btn btn-xs btn-warning" href="{{ route('kelompokUKT.edit', $item->id) }}">Edit</a>
                         <form action="{{ route('kelompokUKT.destroy', $item->id) }}" method="POST" style="display: inline">

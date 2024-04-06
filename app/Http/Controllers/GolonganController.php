@@ -25,10 +25,8 @@ class GolonganController extends Controller
     {
         Golongan::create([
             'nama' => $request->nama,
-            'jenjang' => $request->jenjang,
             'nilai_minimal' => $request->nilai_minimal,
             'nilai_maksimal' => $request->nilai_maksimal,
-            'nominal' => $request->nominal,
         ]);
 
         return redirect()->route('golongan.create')->with('success', 'Berhasil Menambahkan Data.');
@@ -44,10 +42,8 @@ class GolonganController extends Controller
     {
         $golongan->update([
             'nama' => $request->nama,
-            'jenjang' => $request->jenjang,
             'nilai_minimal' => $request->nilai_minimal,
             'nilai_maksimal' => $request->nilai_maksimal,
-            'nominal' => $request->nominal,
         ]);
         return redirect()->route('golongan.index')->with('success', 'Berhasil Mengubah Data.');
     }

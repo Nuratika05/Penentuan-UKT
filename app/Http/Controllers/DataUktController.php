@@ -3,24 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Models\Berkas;
-use App\Models\Mahasiswa;
 use App\Models\Golongan;
 use App\Models\Kriteria;
 use App\Models\Penilaian;
 use App\Models\Prodi;
 use App\Models\Folder;
-use App\Models\Admin;
 use App\Models\Subkriteria;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Exports\DataUktExport;
-use App\Models\Jurusan;
 use Maatwebsite\Excel\Facades\Excel;
-use Intervention\Image\Facades\Image;
-use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Support\Facades\DB;
-use App\Models\Arsip;
+use App\Http\Controllers\KelompokUKTController;
+use App\Models\KelompokUKT;
 
 class DataUktController extends Controller
 {
@@ -99,7 +95,7 @@ class DataUktController extends Controller
             return view('ukt.index', compact('berkas'));
         }
     }
-    public function lengkap(){
+    public function LulusVerifikasi(){
         if(Auth::guard('mahasiswa')->check())
         {
             $mahasiswa = auth()->guard('mahasiswa')->user();
@@ -231,7 +227,7 @@ class DataUktController extends Controller
             ];
             }
 
-// Setelah perulangan, simpan semua data ke dalam tabel
+        // Setelah perulangan, simpan semua data ke dalam tabel
         Penilaian::insert($dataPenilaian);
 
 
@@ -241,49 +237,50 @@ class DataUktController extends Controller
         foreach($nilai as $key => $value)
         {
             // jumlahkan nilai subkriteria
-        $total += $value->subkriteria->nilai;
+            $total += $value->subkriteria->nilai;
         }
-
-        // Dapatkan Jenjang mahasiswa
-        $jenjang = $mahasiswa->prodi->jenjang;
-        $prodi = $mahasiswa->prodi->nama;
-        $golongan_id = 0;
-        // Jika Jenjang D3
-        if($jenjang == "D3")
-        {
-            $golongan = Golongan::where('jenjang', 'D3')
-            ->where('nilai_minimal', '<=', $total)
-            ->where('nilai_maksimal', '>=', $total)
-            ->first();
-
-            $golongan_id = $golongan ? $golongan->id : 1;
-        }
-
-        elseif($prodi == 'Teknologi Rekayasa Geomatika dan Survey')
-        {
-            $golongan = Golongan::where('jenjang', 'S1 Terapan')
-            ->where('nilai_minimal', '<=', $total)
-            ->where('nilai_maksimal', '>=', $total)
-            ->first();
-
-            $golongan_id = $golongan ? $golongan->id : 1;
-        }
-        elseif($jenjang == "D4" || $jenjang == "S1 Terapan")
-        {
-            if ($total > 26 && $prodi == 'Rekayasa Kayu') {
-                    // Jika Poin diatas 26 atau lebih maka golongan K7
-                $golongan_id = 14;
-            }
-            else
-            {
-                $golongan = Golongan::where('jenjang', 'D4/S1 Terapan')
-                ->where('nilai_minimal', '<=', $total)
+        $prodi_id = $mahasiswa->prodi_id;
+        $kelompokUkt = KelompokUKT::where('prodi_id', $prodi_id)->first();
+        if ($kelompokUkt) {
+            // Ambil golongan berdasarkan perhitungan
+            $dataGolongan = Golongan::where('nilai_minimal', '<=', $total)
                 ->where('nilai_maksimal', '>=', $total)
                 ->first();
 
-                $golongan_id = $golongan ? $golongan->id : 1;
+            // Pastikan data golongan ditemukan
+            if ($dataGolongan) {
+                // Ambil nama golongan
+                $namaGolongan = $dataGolongan->nama;
+
+                // Membuat pemetaan antara nama golongan dari tabel Golongan dengan nama kolom di tabel KelompokUKT
+                $pemetaanKolom = [
+                    'Kategori I' => 'kategori1',
+                    'Kategori II' => 'kategori2',
+                    'Kategori III' => 'kategori3',
+                    'Kategori IV' => 'kategori4',
+                    'Kategori V' => 'kategori5',
+                    'Kategori VI' => 'kategori6',
+                    'Kategori VII' => 'kategori7',
+                // Lanjutkan dengan pemetaan untuk kategori lainnya sesuai dengan kebutuhan Anda
+                ];
+
+                // Memastikan bahwa ada pemetaan yang sesuai untuk nama golongan yang ditemukan
+                if (array_key_exists($namaGolongan, $pemetaanKolom)) {
+                    // Mendapatkan nama kolom yang sesuai dari tabel KelompokUKT
+                    $namaKolom = $pemetaanKolom[$namaGolongan];
+
+                    // Mengambil nilai nominal UKT dari kolom yang sesuai di tabel KelompokUKT
+                    $nominalUkt = $kelompokUkt->$namaKolom;
+                } else {
+                    // Handle jika tidak ada pemetaan yang sesuai
+                    // Misalnya, memberikan respons default atau memberikan nilai nominalUkt default
+                }
+            } else {
             }
+        } else {
+            $nominalUkt = null;
         }
+
         $foto_tempat_tinggal = $request->file('foto_tempat_tinggal');
         $file_tempat_tinggal = date('YmdHis').'_'.$foto_tempat_tinggal->getClientOriginalName();
         $path = public_path('foto_tempat_tinggal');
@@ -310,15 +307,15 @@ class DataUktController extends Controller
         $foto_daya_listrik->move($path, $file_listrik);
 
 
-        $berkas = Berkas::create([
+        Berkas::create([
             'mahasiswa_id' => $mahasiswa->id,
             'foto_slip_gaji' => $file_slip_gaji,
             'foto_tempat_tinggal' => $file_tempat_tinggal,
             'foto_daya_listrik' => $file_listrik,
             'foto_kendaraan' => $file_kendaraan,
             'status' => 'Menunggu Verifikasi',
-            'golongan_id' => $golongan_id
-
+            'golongan_id' => $dataGolongan->id,
+            'nominal_ukt' => $nominalUkt,
         ]);
 
         DB::commit();
@@ -326,9 +323,6 @@ class DataUktController extends Controller
             return redirect()->route('mahasiswa.data-ukt')->with('success', 'Data-UKT berhasil dibuat.');
         } catch (\Exception $e) {
             DB::rollBack();
-            dd($e->getMessage());
-
-
             // Handle the case where Berkas creation fails
             return back()->withErrors(['error' => 'Terjadi kesalahan: ' . $e->getMessage()])->withInput();
         }
@@ -358,15 +352,38 @@ class DataUktController extends Controller
         {
             $berkas = Berkas::find($id);
             $mahasiswa = $berkas->mahasiswa;
-            $golongan = Golongan::get();
-            $golongan_d3 = Golongan::where('jenjang', 'D3')->get();
-            $golongan_d4 = Golongan::where('jenjang', 'D4/S1 Terapan')->get();
-            $golongan_RK = Golongan::where('jenjang', 'D4/S1 Terapan')->whereIn('nama', ['K1', 'K2', 'K3', 'K4', 'K5', 'K6'])->get();
-            $golongan_TRGS = Golongan::where('jenjang', 'S1 Terapan')->get();
+            $prodi_id = $mahasiswa->prodi_id;
+            $golongan = Golongan::all();
+            $nominalUkts = [];
+
+            if ($prodi_id) {
+                $kelompokUkt = KelompokUKT::where('prodi_id', $prodi_id)->first();
+                if ($kelompokUkt) {
+                        $pemetaanKolom = [
+                            'Kategori I' => 'kategori1',
+                            'Kategori II' => 'kategori2',
+                            'Kategori III' => 'kategori3',
+                            'Kategori IV' => 'kategori4',
+                            'Kategori V' => 'kategori5',
+                            'Kategori VI' => 'kategori6',
+                            'Kategori VII' => 'kategori7',
+                        ];
+
+                        foreach ($golongan as $gol) {
+                            $namaGolongan = $gol->nama;
+                            $namaKolom = $pemetaanKolom[$namaGolongan];
+                            $nilaiKategori = $kelompokUkt->$namaKolom;
+                            $nominalUkts[] = [
+                                'golongan_id' => $namaGolongan,
+                                'nominal_ukt' => $nilaiKategori,
+                            ];
+                        }
+                }
+            }
             $penilaians = Penilaian::get()->where('mahasiswa_id', $mahasiswa->id)->groupBy('mahasiswa_id');
             $prodis = Prodi::all();
             $kriteria = Kriteria::all();
-            return view('ukt.edit', compact('berkas', 'golongan', 'golongan_d3', 'golongan_d4','golongan_RK', 'golongan_TRGS', 'penilaians', 'kriteria', 'prodis'));
+            return view('ukt.edit', compact('berkas','nominalUkts', 'golongan', 'penilaians', 'kriteria', 'prodis', 'kelompokUkt'));
         }
     }
     public function update(Request $request, $id)
@@ -448,49 +465,52 @@ class DataUktController extends Controller
                 // jumlahkan nilai subkriteria
             $total += $value->subkriteria->nilai;
             }
-            // Dapatkan Jenjang mahasiswa
-            $jenjang = $mahasiswa->prodi->jenjang;
-            $prodi = $mahasiswa->prodi->nama;
-            $golongan_id = 0;
 
-            if($jenjang == "D3")
-            {
-                $golongan = Golongan::where('jenjang', 'D3')
-                ->where('nilai_minimal', '<=', $total)
+            $prodi_id = $mahasiswa->prodi_id;
+        $kelompokUkt = KelompokUKT::where('prodi_id', $prodi_id)->first();
+        if ($kelompokUkt) {
+            // Ambil golongan berdasarkan perhitungan
+            $dataGolongan = Golongan::where('nilai_minimal', '<=', $total)
                 ->where('nilai_maksimal', '>=', $total)
                 ->first();
 
-                $golongan_id = $golongan ? $golongan->id : 1;
-            }
+            // Pastikan data golongan ditemukan
+            if ($dataGolongan) {
+                // Ambil nama golongan
+                $namaGolongan = $dataGolongan->nama;
 
-            elseif($prodi == 'Teknologi Rekayasa Geomatika dan Survey')
-            {
-                $golongan = Golongan::where('jenjang', 'S1 Terapan')
-                ->where('nilai_minimal', '<=', $total)
-                ->where('nilai_maksimal', '>=', $total)
-                ->first();
+                // Membuat pemetaan antara nama golongan dari tabel Golongan dengan nama kolom di tabel KelompokUKT
+                $pemetaanKolom = [
+                    'Kategori I' => 'kategori1',
+                    'Kategori II' => 'kategori2',
+                    'Kategori III' => 'kategori3',
+                    'Kategori IV' => 'kategori4',
+                    'Kategori V' => 'kategori5',
+                    'Kategori VI' => 'kategori6',
+                    'Kategori VII' => 'kategori7',
+                // Lanjutkan dengan pemetaan untuk kategori lainnya sesuai dengan kebutuhan Anda
+                ];
 
-                $golongan_id = $golongan ? $golongan->id : 1;
-            }
-            elseif($jenjang == "D4" || $jenjang == "S1 Terapan")
-            {
-                if ($total > 26 && $prodi == 'Rekayasa Kayu') {
-                        // Jika Poin diatas 26 atau lebih maka golongan K7
-                    $golongan_id = 14;
+                // Memastikan bahwa ada pemetaan yang sesuai untuk nama golongan yang ditemukan
+                if (array_key_exists($namaGolongan, $pemetaanKolom)) {
+                    // Mendapatkan nama kolom yang sesuai dari tabel KelompokUKT
+                    $namaKolom = $pemetaanKolom[$namaGolongan];
+
+                    // Mengambil nilai nominal UKT dari kolom yang sesuai di tabel KelompokUKT
+                    $nominalUkt = $kelompokUkt->$namaKolom;
+                } else {
+                    // Handle jika tidak ada pemetaan yang sesuai
+                    // Misalnya, memberikan respons default atau memberikan nilai nominalUkt default
                 }
-                else
-                {
-                    $golongan = Golongan::where('jenjang', 'D4/S1 Terapan')
-                    ->where('nilai_minimal', '<=', $total)
-                    ->where('nilai_maksimal', '>=', $total)
-                    ->first();
-
-                    $golongan_id = $golongan ? $golongan->id : 1;
-                }
+            } else {
             }
-                $input = $request->all();
+        } else {
+            $nominalUkt = null;
+        }
+
                 $input['status'] = "Menunggu Verifikasi";
-                $input['golongan_id'] = $golongan_id;
+                $input['golongan_id'] = $dataGolongan->id;
+                $input['nominal_ukt'] = $nominalUkt;
 
                 unset($input['kriteria']);
                 // Jika input tempat tinggal ada filenya
@@ -527,12 +547,13 @@ class DataUktController extends Controller
         if(Auth::guard('admin')->check())
         {
             $berkas = Berkas::find($id);
-            $golongan = $request->status == "Lengkap" ? $request->golongan : NULL;
+            $golongan = $request->status == "Lulus Verifikasi" ? $request->golongan : NULL;
             $berkas->update([
                 'status' => $request->status,
                 'admin_id' => auth()->guard('admin')->user()->id,
                 'keterangan' => $request->keterangan,
-                'golongan_id' => $request->golongan,
+                'golongan_id' => $request->golongan_id,
+                'nominal_ukt' => $request->nominal_ukt,
             ]);
             return redirect()->route('admin.data-ukt')->with('success', 'Berhasil Menyimpan Data.');
         }

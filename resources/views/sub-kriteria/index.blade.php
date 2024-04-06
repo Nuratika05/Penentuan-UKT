@@ -31,9 +31,9 @@
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Kriteria </th>
                     <th>Sub Kriteria</th>
                     <th>Nilai</th>
+                    <th>Kriteria </th>
                     <th>Aksi</th>
                 </tr>
             </thead>
@@ -41,9 +41,9 @@
                 @foreach($subkriterias as $item)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
-                    <td>{{ $item->kriteria->nama }}</td>
                     <td>{{ $item->nama}}</td>
                     <td>{{ $item->nilai}}</td>
+                    <td>{{ $item->kriteria->nama }}</td>
                     <td>
                         <a class="btn btn-xs btn-warning" href="{{ route('sub-kriteria.edit', $item->id) }}">Edit</a>
                         <form action="{{ route('sub-kriteria.destroy', $item->id) }}" method="POST" style="display: inline">

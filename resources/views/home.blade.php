@@ -59,8 +59,8 @@
                             <div class="card-body px-1">
                                 <h5 class="card-title">Lulus Verifikasi </a></h5>
                                 <p class="card-text">
-                                    {{ $berkaslengkap }} <br>
-                                    <a href="{{ route('admin.data-lengkap') }}"
+                                    {{ $berkas_lulus_verifikasi }} <br>
+                                    <a href="{{ route('admin.lulus-verifikasi') }}"
                                         style="text-decoration:underline;
                                     text-blue-100 hover:text-blue-100">Lihat
                                         data!</a>
@@ -80,7 +80,7 @@
                         @elseif($berkas->status == 'Menunggu Verifikasi')
                             <span class="badge bg-warning">Menunggu Verifikasi</span>
                         @else
-                            <span class="badge bg-primary">Lengkap</span>
+                            <span class="badge bg-primary">Lulus Verifikasi</span>
                         @endif
                     </h5>
                 </div>
@@ -147,7 +147,7 @@
                                     <tr>
                                         <th>Nominal</th>
                                         <td>:</td>
-                                        <td>Rp{{ number_format($berkas->golongan->nominal) }}</td>
+                                        <td>Rp{{ number_format($berkas->nominal_ukt,0,',','.') }}</td>
                                     </tr>
                                 </table>
                             </div>

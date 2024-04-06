@@ -11,7 +11,7 @@
                     @method('PUT')
                     <div class="mb-3">
                         <label for="nama" class="form-label">Nama Prodi</label>
-                        <input type="text" name="nama" id="nama" class="form-control" autofocus value="{{ $prodi->nama }}">
+                        <input type="text" name="nama" id="nama" class="form-control" value="{{ $prodi->nama }}">
                     </div>
                     <div class="mb-3">
                         <label for="jurusan">Jurusan </label>

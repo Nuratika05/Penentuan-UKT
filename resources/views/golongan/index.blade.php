@@ -32,10 +32,8 @@
                 <tr>
                     <th>No</th>
                     <th>Nama Golongan</th>
-                    <th>Jenjang</th>
-                    <th>Nilai Minimal</th>
-                    <th>Nilai Maksimal</th>
-                    <th>Nominal</th>
+                    <th>Nilai Min</th>
+                    <th>Nilai Max</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
@@ -44,10 +42,8 @@
                 <tr>
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $item->nama }}</td>
-                    <td>{{ $item->jenjang }}</td>
                     <td>{{ $item->nilai_minimal }}</td>
                     <td>{{ $item->nilai_maksimal }}</td>
-                    <td>Rp{{ number_format($item->nominal) }}</td>
                     <td>
                         <a class="btn btn-xs btn-warning" href="{{ route('golongan.edit', $item->id) }}">Edit</a>
                         <form action="{{ route('golongan.destroy', $item->id) }}" method="POST" style="display: inline">

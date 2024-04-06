@@ -10,16 +10,15 @@
                     @csrf
                     @method('PUT')
                     <div class="mb-3">
-                        <label for="nama" class="form-label">Nama Golongan</label>
-                        <input type="text" name="nama" id="nama" class="form-control" autofocus value="{{ $golongan->nama }}">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="jenjang">Jenjang</label>
-                        <select name="jenjang" id="jenjang" class="form-select">
-                            <option value="D3" {{ $golongan->jenjang == 'D3' ? 'selected' : '' }}>D3</option>
-                            <option value="D4/S1 Terapan" {{ $golongan->jenjang == 'D4/S1 Terapan' ? 'selected' : '' }}>D4/S1 Terapan</option>
-                            <option value="S1 Terapan" {{ $golongan->jenjang == 'S1 Terapan' ? 'selected' : '' }}>S1 Terapan</option>
+                        <label for="nama">Nama Golongan</label>
+                        <select name="nama" id="nama" class="form-select">
+                            <option value="Kategori I" {{ $golongan->nama == 'Kategori I' ? 'selected' : '' }}>Kategori I</option>
+                            <option value="Kategori II" {{ $golongan->nama == 'Kategori II' ? 'selected' : '' }}>Kategori II</option>
+                            <option value="Kategori III" {{ $golongan->nama == 'Kategori III' ? 'selected' : '' }}>Kategori III</option>
+                            <option value="Kategori IV" {{ $golongan->nama == 'Kategori IV' ? 'selected' : '' }}>Kategori IV</option>
+                            <option value="Kategori V" {{ $golongan->nama == 'Kategori V' ? 'selected' : '' }}>Kategori V</option>
+                            <option value="Kategori VI" {{ $golongan->nama == 'Kategori VI' ? 'selected' : '' }}>Kategori VI</option>
+                            <option value="Kategori VII" {{ $golongan->nama == 'Kategori VII' ? 'selected' : '' }}>Kategori VII</option>
                         </select>
                     </div>
 
@@ -31,11 +30,6 @@
                         <label for="nilai_maksimal" class="form-label">Nilai Maksimal</label>
                         <input type="number" name="nilai_maksimal" id="nilai_maksimal" class="form-control" value={{ $golongan->nilai_maksimal }}>
                     </div>
-                    <div class="mb-3">
-                        <label for="nominal" class="form-label">Nominal</label>
-                        <input type="number" name="nominal" id="nominal" class="form-control" value={{ $golongan->nominal }}>
-                    </div>
-
                     <button type="submit" class="btn btn-primary btn-sm" onClick="return confirm('Yakin ingin mengubah data?')">Ubah Data</button>
                     <a class="btn btn-secondary btn-sm" type="button" href="{{ route('golongan.index') }}">Kembali</a>
 

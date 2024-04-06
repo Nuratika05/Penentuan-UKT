@@ -24,7 +24,7 @@
                                 <label for="{{ $item->id }}"
                                     class="form-label">{{ $item->nama }}</label><span class="text-danger"
                                     style="font-size: 15px;"><i> *wajib diisi</i></span>
-                                <select  name="kriteria[]" id="{{ $item->id }}" class="form-select kriteria-select" required>
+                                <select  name="kriteria[]" id="{{ $item->id }}" class="form-select kriteria-select" autofocus required>
                                     <option value="">-- Pilih --</option>
                                     @foreach ($subkriteria[$item->id] as $data)
                                     <option value="{{ $data->id }}" {{ in_array($data->id, old("kriteria") ? : [] )? "selected": ""}}>{{ $data->nama }}</option>

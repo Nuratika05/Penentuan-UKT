@@ -22,7 +22,7 @@ class KelompokUKTController extends Controller
     public function store(Request $request){
 
         KelompokUKT::create([
-            'prodi_id' => $request->prodi,
+            'prodi_id' => $request->prodi_id,
             'kategori1' => $request->kategori1,
             'kategori2' => $request->kategori2,
             'kategori3' => $request->kategori3,
@@ -41,7 +41,7 @@ class KelompokUKTController extends Controller
     }
     public function update(Request $request, KelompokUKT $kelompokUKT){
         $kelompokUKT->update([
-            'prodi_id' => $request->prodi,
+            'prodi_id' => $request->prodi_id,
             'kategori1' => $request->kategori1,
             'kategori2' => $request->kategori2,
             'kategori3' => $request->kategori3,

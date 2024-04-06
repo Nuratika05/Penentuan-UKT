@@ -146,24 +146,6 @@
                                 <table class="table table-borderless w-75">
                                     @if ($berkas->status == 'Menunggu Verifikasi' || $berkas->status == 'Belum Lengkap')
                                         <tr>
-                                            <th>Ubah Status</th>
-                                            <td>:</td>
-                                            <td>
-                                                <select name="status" class="form-select status " required id="status">
-                                                    <option value="Menunggu Verifikasi"
-                                                        {{ $berkas->status == 'Menunggu Verifikasi' ? 'selected' : '' }}>
-                                                        Menunggu Verifikasi</option>
-                                                    <option value="Belum Lengkap"
-                                                        {{ $berkas->status == 'Belum Lengkap' ? 'selected' : '' }}>
-                                                        Belum Lengkap</option>
-                                                    <option value="Lengkap"
-                                                        {{ $berkas->status == 'Lulus Verifikasi' ? 'selected' : '' }}>
-                                                        Lengkap</option>
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <tr id="keterangan"></tr>
-                                        <tr>
                                             <th>Prodi/Jenjang</th>
                                             <td>:</td>
                                             <td>{{ $berkas->mahasiswa->prodi->nama }}/{{ $berkas->mahasiswa->prodi->jenjang }}
@@ -172,45 +154,38 @@
                                         <tr>
                                             <th>Rekomendasi Golongan</th>
                                             <td>:</td>
-                                            <td>{{ $berkas->golongan->nama }} = Rp {{ number_format($berkas->golongan->nominal) }}
-                                            </td>
+                                            <td>{{ $berkas->golongan->nama }} = Rp{{ number_format($berkas->nominal_ukt,0,',','.') }}</td>
                                         <tr>
-                                            <th>Tetapkan Golongan UKT</th>
+                                            <th>Ubah Status</th>
                                             <td>:</td>
                                             <td>
-                                                <select name="golongan" class="form-select golongan" style="font-size: 15px"
-                                                    required id="golongan">
-                                                    @if ($berkas->mahasiswa->prodi->jenjang == 'D3')
-                                                        @foreach ($golongan_d3 as $item)
-                                                            <option value="{{ $item->id }}"
-                                                                {{ $berkas->golongan_id == $item->id ? 'selected' : '' }}>
-                                                                {{ $item->nama }} =
-                                                                Rp{{ number_format($item->nominal) }}</option>
-                                                        @endforeach
-                                                    @elseif ($berkas->mahasiswa->prodi->nama == 'Teknologi Rekayasa Geomatika dan Survey')
-                                                        @foreach ($golongan_TRGS as $item)
-                                                            <option value="{{ $item->id }}"
-                                                                {{ $berkas->golongan_id == $item->id ? 'selected' : '' }}>
-                                                                {{ $item->nama }} =
-                                                                Rp{{ number_format($item->nominal) }}</option>
-                                                        @endforeach
-                                                    @elseif ($berkas->mahasiswa->prodi->nama == 'Rekayasa Kayu')
-                                                        @foreach ($golongan_RK as $item)
-                                                            <option value="{{ $item->id }}"
-                                                                {{ $berkas->golongan_id == $item->id ? 'selected' : '' }}>
-                                                                {{ $item->nama }} =
-                                                                Rp{{ number_format($item->nominal) }}</option>
-                                                        @endforeach
-                                                    @else
-                                                        @foreach ($golongan_d4 as $item)
-                                                            <option value="{{ $item->id }}"
-                                                                {{ $berkas->golongan_id == $item->id ? 'selected' : '' }}>
-                                                                {{ $item->nama }} =
-                                                                Rp{{ number_format($item->nominal) }}</option>
-                                                        @endforeach
-                                                    @endif
+                                                <select name="status" class="form-select status " autofocus required id="status">
+                                                    <option value="Menunggu Verifikasi"
+                                                        {{ $berkas->status == 'Menunggu Verifikasi' ? 'selected' : '' }}>
+                                                        Menunggu Verifikasi</option>
+                                                    <option value="Belum Lengkap"
+                                                        {{ $berkas->status == 'Belum Lengkap' ? 'selected' : '' }}>
+                                                        Belum Lengkap</option>
+                                                    <option value="Lulus Verifikasi"
+                                                        {{ $berkas->status == 'Lulus Verifikasi' ? 'selected' : '' }}>
+                                                        Lulus Verifikasi</option>
                                                 </select>
                                             </td>
+                                            <tr id="keterangan"></tr>
+                                            <tr>
+                                                <th>Tetapkan Golongan UKT</th>
+                                                <td>:</td>
+                                                <td>
+                                                    <select name="golongan_id" id="golongan_id" class="form-select" required>
+                                                        @foreach ($nominalUkts as $nominalUkt)
+                                                        <option value="{{ $nominalUkt['nominal_ukt'] }}"
+                                                                {{ $berkas->golongan->nama == $nominalUkt['golongan_id'] ? 'selected' : '' }}>
+                                                            {{ $nominalUkt['golongan_id'] }} = Rp {{ number_format($nominalUkt['nominal_ukt'], 0, ',', '.') }}
+                                                        </option>
+                                                    @endforeach
+                                                    </select>
+                                                </td>
+                                            </tr>
                                         </tr>
                                     @else
                                         <tr>
@@ -223,25 +198,24 @@
                                         <tr>
                                             <th>Nominal</th>
                                             <td>:</td>
-                                            <td>Rp {{ number_format($berkas->golongan->nominal) }}</td>
+                                            <td>Rp{{ number_format($berkas->nominal_ukt,0,',','.') }}</td>
                                         </tr>
                                     @endif
                                 </table>
                     </div>
                 </div>
                 <div class="card mt-3">
-                    <span class="card-header text-danger">Catatan : <br>
+                    <span class="card-header text-black">Catatan : <br>
                         <ul>
                             <li>
                                 Jika status berkas diubah menjadi 'MENUNGGU VERIFIKASI' atau 'BELUM LENGKAP' maka Golongan
                                 UKT belum terverifikasi!
                             </li>
                             <li>
-                                Jika status sudah diubah menjadi 'Lulus Verifikasi' maka Penetapan Golongan UKT akan terverifikasi
-                                setelah data berhasil disimpan!
+                                Jika status sudah diubah menjadi 'LULUS VERIFIKASI' maka Penetapan Golongan UKT akan terverifikasi
                             </li>
                             <li>
-                                Jika status berkas diubah menjadi "LENGKAP" dan data sudah disimpan, maka data tidak bisa
+                                Jika status berkas diubah menjadi "LULUS VERIFIKASI" dan data sudah disimpan, maka data tidak bisa
                                 diubah lagi!
                             </li>
                         </ul>
@@ -260,7 +234,7 @@
                             href="{{ route('admin.data-belum-lengkap') }}">Kembali</a>
                     @else
                         <a class="btn btn-secondary btn-sm" type="button"
-                            href="{{ route('admin.data-lengkap') }}">Kembali</a>
+                            href="{{ route('admin.lulus-verifikasi') }}">Kembali</a>
                     @endif
                 </div>
         @endif
@@ -287,10 +261,6 @@
                     <form action="{{ route('data-ukt.update', $berkas->id) }}" method="POST"
                         enctype="multipart/form-data">
                         @csrf
-
-                        {{-- @php
-                                    dd($penilaians->kriteria->gologan);
-                                @endphp --}}
                         @foreach ($kriteria as $item)
                             <label for="{{ $item->id }}" class="form-label">{{ $item->nama }}</label><span
                                 class="text-danger" style="font-size: 15px;"><i> *wajib terisi</i></span>
@@ -384,11 +354,11 @@
                         @enderror
                     </div>
                 @endif
-
                 <br>
                 <button type="submit"
                     class="btn btn-primary btn-sm"onClick="return confirm('Yakin ingin mengubah data?')">Ubah
-                    Data</button>
+                    Data
+                </button>
                 <a class="btn btn-danger btn-sm"onClick="return confirm('Yakin ingin membatalkan perubahan?')"
                     type="button" href="{{ route('mahasiswa.data-ukt') }}">Batal</a>
                 </form>
@@ -449,5 +419,26 @@
         function goBack() {
             window.history.back();
         }
+    </script>
+    <script>
+        $(document).ready(function() {
+            // Fungsi untuk menampilkan/menyembunyikan opsi select berdasarkan status yang dipilih
+            function toggleGolonganUktSelect() {
+                var status = $('#status').val();
+                if (status === 'Menunggu Verifikasi' || status === 'Belum Lengkap') {
+                    $('#golongan_id').closest('tr').hide();
+                } else {
+                    $('#golongan_id').closest('tr').show();
+                }
+            }
+
+            // Panggil fungsi toggle saat dokumen pertama kali dimuat
+            toggleGolonganUktSelect();
+
+            // Panggil fungsi toggle saat status berubah
+            $('#status').change(function() {
+                toggleGolonganUktSelect();
+            });
+        });
     </script>
 @endpush

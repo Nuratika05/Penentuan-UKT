@@ -36,55 +36,67 @@
             @endif
         </li>
         @if (Auth::guard('admin')->check() && Auth::user()->role == 'superadmin')
-            <li
-                class="menu-item {{ request()->is('admin/semua-data/mahasiswa*', 'admin/semua-data/jurusan*', 'admin/semua-data/prodi*' , 'admin/semua-data/kelompokUKT*' , 'admin/semua-data/golongan*','admin/semua-data/kriteria*','admin/semua-data/sub-kriteria*') ? 'active open' : '' }}">
-                <a href="javascript:void(0);" class="menu-link menu-toggle">
-                    <i class="menu-icon tf-icons bx bx-layer"></i>
-                    <div data-i18n="Data Master">Semua Data</div>
-                </a>
-
-                <ul class="menu-sub menu-inner py-1" style="margin-left: 15px;">
-                    <li class="menu-item {{ request()->is('admin/semua-data/mahasiswa*') ? 'active' : '' }}">
-                        <a href="{{ route('mahasiswa.index') }}" class="menu-link">
-                            <div>Mahasiswa</div>
-                        </a>
-                    </li>
-                    <li class="menu-item {{ request()->is('admin/semua-data/jurusan*') ? 'active' : '' }}">
-                        <a href="{{ route('jurusan.index') }}" class="menu-link">
-                            <div>Jurusan</div>
-                        </a>
-                    </li>
-                    <li class="menu-item {{ request()->is('admin/semua-data/prodi*') ? 'active' : '' }}">
-                        <a href="{{ route('prodi.index') }}" class="menu-link">
-                            <div>Prodi</div>
-                        </a>
-                    </li>
-                    <li class="menu-item {{ request()->is('admin/semua-data/kelompokUKT*') ? 'active' : '' }}">
-                        <a href="{{ route('kelompokUKT.index') }}" class="menu-link">
-                            <div>Kelompok UKT</div>
-                        </a>
-                    </li>
-                    <li class="menu-item {{ request()->is('admin/semua-data/golongan*') ? 'active' : '' }}">
-                        <a href="{{ route('golongan.index') }}" class="menu-link">
-                            <div>Golongan</div>
-                        </a>
-                    </li>
-                    <li class="menu-item {{ request()->is('admin/semua-data/kriteria*') ? 'active' : '' }}">
-                        <a href="{{ route('kriteria.index') }}" class="menu-link">
-                            <div>Kriteria</div>
-                        </a>
-                    </li>
-                    <li class="menu-item {{ request()->is('admin/semua-data/sub-kriteria*') ? 'active' : '' }}">
-                        <a href="{{ route('sub-kriteria.index') }}" class="menu-link">
-                            <div>Sub Kriteria</div>
-                        </a>
-                    </li>
-                </ul>
-            </li>
+        <li class="menu-item {{ request()->is('admin/semua-data/mahasiswa*', 'admin/semua-data/jurusan*', 'admin/semua-data/prodi*' , 'admin/semua-data/kelompokUKT*' , 'admin/semua-data/golongan*','admin/semua-data/kriteria*','admin/semua-data/sub-kriteria*') ? 'active open' : '' }}">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-layer"></i>
+                <div data-i18n="Data Master">Semua Data</div>
+            </a>
+            <ul class="menu-sub menu-inner py-1" style="margin-left: 15px;">
+                <li class="menu-item {{ request()->is('admin/semua-data/mahasiswa*') ? 'active' : '' }}">
+                    <a href="{{ route('mahasiswa.index') }}" class="menu-link">
+                        <div>Mahasiswa</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ request()->is('admin/semua-data/jurusan*') ? 'active' : '' }}">
+                    <a href="{{ route('jurusan.index') }}" class="menu-link">
+                        <div>Jurusan</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ request()->is('admin/semua-data/prodi*') ? 'active' : '' }}">
+                    <a href="{{ route('prodi.index') }}" class="menu-link">
+                        <div>Prodi</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ request()->is('admin/semua-data/kelompokUKT*', 'admin/semua-data/golongan*') ? 'active open' : '' }}">
+                    <a href="javascript:void(0);" class="menu-link menu-toggle">
+                        <div>Golongan</div>
+                    </a>
+                    <ul class="menu-sub menu-inner py-1" style="margin-left: 20px;">
+                        <li class="menu-item {{ request()->is('admin/semua-data/kelompokUKT*') ? 'active' : '' }}">
+                            <a href="{{ route('kelompokUKT.index') }}" class="menu-link">
+                                <div>Kelompok UKT</div>
+                            </a>
+                        </li>
+                        <li class="menu-item {{ request()->is('admin/semua-data/golongan*') ? 'active' : '' }}">
+                            <a href="{{ route('golongan.index') }}" class="menu-link">
+                                <div>Golongan</div>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="menu-item {{ request()->is('admin/semua-data/kriteria*', 'admin/semua-data/sub-kriteria*') ? 'active open' : '' }}">
+                    <a href="javascript:void(0);" class="menu-link menu-toggle">
+                        <div>Kriteria</div>
+                    </a>
+                    <ul class="menu-sub menu-inner py-1" style="margin-left: 20px;">
+                        <li class="menu-item {{ request()->is('admin/semua-data/kriteria*') ? 'active' : '' }}">
+                            <a href="{{ route('kriteria.index') }}" class="menu-link">
+                                <div>Kriteria</div>
+                            </a>
+                        </li>
+                        <li class="menu-item {{ request()->is('admin/semua-data/sub-kriteria*') ? 'active' : '' }}">
+                            <a href="{{ route('sub-kriteria.index') }}" class="menu-link">
+                                <div>Sub Kriteria</div>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
         @endif
         @if (Auth::guard('admin')->check())
             <li
-                class="menu-item {{ request()->is('admin/data-ukt/semua-data-ukt*', 'admin/data-ukt/menunggu-verifikasi*', 'admin/data-ukt/belum-lengkap', 'admin/data-ukt/lengkap') ? 'active open' : '' }}">
+                class="menu-item {{ request()->is('admin/data-ukt/semua-data-ukt*', 'admin/data-ukt/menunggu-verifikasi*', 'admin/data-ukt/belum-lengkap*', 'admin/data-ukt/lulus-verifikasi*') ? 'active open' : '' }}">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
                     <i class="menu-icon tf-icons bx bx-money"></i>
                     <div data-i18n="Data Master">Data UKT</div>
@@ -107,8 +119,8 @@
                             <div>Belum Lengkap</div>
                         </a>
                     </li>
-                    <li class="menu-item {{ request()->is('admin/data-ukt/lengkap*') ? 'active' : '' }}">
-                        <a href="{{ route('admin.data-lengkap') }}" class="menu-link">
+                    <li class="menu-item {{ request()->is('admin/data-ukt/lulus-verifikasi*') ? 'active' : '' }}">
+                        <a href="{{ route('admin.lulus-verifikasi') }}" class="menu-link">
                             <div>Lulus Verifikasi</div>
                         </a>
                     </li>

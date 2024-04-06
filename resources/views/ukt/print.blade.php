@@ -154,7 +154,7 @@
                     <tr>
                         <td>Nominal</td>
                         <td>:</td>
-                        <td>Rp{{ number_format($berkas->golongan->nominal) }}</td>
+                        <td>Rp{{ number_format($berkas->nominal_ukt,0,',','.') }}</td>
                     </tr>
          </div>
         </table>

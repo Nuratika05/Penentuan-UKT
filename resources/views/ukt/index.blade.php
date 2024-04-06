@@ -44,7 +44,7 @@
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            <form action="{{ route('admin.lengkap.arsip') }}" method="POST">
+                                            <form action="{{ route('admin.lulus-verifikasi.arsip') }}" method="POST">
                                                 @csrf
                                                 <div class="form-group">
                                                     <label for="id_folder">Pilih Folder:</label>
@@ -87,7 +87,7 @@
                         <th>Status</th>
                         <th>Verifikator</th>
                         <th>Golongan </th>
-                        <th>Nominal </th>
+                        <th>Nominal</th>
                         <th>Jalur Pendaftaran</th>
                         <th>Aksi</th>
                     </tr>
@@ -128,7 +128,7 @@
                                 @if ($item->status == 'Menunggu Verifikasi' || $item->status == 'Belum Lengkap' || $item->golongan_id == null)
                                     -
                                 @else
-                                    Rp{{ number_format($item->golongan->nominal) }}
+                                    Rp {{ number_format($item->nominal_ukt,0,',','.') }}
                                 @endif
                             </td>
                             <td>{{ $item->mahasiswa->jalur }}</td>

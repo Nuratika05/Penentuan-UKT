@@ -21,31 +21,25 @@
                     @csrf
                     <div class="mb-3">
                         <label for="nama" class="form-label">Nama Golongan</label>
-                        <input type="text" name="nama" id="nama" class="form-control" autofocus required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="jenjang">Jenjang</label>
-                        <select name="jenjang" id="jenjang" class="form-select" required>
-                            <option value="">-- Pilih Jenjang --</option>
-                            <option value="D3">D3</option>
-                            <option value="D4/S1 Terapan">D4/S1 Terapan</option>
-                            <option value="D4/S1 Terapan">S1 Terapan</option>
+                        <select name="nama" id="nama" class="form-select" autofocus required>
+                            <option value="">--Pilih Golongan--</option>
+                            <option value="Kategori I">Kategori I</option>
+                            <option value="Kategori II">Kategori II</option>
+                            <option value="Kategori III">Kategori III</option>
+                            <option value="Kategori IV">Kategori IV</option>
+                            <option value="Kategori V">Kategori V</option>
+                            <option value="Kategori VI">Kategori VI</option>
+                            <option value="Kategori VII">Kategori VII</option>
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label for="nilai_minimal" class="form-label">Nilai Minimal</label>
+                        <label for="nilai_minimal" class="form-label">Nilai Min</label>
                         <input type="number" name="nilai_minimal" id="nilai_minimal" class="form-control" required>
                     </div>
                     <div class="mb-3">
-                        <label for="nilai_maksimal" class="form-label">Nilai Maksimal</label>
+                        <label for="nilai_maksimal" class="form-label">Nilai Max</label>
                         <input type="number" name="nilai_maksimal" id="nilai_maksimal" class="form-control" required>
                     </div>
-                    <div class="mb-3">
-                        <label for="nominal" class="form-label">Nominal</label>
-                        <input type="number" name="nominal" id="nominal" class="form-control" required>
-                    </div>
-
                     <button type="submit" class="btn btn-primary btn-sm" onClick="return confirm('Yakin data yang dimasukkan sudah benar?')">Tambah</button>
                     <a class="btn btn-secondary btn-sm" type="button" href="{{ route('golongan.index') }}">Kembali</a>
                 </form>

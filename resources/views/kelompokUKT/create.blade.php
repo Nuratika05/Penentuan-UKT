@@ -20,41 +20,41 @@
                 <form action="{{ route('kelompokUKT.store') }}" method="POST">
                     @csrf
                     <div class="mb-3">
-                        <label for="prodi">Prodi</label>
-                        <select name="prodi" id="prodi" class="form-select" required>
+                        <label for="prodi_id">Prodi</label>
+                        <select name="prodi_id" id="prodi" class="form-select" autofocus required>
                             <option value="">--Pilih Prodi/Jenjang--</option>
                             @foreach($prodi as $item)
-                            <option value="{{ $item->id }}" {{ old('prodi') == $item->id ? 'selected' : '' }}>{{ $item->nama }}/{{ $item->jenjang }}</option>
+                            <option value="{{ $item->id }}" {{ old('prodi_id') == $item->id ? 'selected' : '' }}>{{ $item->nama }}/{{ $item->jenjang }}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="mb-3">
                         <label for="kategori1" class="form-label">Kategori I</label>
-                        <input type="number" name="kategori1" id="kategori1" class="form-control" value="{{ old('kategori1') }}" autofocus required>
+                        <input type="number" name="kategori1" id="kategori1" class="form-control" required value="{{ old('kategori1') }}" autofocus required>
                     </div>
                     <div class="mb-3">
                         <label for="kategori2" class="form-label">Kategori II</label>
-                        <input type="number" name="kategori2" id="kategori2" class="form-control" value="{{ old('kategori2') }}" autofocus required>
+                        <input type="number" name="kategori2" id="kategori2" class="form-control" required value="{{ old('kategori2') }}" autofocus required>
                     </div>
                     <div class="mb-3">
                         <label for="kategori3" class="form-label">Kategori III</label>
-                        <input type="number" name="kategori3" id="kategori3" class="form-control" value="{{ old('kategori3') }}" autofocus required>
+                        <input type="number" name="kategori3" id="kategori3" class="form-control" required value="{{ old('kategori3') }}" autofocus required>
                     </div>
                     <div class="mb-3">
                         <label for="kategori4" class="form-label">Kategori IV</label>
-                        <input type="number" name="kategori4" id="kategori4" class="form-control" value="{{ old('kategori4') }}" autofocus required>
+                        <input type="number" name="kategori4" id="kategori4" class="form-control" required value="{{ old('kategori4') }}" autofocus required>
                     </div>
                     <div class="mb-3">
                         <label for="kategori5" class="form-label">Kategori V</label>
-                        <input type="number" name="kategori5" id="kategori5" class="form-control" value="{{ old('kategori5') }}" autofocus required>
+                        <input type="number" name="kategori5" id="kategori5" class="form-control" required value="{{ old('kategori5') }}" autofocus required>
                     </div>
                     <div class="mb-3">
                         <label for="kategori6" class="form-label">Kategori VI</label>
-                        <input type="number" name="kategori6" id="kategori6" class="form-control" value="{{ old('kategori6') }}" autofocus required>
+                        <input type="number" name="kategori6" id="kategori6" class="form-control" required value="{{ old('kategori6') }}" autofocus required>
                     </div>
                     <div class="mb-3">
                         <label for="kategori7" class="form-label">Kategori VII</label>
-                        <input type="number" name="kategori7" id="kategori7" class="form-control" value="{{ old('kategori7') }}" autofocus required>
+                        <input type="number" name="kategori7" id="kategori7" class="form-control" required value="{{ old('kategori7') }}" autofocus required>
                     </div>
                     <button type="submit" class="btn btn-primary btn-sm" class="btn btn-primary"
                     onClick="return confirm('Yakin data yang dimasukkan sudah benar?')">Tambah</button>

@@ -117,7 +117,7 @@
                 <td style="border-right: 1px solid #000;">{{ $id->mahasiswa->prodi->jenjang }}</td>
                 <td style="border-right: 1px solid #000;">{{ $id->mahasiswa->prodi->jurusan->nama }}</td>
                 <td style="border-right: 1px solid #000;">{{ $id->golongan->nama }}</td>
-                <td style="border-right: 1px solid #000;">Rp{{ number_format ($id->golongan->nominal )}}</td>
+                <td style="border-right: 1px solid #000;">Rp{{ number_format ($id->nominal_ukt,0,',','.' )}}</td>
             </tr>
             @endforeach
         </table>

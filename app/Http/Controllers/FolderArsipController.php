@@ -110,7 +110,7 @@ class FolderArsipController extends Controller
             'jenjang' => $item->mahasiswa->prodi->jenjang,
             'nama_jurusan' => $item->mahasiswa->prodi->jurusan->nama,
             'nama_golongan' => $item->golongan->nama,
-            'nominal' => $item->golongan->nominal,
+            'nominal' => $item->nominal_ukt,
             'tahun_angkatan' => $request->tahun_angkatan,
             'jalur' => $item->mahasiswa->jalur,
             'admin_id' => $item->admin_id,
