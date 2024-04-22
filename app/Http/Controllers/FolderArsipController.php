@@ -26,7 +26,6 @@ class FolderArsipController extends Controller
         if(Auth::guard('admin')->check() && Auth::user()->role == 'superadmin'){
 
         $arsip = Arsip::where('id_folder', $id)->get();
-        // Periksa apakah data arsip ada
         }
 
         elseif(Auth::guard('admin')->check() && Auth::user()->role == 'verifikator'){
@@ -42,14 +41,11 @@ class FolderArsipController extends Controller
         // Teruskan data ke tampilan
         return view('folderarsip.folder', compact('arsip', 'folder', 'dataExists'));
     }
-    /*public function edit(Request $request, $id){
-        $item = Arsip::all();
-        return view('folderarsip.detail', compact('item'));
-    }*/
     public function arsip(Request $request)
     {
 
         $berkas = Berkas::where('status', 'Lulus Verifikasi')->get();
+        $jumlahDataDiarsipkan = 0; 
 
         foreach ($berkas as $item) {
         $mahasiswaId = $item->mahasiswa_id;
@@ -134,8 +130,13 @@ class FolderArsipController extends Controller
         $idsToDelete = $berkas->pluck('mahasiswa_id');
         Penilaian::whereIn('mahasiswa_id', $idsToDelete)->delete();
         Mahasiswa::whereIn('id', $idsToDelete)->delete();
+        $jumlahDataDiarsipkan++;
     }
-        return redirect()->back()->with('success', 'Semua Data berhasil diarsipkan');
+        if ($jumlahDataDiarsipkan > 0) {
+            return redirect()->back()->with('success', 'Berhasil mengarsipkan ' . $jumlahDataDiarsipkan . ' data.');
+        } else {
+            return redirect()->back()->with('error', 'Tidak ada data yang diarsipkan.');
+        }
     }
     public function detail($id = null){
             $arsip = Arsip::find($id);

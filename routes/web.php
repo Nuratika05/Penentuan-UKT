@@ -20,8 +20,9 @@ use App\Http\Controllers\KelompokUKTController;
         return view('page');
     });
 
+
     Route::get('/login', [LoginController::class, 'formLoginMahasiswa'])->name('mahasiswa.login');
-    Route::post('/login', [LoginController::class, 'storeLoginMahasiswa'])->name('store.mahasiswa.login');
+    Route::post('/mahasiswa/login', [LoginController::class, 'storeLoginMahasiswa'])->name('store.mahasiswa.login');
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
     Route::middleware('auth:mahasiswa')->group(function () {
@@ -51,8 +52,8 @@ use App\Http\Controllers\KelompokUKTController;
     })->name('admin.page');
 
     Route::get('/admin/dashboard', [HomeController::class, 'homeAdmin'])->name('admin.home');
-    Route::resource('admin/semua-data/kriteria',KriteriaController::class);
-    Route::resource('admin/semua-data/sub-kriteria',SubkriteriaController::class);
+    Route::resource('admin/semua-data/kriteria/kriteria',KriteriaController::class);
+    Route::resource('admin/semua-data/kriteria/sub-kriteria',SubkriteriaController::class);
 
     Route::resource('admin/semua-data/mahasiswa',MahasiswaController::class);
     Route::get('admin/semua_data/mahasiswa/import', [MahasiswaController::class, 'mahasiswaimport'])->name('mahasiswaimport');
@@ -63,8 +64,8 @@ use App\Http\Controllers\KelompokUKTController;
 
     Route::resource('admin/semua-data/jurusan', JurusanController::class);
     Route::resource('admin/semua-data/prodi', ProdiController::class);
-    Route::resource('admin/semua-data/golongan', GolonganController::class);
-    Route::resource('admin/semua-data/kelompokUKT', KelompokUKTController::class);
+    Route::resource('admin/semua-data/golongan/golongan', GolonganController::class);
+    Route::resource('admin/semua-data/golongan/kelompokUKT', KelompokUKTController::class);
 
     Route::resource('admin/admin', AdminController::class)->middleware('superadmin');
     Route::resource('admin/arsip', ArsipController::class);

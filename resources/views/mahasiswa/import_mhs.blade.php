@@ -107,7 +107,7 @@
                                         <td {!! str_contains($bt->eror_location, 'C' . $row) ? "style='background-color: red'" : '' !!}>{{ $bt->jenis_kelamin_temps }}</td>
                                         <td {!! str_contains($bt->eror_location, 'D' . $row) ? "style='background-color: red'" : '' !!}>{{ $bt->no_telepon_temps }}</td>
                                         <td {!! str_contains($bt->eror_location, 'E' . $row) ? "style='background-color: red'" : '' !!}>{{ $bt->alamat_temps }}</td>
-                                        <td {!! str_contains($bt->eror_location, 'F' . $row) ? "style='background-color: red'" : '' !!}>{{ $bt->prodi_temps }}</td>
+                                        <td {!! str_contains($bt->eror_location, 'F' . $row) ? "style='background-color: red'" : '' !!}>{{ $bt->prodi->nama }}</td>
                                         <td {!! str_contains($bt->eror_location, 'G' . $row) ? "style='background-color: red'" : '' !!}>{{ $bt->jalur_temps }}</td>
                                         <td {!! str_contains($bt->eror_location, 'H' . $row) ? "style='background-color: red'" : '' !!}>{{ $bt->password_temps }}</td>
                                         <td>{{ $bt->check }}</td>
@@ -129,16 +129,12 @@
                 @method('DELETE')
             </form>
     @endif
-@endsection
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
         var table = $('.datatable').DataTable({
-            // Pengaturan lainnya (jika diperlukan)
         });
-
-        // Menambahkan dropdown filter ke kolom dengan indeks 4 (kolom "Check" diindeks sebagai 4)
-        table.columns(8).every(function() {
+        table.columns(9).every(function() {
             var column = this;
             var select = $(
                     '<select class="form-select"><option value="" disabled selected>--Pilih Validasi Data--</option></select>'
@@ -150,9 +146,9 @@
                     column.search(val ? '^' + val + '$' : '', true, false).draw();
                 });
 
-            // Menambahkan opsi true dan false ke dropdown
             select.append('<option value="Valid">Valid</option>')
                 .append('<option value="Tidak Valid">Tidak Valid</option>');
         });
     });
 </script>
+@endsection

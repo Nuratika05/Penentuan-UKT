@@ -40,10 +40,10 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
         'no_telepon_temps' => $row['no_telepon'] ?? null,
         'alamat_temps' => $row['alamat'] ?? null,
         'prodi_id_temps' => $prodiId,
-        'jalur_temps' => $row['jalur'] ?? null,
+        'jalur_temps' => $row['jalur_pendaftaran'] ?? null,
         'password_temps' => $row['password'] ?? null,
         'status_upload' => 'Draft',
-        'upload_code' => $this->upload_code, // Tambahkan tanda koma di sini
+        'upload_code' => $this->upload_code,
 
     ]);
     }

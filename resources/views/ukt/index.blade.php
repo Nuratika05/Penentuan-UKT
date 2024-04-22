@@ -20,6 +20,9 @@
                         {{ Session::get('success') }}
                     </div>
                 @endif
+                @if (isset($dataExists) && $dataExists)
+                <a id="search" class="text-align =center"></a><br>
+                @endif
             </div>
             <div class="col-md-6 text-end m-auto">
                 <div class="col-md-12 mb-5">
@@ -39,15 +42,11 @@
                                 aria-labelledby="arsipModalLabel" aria-hidden="true" style="background-color: rgba(0, 0, 0, 0.5) !important;">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="arsipModalLabel">Pilih Folder Arsip</h5>
-                                            </button>
-                                        </div>
                                         <div class="modal-body">
+                                            <p style="font-weight: bold;">Jumlah data yang dipilih: <span id="jumlahDipilih">0</span></p>
                                             <form action="{{ route('admin.lulus-verifikasi.arsip') }}" method="POST">
                                                 @csrf
                                                 <div class="form-group">
-                                                    <label for="id_folder">Pilih Folder:</label>
                                                     <select name="id_folder" class="form-select">
                                                         <option value="" selected disabled>--Pilih Folder--</option>
                                                         @foreach ($folder as $fol)
@@ -55,14 +54,14 @@
                                                         @endforeach
                                                     </select>
                                                 </div>
+                                                <br>
                                                 <div class="form-group">
-                                                    <label for="tahun_angkatan">Tahun Angkatan:</label>
                                                     <input type="number" id="tahun_angkatan" name="tahun_angkatan" class="form-control" placeholder="Masukkan Tahun Angkatan">
                                                 </div>
                                                 <br>
                                                 <button type="submit" class="btn btn-primary btn-sm" onClick="return confirm('Yakin akan mengarsipkan data?')">Arsipkan</button>
                                                 <a class=" close btn btn-secondary btn-sm" type="button"
-                                                    data-dismiss="modal">Kembali</a>
+                                                    data-dismiss="modal"  style="color: white;">Kembali</a>
                                             </form>
                                         </div>
                                     </div>
@@ -78,6 +77,9 @@
             <table class="datatable table py-3">
                 <thead>
                     <tr>
+                        @if (isset($dataExists) && $dataExists)
+                        <th><input type="checkbox" id="centang_semua"></th>
+                        @endif
                         <th>No</th>
                         <th>No.Pendaftaran</th>
                         <th>Nama</th>
@@ -88,13 +90,16 @@
                         <th>Verifikator</th>
                         <th>Golongan </th>
                         <th>Nominal</th>
-                        <th>Jalur Pendaftaran</th>
+                        <th>Jalur</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
                     @foreach ($berkas as $item)
                         <tr>
+                            @if (isset($dataExists) && $dataExists)
+                            <td><input type="checkbox" class="centang_data" value="{{ $item->id }}"></td>
+                            @endif
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $item->mahasiswa->id }}</td>
                             <td>{{ $item->mahasiswa->nama }}</td>
@@ -202,9 +207,6 @@
                 <div class="card-body">
                     <table class="table table-borderless w-75">
                         <tr>
-                            {{-- @php
-                        dd($penilaians->first()->first()->subkriteria->nama);
-                    @endphp --}}
                             @foreach ($penilaians as $data => $nilai)
                                 @foreach ($nilai as $data)
                         <tr>
@@ -248,4 +250,79 @@
         </div>
         @endif
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+    $(document).ready(function() {
+    var table = $('.datatable').DataTable({});
+    table.columns(11).every(function() {
+        var column = this;
+        var uniqueValues = column.data().unique().sort().toArray();
+        var maxWidth = 0;
+        $.each(uniqueValues, function(index, value) {
+            var tempSpan = $('<span style="visibility:hidden;white-space:nowrap;">' + value + '</span>').appendTo('body');
+            maxWidth = Math.max(maxWidth, tempSpan.width());
+            tempSpan.remove();
+        });
+
+        var select = $('<select class="form-select" id="jalur_pendaftaran"><option value="" disabled selected>--Pilih Jalur Pendaftaran--</option></select>')
+            .css('min-width', maxWidth + 'px')
+            .on('change', function() {
+                var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                column.search(val ? '^' + val + '$' : '', true, false).draw();
+                // Set ulang centang berdasarkan jalur pendaftaran
+                if (val) {
+                    $('.centang_data').prop('checked', false);
+                    $('.centang_data[data-jalur="' + val + '"]').prop('checked', true);
+                    $('#centang_semua').prop('checked', $('.centang_data').length === $('.centang_data:checked').length);
+                    updateJumlahArsipkan();
+                }
+            });
+
+        $.each(uniqueValues, function(index, value) {
+            select.append('<option value="' + value + '">' + value + '</option>');
+        });
+
+        // Masukkan elemen select ke dalam tempat yang sesuai
+        $('#search').append(select);
+    });
+
+    // Event listener untuk checkbox "Centang Semua"
+    $('#centang_semua').on('change', function() {
+        $('.centang_data').prop('checked', $(this).prop('checked'));
+        updateJumlahArsipkan();
+    });
+
+    // Event listener untuk checkbox individu
+    $('.centang_data').on('change', function() {
+        var semua_tercentang = true;
+        $('.centang_data').each(function() {
+            if (!$(this).prop('checked')) {
+                semua_tercentang = false;
+            }
+        });
+        $('#centang_semua').prop('checked', semua_tercentang);
+        updateJumlahArsipkan();
+    });
+
+    // Event listener untuk tombol "Arsipkan"
+    $('#arsipButton').on('click', function() {
+        // Lakukan pengecekan lagi untuk memastikan bahwa setidaknya satu data dicentang
+        var ada_tercentang = $('.centang_data:checked').length > 0;
+        if (!ada_tercentang) {
+            alert('Tidak ada data yang dicentang.');
+            return false; // Mencegah pengiriman formulir jika tidak ada data yang dicentang
+        }
+        return confirm('Yakin akan mengarsipkan data?');
+    });
+
+    // Fungsi untuk memperbarui jumlah data yang dicentang yang akan diarsipkan
+    function updateJumlahArsipkan() {
+        var jumlah_dipilih = $('.centang_data:checked').length;
+        $('#jumlahDipilih').text(jumlah_dipilih);
+        // Aktifkan atau nonaktifkan tombol "Arsipkan" berdasarkan apakah ada data yang dicentang
+        $('#arsipButton').prop('disabled', jumlah_dipilih === 0);
+    }
+});
+
+    </script>
 @endsection

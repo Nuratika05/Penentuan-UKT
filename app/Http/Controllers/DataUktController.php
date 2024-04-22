@@ -272,8 +272,6 @@ class DataUktController extends Controller
                     // Mengambil nilai nominal UKT dari kolom yang sesuai di tabel KelompokUKT
                     $nominalUkt = $kelompokUkt->$namaKolom;
                 } else {
-                    // Handle jika tidak ada pemetaan yang sesuai
-                    // Misalnya, memberikan respons default atau memberikan nilai nominalUkt default
                 }
             } else {
             }
@@ -467,10 +465,10 @@ class DataUktController extends Controller
             }
 
             $prodi_id = $mahasiswa->prodi_id;
-        $kelompokUkt = KelompokUKT::where('prodi_id', $prodi_id)->first();
-        if ($kelompokUkt) {
+            $kelompokUkt = KelompokUKT::where('prodi_id', $prodi_id)->first();
+            if ($kelompokUkt) {
             // Ambil golongan berdasarkan perhitungan
-            $dataGolongan = Golongan::where('nilai_minimal', '<=', $total)
+                $dataGolongan = Golongan::where('nilai_minimal', '<=', $total)
                 ->where('nilai_maksimal', '>=', $total)
                 ->first();
 
@@ -499,8 +497,7 @@ class DataUktController extends Controller
                     // Mengambil nilai nominal UKT dari kolom yang sesuai di tabel KelompokUKT
                     $nominalUkt = $kelompokUkt->$namaKolom;
                 } else {
-                    // Handle jika tidak ada pemetaan yang sesuai
-                    // Misalnya, memberikan respons default atau memberikan nilai nominalUkt default
+                  $nominalUkt = null;
                 }
             } else {
             }

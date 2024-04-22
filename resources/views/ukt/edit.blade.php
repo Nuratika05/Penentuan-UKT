@@ -136,6 +136,7 @@
                     </div>
                     <div class="card mt-3">
                         <h5 class="card-header">Penetapan Golongan UKT</h5>
+                        <div class="card-body">
                         @if (Auth::guard('admin')->check() && Auth::user()->role == 'superadmin')
                             <div class="card-body">
                                 <h6>Penetapan Golongan UKT hanya bisa dilakukan oleh Verifikator !</h6>
@@ -155,6 +156,7 @@
                                             <th>Rekomendasi Golongan</th>
                                             <td>:</td>
                                             <td>{{ $berkas->golongan->nama }} = Rp{{ number_format($berkas->nominal_ukt,0,',','.') }}</td>
+                                        </tr>
                                         <tr>
                                             <th>Ubah Status</th>
                                             <td>:</td>
@@ -171,21 +173,21 @@
                                                         Lulus Verifikasi</option>
                                                 </select>
                                             </td>
-                                            <tr id="keterangan"></tr>
-                                            <tr>
-                                                <th>Tetapkan Golongan UKT</th>
-                                                <td>:</td>
-                                                <td>
-                                                    <select name="golongan_id" id="golongan_id" class="form-select" required>
-                                                        @foreach ($nominalUkts as $nominalUkt)
-                                                        <option value="{{ $nominalUkt['nominal_ukt'] }}"
-                                                                {{ $berkas->golongan->nama == $nominalUkt['golongan_id'] ? 'selected' : '' }}>
-                                                            {{ $nominalUkt['golongan_id'] }} = Rp {{ number_format($nominalUkt['nominal_ukt'], 0, ',', '.') }}
-                                                        </option>
-                                                    @endforeach
-                                                    </select>
-                                                </td>
-                                            </tr>
+                                        </tr>
+                                        <tr id="keterangan"></tr>
+                                        <tr>
+                                            <th>Tetapkan Golongan UKT</th>
+                                            <td>:</td>
+                                            <td>
+                                                <select name="nominal_ukt" id="nominal_ukt" class="form-select" required>
+                                                    @foreach ($nominalUkts as $nominalUkt)
+                                                    <option value="{{ $nominalUkt['nominal_ukt'] }}"
+                                                            {{ $berkas->golongan->nama == $nominalUkt['golongan_id'] ? 'selected' : '' }}>
+                                                        {{ $nominalUkt['golongan_id'] }} = Rp {{ number_format($nominalUkt['nominal_ukt'], 0, ',', '.') }}
+                                                    </option>
+                                                @endforeach
+                                                </select>
+                                            </td>
                                         </tr>
                                     @else
                                         <tr>
@@ -202,22 +204,17 @@
                                         </tr>
                                     @endif
                                 </table>
-                    </div>
+                            </div>
+                        </div>
                 </div>
                 <div class="card mt-3">
                     <span class="card-header text-black">Catatan : <br>
                         <ul>
-                            <li>
-                                Jika status berkas diubah menjadi 'MENUNGGU VERIFIKASI' atau 'BELUM LENGKAP' maka Golongan
-                                UKT belum terverifikasi!
-                            </li>
-                            <li>
-                                Jika status sudah diubah menjadi 'LULUS VERIFIKASI' maka Penetapan Golongan UKT akan terverifikasi
-                            </li>
-                            <li>
-                                Jika status berkas diubah menjadi "LULUS VERIFIKASI" dan data sudah disimpan, maka data tidak bisa
-                                diubah lagi!
-                            </li>
+                            <li>Jika status berkas 'MENUNGGU VERIFIKASI' atau 'BELUM LENGKAP' maka Golongan
+                                UKT belum ditetapkan!</li>
+                            <li>Jika status diubah ke "LULUS VERIFIKASI" maka penetapan golongan UKT akan dimunculkan</li>
+                            <li>Jika status berkas diubah menjadi "LULUS VERIFIKASI" dan data sudah disimpan, maka penetapan golongan UKT terverifikasi, dan tidak bisa
+                                diubah lagi!</li>
                         </ul>
                     </span>
                 </div>
@@ -426,9 +423,9 @@
             function toggleGolonganUktSelect() {
                 var status = $('#status').val();
                 if (status === 'Menunggu Verifikasi' || status === 'Belum Lengkap') {
-                    $('#golongan_id').closest('tr').hide();
+                    $('#nominal_ukt').closest('tr').hide();
                 } else {
-                    $('#golongan_id').closest('tr').show();
+                    $('#nominal_ukt').closest('tr').show();
                 }
             }
 

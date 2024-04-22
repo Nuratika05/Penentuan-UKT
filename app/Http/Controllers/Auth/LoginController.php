@@ -3,11 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
-use App\Models\Mahasiswa;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use App\Providers\RouteServiceProvider;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
 {
@@ -53,7 +50,7 @@ class LoginController extends Controller
         ]);
 
         if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password])) {
-            return redirect()->intended('/');
+            return redirect()->route('admin.home');
         }
         return redirect()->route('admin.login')->with('loginErrorAdmin', 'Email atau Password salah');
     }
@@ -69,12 +66,13 @@ class LoginController extends Controller
         if(Auth::guard('admin')->check())
         {
             Auth::guard('admin')->logout();
-            return redirect()->route('admin.login');
+            return redirect()->intended('/');
         }
 
-        $this->guard()->logout();
+        Auth::logout(); // Logout dari semua guard
         $request->session()->invalidate();
 
         return $this->loggedOut($request) ?: redirect('/');
     }
+
 }

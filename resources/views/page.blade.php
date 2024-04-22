@@ -53,7 +53,13 @@
                     @elseif (Auth::guard('admin')->check())
                         <li><a class="nav-link scrollto" href="{{ route('admin.home') }}">Dashboard</a></li>
                     @else
-                        <li><a href="{{ route('mahasiswa.login') }}">Login</a></li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown">Login</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ route('mahasiswa.login')}}">Mahasiswa</a></li>
+                            <li><a href="{{ route('admin.login')}}">Admin</a></li>
+                        </ul>
+                    </li>
                     @endif
                 </ul>
                 <i class="bi bi-list mobile-nav-toggle"></i>

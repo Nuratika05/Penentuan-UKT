@@ -260,7 +260,7 @@ class MahasiswaController extends Controller
                         'no_telepon' => $bt->no_telepon_temps,
                         'alamat' => $bt->alamat_temps,
                         'prodi_id' => $bt->prodi_id_temps,
-                        'jalur_temps' => $bt->jalur_temps,
+                        'jalur' => $bt->jalur_temps,
                         'password' => Hash::make($request->password_temps),
                         'created_at' => now(),
                     ]);
@@ -269,7 +269,7 @@ class MahasiswaController extends Controller
 
                 MahasiswaTemps::where('check', 'Valid')->delete();
 
-                $successMessage = $successCount > 0 ? "Berhasil Mengirim $successCount Data ke Data Mahasiswa!" : "Tidak ada data yang dikirim.";
+                $successMessage = $successCount > 0 ? " $successCount Data Berhasil terkirim ke Data Mahasiswa!" : "Tidak ada data yang dikirim.";
                 return redirect()->route('mahasiswaimport')->with('success', $successMessage);
 
             }catch (QueryException $e) {
