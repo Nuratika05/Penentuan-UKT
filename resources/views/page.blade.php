@@ -53,13 +53,13 @@
                     @elseif (Auth::guard('admin')->check())
                         <li><a class="nav-link scrollto" href="{{ route('admin.home') }}">Dashboard</a></li>
                     @else
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown">Login</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="{{ route('mahasiswa.login')}}">Mahasiswa</a></li>
-                            <li><a href="{{ route('admin.login')}}">Admin</a></li>
-                        </ul>
-                    </li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown">Login</a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ route('mahasiswa.login') }}">Mahasiswa</a></li>
+                                <li><a href="{{ route('admin.login') }}">Admin</a></li>
+                            </ul>
+                        </li>
                     @endif
                 </ul>
                 <i class="bi bi-list mobile-nav-toggle"></i>
@@ -112,16 +112,17 @@
                             </h5>
                             <p>
                                 @if (Auth::guard('admin')->check() && Auth::user()->role == 'superadmin')
-                                    <a href="{{ asset('storage/pdf/PanduanPenggunaAdmin.pdf') }}"
-                                        target="_blank"><img src="{{ asset('assets/img/pdf.png') }}"
-                                            style="width: 30px">Panduan Pengguna</a>
+                                    <a href="{{ asset('storage/pdf/PanduanPenggunaAdmin.pdf') }}" target="_blank"><img
+                                            src="{{ asset('assets/img/pdf.png') }}" style="width: 30px">Panduan
+                                        Pengguna</a>
                                 @elseif (Auth::guard('admin')->check() && Auth::user()->role == 'verifikator')
                                     <a href="{{ asset('storage/pdf/PanduanPenggunaVerifikator.pdf') }}"
                                         target="_blank"><img src="{{ asset('assets/img/pdf.png') }}"
                                             style="width: 30px">Panduan Pengguna</a>
                                 @else
-                                    <a href="{{ asset('storage/pdf/PanduanPenggunaMahasiswa.pdf') }}" target="_blank"><img
-                                            src="{{ asset('assets/img/pdf.png') }}" style="width: 30px">Panduan
+                                    <a href="{{ asset('storage/pdf/PanduanPenggunaMahasiswa.pdf') }}"
+                                        target="_blank"><img src="{{ asset('assets/img/pdf.png') }}"
+                                            style="width: 30px">Panduan
                                         Pengguna</a>
                                 @endif
                             </p>
@@ -142,7 +143,8 @@
                 <div class="row">
 
                     <div class="col-lg-4 info mt-4 mt-lg-0">
-                        <div class="card p-4" style="width: 100%; background-color: #f8f9fa; box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1); border: none;">
+                        <div class="card p-4"
+                            style="width: 100%; background-color: #f8f9fa; box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1); border: none;">
                             <i class="ri-map-pin-line" style="font-size: 50px;"></i>
                             <div class="ms-3">
                                 <h4>Lokasi:</h4>
@@ -153,23 +155,25 @@
                     </div>
 
                     <div class="col-lg-4 info mt-4 mt-lg-0">
-                        <div class="card p-4" style="width: 100%; background-color: #f8f9fa; box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1); border: none;">
+                        <div class="card p-4"
+                            style="width: 100%; background-color: #f8f9fa; box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1); border: none;">
                             <i class="ri-mail-line" style="font-size: 50px;"></i>
                             <div class="ms-3">
                                 <h4>Email:</h4>
-                            <li>info@politanisamarinda.ac.id</li>
-                            <li>politanismd@gmail.com</li>
+                                <li>info@politanisamarinda.ac.id</li>
+                                <li>politanismd@gmail.com</li>
                             </div>
                         </div>
                     </div>
 
                     <div class="col-lg-4 info mt-4 mt-lg-0">
-                        <div class="card p-4" style="width: 100%; background-color: #f8f9fa; box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1); border: none;">
+                        <div class="card p-4"
+                            style="width: 100%; background-color: #f8f9fa; box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1); border: none;">
                             <i class="ri-phone-line" style="font-size: 50px;"></i>
                             <div class="ms-3">
                                 <h4>Telepon:</h4>
-                            <li>(0541) 260421, 260680</li>
-                            <li>(0541) 260680</li>
+                                <li>(0541) 260421, 260680</li>
+                                <li>(0541) 260680</li>
                             </div>
                         </div>
                     </div>

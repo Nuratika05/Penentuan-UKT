@@ -43,12 +43,15 @@ class FolderArsipController extends Controller
     }
     public function arsip(Request $request)
     {
+        $request->validate([
+            'data_ids' => 'required|array',
+        ]);
 
-        $berkas = Berkas::where('status', 'Lulus Verifikasi')->get();
-        $jumlahDataDiarsipkan = 0; 
+        $dataIds = $request->input('data_ids');
+        $jumlahDataDiarsipkan = 0;
 
-        foreach ($berkas as $item) {
-        $mahasiswaId = $item->mahasiswa_id;
+        foreach ($dataIds as $dataId) {
+        $item = Berkas::findOrFail($dataId);
         //foto_tempat_tinggal
         if ($item->foto_tempat_tinggal) {
             $pathAsaltempattinggal = public_path('foto_tempat_tinggal/' . $item->foto_tempat_tinggal);
@@ -117,7 +120,7 @@ class FolderArsipController extends Controller
 
         ]);
 
-        $penilaians = Penilaian::where('mahasiswa_id', $mahasiswaId)->get();
+        $penilaians = Penilaian::where('mahasiswa_id', $dataId)->get();
         foreach ($penilaians as $penilaian) {
         PenilaianArsip::create([
             'no_pendaftaran' => $penilaian->mahasiswa->id,
@@ -127,9 +130,8 @@ class FolderArsipController extends Controller
         }
 
         $item->delete();
-        $idsToDelete = $berkas->pluck('mahasiswa_id');
-        Penilaian::whereIn('mahasiswa_id', $idsToDelete)->delete();
-        Mahasiswa::whereIn('id', $idsToDelete)->delete();
+        Penilaian::where('mahasiswa_id', $dataId)->delete();
+        Mahasiswa::where('id', $dataId)->delete();
         $jumlahDataDiarsipkan++;
     }
         if ($jumlahDataDiarsipkan > 0) {
@@ -146,8 +148,10 @@ class FolderArsipController extends Controller
     }
     public function arsipexport($id)
     {
-
-        // Ekspor data menggunakan Laravel Excel
+        $DataArsips = Arsip::where('id_folder', $id)->get();
+        if ($DataArsips->isEmpty()) {
+            return redirect()->back()->with('error', 'Tidak ada data yang diekspor.');
+        }
         return Excel::download(new ArsipExport($id), 'UKT Mahasiswa.xlsx');
     }
 

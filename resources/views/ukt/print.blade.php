@@ -152,7 +152,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>Nominal</td>
+                        <td>Nominal UKT</td>
                         <td>:</td>
                         <td>Rp{{ number_format($berkas->nominal_ukt,0,',','.') }}</td>
                     </tr>

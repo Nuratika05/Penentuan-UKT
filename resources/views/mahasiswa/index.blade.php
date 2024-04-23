@@ -1,24 +1,27 @@
 @extends('layouts.app')
 
 @section('content')
-<style>
-    .alert-success {
-    color: #005700; /* Warna hijau tua untuk teks */
-    background-color: #DFF0D8; /* Warna latar belakang hijau muda yang sesuai dengan kelas alert-success bawaan Bootstrap */
-    border-color: #005700; /* Warna border yang sesuai */
-}
-</style>
+    <style>
+        .alert-success {
+            color: #005700;
+            /* Warna hijau tua untuk teks */
+            background-color: #DFF0D8;
+            /* Warna latar belakang hijau muda yang sesuai dengan kelas alert-success bawaan Bootstrap */
+            border-color: #005700;
+            /* Warna border yang sesuai */
+        }
+    </style>
     <div class="row">
         <div class="col-md-6">
             <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"></span> Data Mahasiswa</h4>
             @if (Session::has('success'))
-            <div class="alert alert-success" role="alert">
-                {{ Session::get('success') }}
-            </div>
+                <div class="alert alert-success" role="alert">
+                    {{ Session::get('success') }}
+                </div>
             @elseif (Session::has('error'))
-            <div class="alert alert-danger" role="alert">
-                {{ Session::get('error') }}
-            </div>
+                <div class="alert alert-danger" role="alert">
+                    {{ Session::get('error') }}
+                </div>
             @endif
         </div>
         <div class="col-md-6 text-end m-auto">
@@ -49,7 +52,7 @@
                     @foreach ($mahasiswa as $item)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            <td>{{ $item->id}}</td>
+                            <td>{{ $item->id }}</td>
                             <td>{{ $item->nama }}</td>
                             <td>{{ $item->jenis_kelamin }}</td>
                             <td>{{ $item->no_telepon }}</td>
@@ -76,7 +79,5 @@
             </table>
         </div>
     </div>
-</div>
+    </div>
 @endsection
-
-

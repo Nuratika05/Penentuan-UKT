@@ -1,73 +1,79 @@
 @extends('layouts.app')
 
 @section('content')
-<style>
-    .alert-success {
-    color: #005700; /* Warna hijau tua untuk teks */
-    background-color: #DFF0D8; /* Warna latar belakang hijau muda yang sesuai dengan kelas alert-success bawaan Bootstrap */
-    border-color: #005700; /* Warna border yang sesuai */
-}
-</style>
-<div class="row">
-    <div class="col-md-6">
-        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"></span> Data Kelompok UKT</h4>
-        @if (Session::has('success'))
-        <div class="alert alert-success" role="alert">
-            {{ Session::get('success') }}
+    <style>
+        .alert-success {
+            color: #005700;
+            /* Warna hijau tua untuk teks */
+            background-color: #DFF0D8;
+            /* Warna latar belakang hijau muda yang sesuai dengan kelas alert-success bawaan Bootstrap */
+            border-color: #005700;
+            /* Warna border yang sesuai */
+        }
+    </style>
+    <div class="row">
+        <div class="col-md-6">
+            <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"></span> Data Kelompok UKT</h4>
+            @if (Session::has('success'))
+                <div class="alert alert-success" role="alert">
+                    {{ Session::get('success') }}
+                </div>
+            @elseif (Session::has('error'))
+                <div class="alert alert-danger" role="alert">
+                    {{ Session::get('error') }}
+                </div>
+            @endif
         </div>
-        @elseif (Session::has('error'))
-        <div class="alert alert-danger" role="alert">
-            {{ Session::get('error') }}
+        <div class="col-md-6 text-end m-auto">
+            <a href="{{ route('kelompokUKT.create') }}" class="btn btn-outline-primary float-end mb-1 btn-sm">Tambah Data</a>
         </div>
-        @endif
     </div>
-    <div class="col-md-6 text-end m-auto">
-        <a href="{{ route('kelompokUKT.create') }}" class="btn btn-outline-primary float-end mb-1 btn-sm">Tambah Data</a>
+    <div class="card p-4">
+        <div class="table-responsive text-nowrap">
+            <table class="datatable table py-3">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Prodi</th>
+                        <th>Jenjang</th>
+                        <th>Kategori I</th>
+                        <th>Kategori II</th>
+                        <th>Kategori III</th>
+                        <th>Kategori IV</th>
+                        <th>Kategori V</th>
+                        <th>Kategori VI</th>
+                        <th>Kategori VII</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody class="table-border-bottom-0">
+                    @foreach ($kelompokUKT as $item)
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $item->prodi->nama }}</td>
+                            <td>{{ $item->prodi->jenjang }}</td>
+                            <td>Rp{{ number_format($item->kategori1, 0, ',', '.') }}</td>
+                            <td>Rp{{ number_format($item->kategori2, 0, ',', '.') }}</td>
+                            <td>Rp{{ number_format($item->kategori3, 0, ',', '.') }}</td>
+                            <td>Rp{{ number_format($item->kategori4, 0, ',', '.') }}</td>
+                            <td>Rp{{ number_format($item->kategori5, 0, ',', '.') }}</td>
+                            <td>Rp{{ number_format($item->kategori6, 0, ',', '.') }}</td>
+                            <td>Rp{{ number_format($item->kategori7, 0, ',', '.') }}</td>
+                            <td>
+                                <a class="btn btn-xs btn-warning"
+                                    href="{{ route('kelompokUKT.edit', $item->id) }}">Edit</a>
+                                <form action="{{ route('kelompokUKT.destroy', $item->id) }}" method="POST"
+                                    style="display: inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-xs btn-danger"
+                                        onclick="return confirm('Yakin ingin menghapus data ini?')">Hapus</button>
+                                </form>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
-<div class="card p-4">
-    <div class="table-responsive text-nowrap">
-        <table class="datatable table py-3">
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Prodi</th>
-                    <th>Jenjang</th>
-                    <th>Kategori I</th>
-                    <th>Kategori II</th>
-                    <th>Kategori III</th>
-                    <th>Kategori IV</th>
-                    <th>Kategori V</th>
-                    <th>Kategori VI</th>
-                    <th>Kategori VII</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-            <tbody class="table-border-bottom-0">
-                @foreach($kelompokUKT as $item)
-                <tr>
-                    <td>{{ $loop->iteration }}</td>
-                    <td>{{ $item->prodi->nama }}</td>
-                    <td>{{ $item->prodi->jenjang }}</td>
-                    <td>Rp{{number_format($item->kategori1,0,',','.') }}</td>
-                    <td>Rp{{number_format($item->kategori2,0,',','.') }}</td>
-                    <td>Rp{{number_format($item->kategori3,0,',','.') }}</td>
-                    <td>Rp{{number_format($item->kategori4,0,',','.') }}</td>
-                    <td>Rp{{number_format($item->kategori5,0,',','.') }}</td>
-                    <td>Rp{{number_format($item->kategori6,0,',','.') }}</td>
-                    <td>Rp{{number_format($item->kategori7,0,',','.') }}</td>
-                    <td>
-                        <a class="btn btn-xs btn-warning" href="{{ route('kelompokUKT.edit', $item->id) }}">Edit</a>
-                        <form action="{{ route('kelompokUKT.destroy', $item->id) }}" method="POST" style="display: inline">
-                            @csrf
-                            @method("DELETE")
-                            <button type="submit" class="btn btn-xs btn-danger" onclick="return confirm('Yakin ingin menghapus data ini?')">Hapus</button>
-                        </form>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
-</div>
 @endsection

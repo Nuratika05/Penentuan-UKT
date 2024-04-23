@@ -39,9 +39,9 @@
                             <td>:</td>
                             <td>{{ $arsip->alamat }}</td>
                         </tr>
-                            <th>Prodi</th>
-                            <td>:</td>
-                            <td>{{ $arsip->nama_prodi }}</td>
+                        <th>Prodi</th>
+                        <td>:</td>
+                        <td>{{ $arsip->nama_prodi }}</td>
                         </tr>
                         <tr>
                             <th>Jenjang</th>
@@ -61,53 +61,53 @@
                 <div class="card-body">
                     <table class="table table-borderless w-75">
                         @foreach ($penilaianarsip as $data => $nilai)
-                                @foreach ($nilai as $data)
-                                    <tr>
-                                        <th>{{ $data->kriteria }}</th>
-                                        <td>:</td>
-                                        <td>{{ $data->subkriteria }}</td>
-                                    </tr>
-                                @endforeach
+                            @foreach ($nilai as $data)
+                                <tr>
+                                    <th>{{ $data->kriteria }}</th>
+                                    <td>:</td>
+                                    <td>{{ $data->subkriteria }}</td>
+                                </tr>
                             @endforeach
-                            <tr>
-                                <th>Foto Tempat Tinggal</th>
+                        @endforeach
+                        <tr>
+                            <th>Foto Tempat Tinggal</th>
+                            <td>:</td>
+                            <td><a href="{{ asset('fotoarsip/foto_tempat_tinggal/' . $arsip->foto_tempat_tinggal) }}"
+                                    data-fancybox="gallery">
+                                    <img src="{{ asset('fotoarsip/foto_tempat_tinggal/' . $arsip->foto_tempat_tinggal) }}"
+                                        class="rounded img-fluid" width="300px" alt="Deskripsi Gambar"></a>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th>Foto Slip Gaji</th>
+                            <td>:</td>
+                            <td><a href="{{ asset('fotoarsip/foto_slip_gaji/' . $arsip->foto_slip_gaji) }}"
+                                    data-fancybox="gallery">
+                                    <img src="{{ asset('fotoarsip/foto_slip_gaji/' . $arsip->foto_slip_gaji) }}"
+                                        class="rounded img-fluid" width="300px" alt="Deskripsi Gambar"></a></td>
+                        </tr>
+                        <tr>
+                            <th>Foto Daya Listrik</th>
+                            <td>:</td>
+                            <td><a href="{{ asset('fotoarsip/foto_daya_listrik/' . $arsip->foto_daya_listrik) }}"
+                                    data-fancybox="gallery">
+                                    <img src="{{ asset('fotoarsip/foto_daya_listrik/' . $arsip->foto_daya_listrik) }}"
+                                        class="rounded img-fluid" width="300px" alt="Deskripsi Gambar"></a></td>
+                        </tr>
+                        <tr>
+                            @if ($arsip->foto_kendaraan === null || $arsip->foto_kendaraan === '')
+                            @else
+                                <th>Foto Kendaraan</th>
                                 <td>:</td>
-                                <td><a href="{{ asset('fotoarsip/foto_tempat_tinggal/' . $arsip->foto_tempat_tinggal) }}"
+                                <td>
+                                    <a href="{{ asset('fotoarsip/foto_kendaraan/' . $arsip->foto_kendaraan) }}"
                                         data-fancybox="gallery">
-                                        <img src="{{ asset('fotoarsip/foto_tempat_tinggal/' . $arsip->foto_tempat_tinggal) }}"
+                                        <img src="{{ asset('fotoarsip/foto_kendaraan/' . $arsip->foto_kendaraan) }}"
                                             class="rounded img-fluid" width="300px" alt="Deskripsi Gambar"></a>
                                 </td>
-                            </tr>
-
-                            <tr>
-                                <th>Foto Slip Gaji</th>
-                                <td>:</td>
-                                <td><a href="{{ asset('fotoarsip/foto_slip_gaji/' . $arsip->foto_slip_gaji) }}"
-                                        data-fancybox="gallery">
-                                        <img src="{{ asset('fotoarsip/foto_slip_gaji/' . $arsip->foto_slip_gaji) }}"
-                                            class="rounded img-fluid" width="300px" alt="Deskripsi Gambar"></a></td>
-                            </tr>
-                            <tr>
-                                <th>Foto Daya Listrik</th>
-                                <td>:</td>
-                                <td><a href="{{ asset('fotoarsip/foto_daya_listrik/' . $arsip->foto_daya_listrik) }}"
-                                        data-fancybox="gallery">
-                                        <img src="{{ asset('fotoarsip/foto_daya_listrik/' . $arsip->foto_daya_listrik) }}"
-                                            class="rounded img-fluid" width="300px" alt="Deskripsi Gambar"></a></td>
-                            </tr>
-                            <tr>
-                                @if ($arsip->foto_kendaraan === null || $arsip->foto_kendaraan === '')
-                                @else
-                                    <th>Foto Kendaraan</th>
-                                    <td>:</td>
-                                    <td>
-                                        <a href="{{ asset('fotoarsip/foto_kendaraan/' . $arsip->foto_kendaraan) }}"
-                                            data-fancybox="gallery">
-                                            <img src="{{ asset('fotoarsip/foto_kendaraan/' . $arsip->foto_kendaraan) }}"
-                                                class="rounded img-fluid" width="300px" alt="Deskripsi Gambar"></a>
-                                    </td>
-                                @endif
-                            </tr>
+                            @endif
+                        </tr>
                     </table>
                 </div>
             </div>

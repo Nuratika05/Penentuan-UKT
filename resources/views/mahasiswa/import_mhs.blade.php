@@ -124,31 +124,30 @@
                 </div>
             </div>
         </div>
-            <form method="POST" id="deleteForm">
-                @csrf
-                @method('DELETE')
-            </form>
+        <form method="POST" id="deleteForm">
+            @csrf
+            @method('DELETE')
+        </form>
     @endif
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    $(document).ready(function() {
-        var table = $('.datatable').DataTable({
-        });
-        table.columns(9).every(function() {
-            var column = this;
-            var select = $(
-                    '<select class="form-select"><option value="" disabled selected>--Pilih Validasi Data--</option></select>'
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var table = $('.datatable').DataTable({});
+            table.columns(9).every(function() {
+                var column = this;
+                var select = $(
+                        '<select class="form-select"><option value="" disabled selected>--Pilih Validasi Data--</option></select>'
                     )
-                .appendTo($('#search').empty())
-                .appendTo($('#search').empty())
-                .on('change', function() {
-                    var val = $.fn.dataTable.util.escapeRegex($(this).val());
-                    column.search(val ? '^' + val + '$' : '', true, false).draw();
-                });
+                    .appendTo($('#search').empty())
+                    .appendTo($('#search').empty())
+                    .on('change', function() {
+                        var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                        column.search(val ? '^' + val + '$' : '', true, false).draw();
+                    });
 
-            select.append('<option value="Valid">Valid</option>')
-                .append('<option value="Tidak Valid">Tidak Valid</option>');
+                select.append('<option value="Valid">Valid</option>')
+                    .append('<option value="Tidak Valid">Tidak Valid</option>');
+            });
         });
-    });
-</script>
+    </script>
 @endsection

@@ -544,14 +544,44 @@ class DataUktController extends Controller
         if(Auth::guard('admin')->check())
         {
             $berkas = Berkas::find($id);
-            $golongan = $request->status == "Lulus Verifikasi" ? $request->golongan : NULL;
-            $berkas->update([
-                'status' => $request->status,
-                'admin_id' => auth()->guard('admin')->user()->id,
-                'keterangan' => $request->keterangan,
-                'golongan_id' => $request->golongan_id,
-                'nominal_ukt' => $request->nominal_ukt,
-            ]);
+            $mahasiswa = $berkas->mahasiswa;
+            $prodi_id = $mahasiswa->prodi_id;
+            $golongan = Golongan::all();
+            $nominalUkts = [];
+
+            if ($prodi_id) {
+                $kelompokUkt = KelompokUKT::where('prodi_id', $prodi_id)->first();
+                if ($kelompokUkt) {
+                        $pemetaanKolom = [
+                            'Kategori I' => 'kategori1',
+                            'Kategori II' => 'kategori2',
+                            'Kategori III' => 'kategori3',
+                            'Kategori IV' => 'kategori4',
+                            'Kategori V' => 'kategori5',
+                            'Kategori VI' => 'kategori6',
+                            'Kategori VII' => 'kategori7',
+                        ];
+                    }
+                    foreach ($golongan as $gol) {
+                        $namaGolongan = $gol->nama;
+                        $namaKolom = $pemetaanKolom[$namaGolongan];
+                        $nilaiKategori = $kelompokUkt->$namaKolom;
+                    }
+                }
+            if ($request->status === "Lulus Verifikasi") {
+                $berkas->update([
+                    'status' => $request->status,
+                    'admin_id' => auth()->guard('admin')->user()->id,
+                    'golongan_id' => $gol->id,
+                    'nominal_ukt' => $nilaiKategori,
+                ]);
+            } else {
+                $berkas->update([
+                    'status' => $request->status,
+                    'admin_id' => auth()->guard('admin')->user()->id,
+                    'keterangan' => $request->keterangan,
+                ]);
+            }
             return redirect()->route('admin.data-ukt')->with('success', 'Berhasil Menyimpan Data.');
         }
     }
@@ -591,8 +621,8 @@ class DataUktController extends Controller
 
         public function printukt()
         {
+            $admin = auth()->guard('admin')->user();
             if(Auth::guard('admin')->check() && Auth::user()->role == 'verifikator'){
-                $admin = auth()->guard('admin')->user();
                 $berkas = Berkas::with(['admin', 'mahasiswa.prodi'])
                 ->where('status', 'Lulus Verifikasi')
                 ->where(function ($query) use ($admin) {
@@ -604,11 +634,18 @@ class DataUktController extends Controller
                     });
                 })
                 ->get();
+            }
+            elseif(Auth::guard('admin')->check() && Auth::user()->role == 'superadmin'){
+                $berkas = Berkas::where('status', 'Lulus Verifikasi')->get();
+            }
+            if ($berkas->isEmpty()) {
+                return redirect()->back()->with('error', 'Tidak ada data yang tersedia untuk diprint.');
+            }
                 $pdf = PDF::loadView('ukt.printukt', compact('berkas'));
                 $pdf->setBasePath('public_path');
                 $pdf->setPaper('F4', 'portrait');
                 return $pdf->stream("UKT_Mahasiswa.pdf");
         }
-    }
+
 
 }

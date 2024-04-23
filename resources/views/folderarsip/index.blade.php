@@ -13,7 +13,7 @@
     </style>
     <div class="row">
         <div class="col-md-6">
-            <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"></span> Arsip Data UKT Mahasiswa</h4>
+            <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"></span> Arsip UKT Mahasiswa</h4>
             @if (Session::has('success'))
                 <div class="alert alert-success" role="alert">
                     {{ Session::get('success') }}
@@ -25,9 +25,9 @@
             @endif
         </div>
         @if (Auth::guard('admin')->check() && Auth::user()->role == 'superadmin')
-        <div class="col-md-6 text-end m-auto">
-            <a href="{{ route('arsip.create') }}" class="btn btn-outline-primary float-end mb-1 btn-sm">Tambah Folder</a>
-        </div>
+            <div class="col-md-6 text-end m-auto">
+                <a href="{{ route('arsip.create') }}" class="btn btn-outline-primary float-end mb-1 btn-sm">Tambah Folder</a>
+            </div>
         @endif
     </div>
     <div class="card p-4">
@@ -37,7 +37,7 @@
                     <tr>
                         <th>Folder</th>
                         @if (Auth::guard('admin')->check() && Auth::user()->role == 'superadmin')
-                        <th>Aksi</th>
+                            <th>Aksi</th>
                         @endif
                     </tr>
                 </thead>
@@ -48,19 +48,19 @@
                                 <a href="{{ route('admin.arsip', $fol->id) }}"> {{ $fol->nama }} </a>
                             </td>
                             @if (Auth::guard('admin')->check() && Auth::user()->role == 'superadmin')
-                            <td>
-                                <a class="btn btn-xs btn-warning" href="{{ route('arsip.edit', $fol->id) }}">Edit</a>
-                                <form action="{{ route('arsip.destroy', $fol->id) }}" method="POST"
-                                    style="display: inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-xs btn-danger"
-                                        onclick="return confirm('Yakin ingin menghapus folder ini?')">Hapus</button>
-                                </form>
-                            </td>
+                                <td>
+                                    <a class="btn btn-xs btn-warning" href="{{ route('arsip.edit', $fol->id) }}">Edit</a>
+                                    <form action="{{ route('arsip.destroy', $fol->id) }}" method="POST"
+                                        style="display: inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-xs btn-danger"
+                                            onclick="return confirm('Yakin ingin menghapus folder ini?')">Hapus</button>
+                                    </form>
+                                </td>
                             @endif
                         </tr>
-                        @endforeach
+                    @endforeach
                 </tbody>
             </table>
         </div>

@@ -6,10 +6,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $arsip->no_pendaftaran }}-{{ $arsip->nama_mahasiswa }}</title>
     <style type="text/css">
-    .bodyy {font-family: arial;background-color: #f8f8f8}
-    .rangkasurat {width: 700px;margin: 0 auto;background-color: #fff;height: 150px;padding: 1px;}
-    .tablee {border-bottom: 5px solid #000;padding: 1px;}
-    .tengah {text-align: center;line-height: 1px;}
+        .bodyy {
+            font-family: arial;
+            background-color: #f8f8f8
+        }
+
+        .rangkasurat {
+            width: 700px;
+            margin: 0 auto;
+            background-color: #fff;
+            height: 150px;
+            padding: 1px;
+        }
+
+        .tablee {
+            border-bottom: 5px solid #000;
+            padding: 1px;
+        }
+
+        .tengah {
+            text-align: center;
+            line-height: 1px;
+        }
     </style>
 </head>
 <style>
@@ -53,16 +71,17 @@
         margin-top: 20px;
     }
 </style>
+
 <body>
     <div class="rangkasurat">
         <table class="tablee" width="100%">
-               <td><img src="{{ public_path('logo_politani.png')}}" width="100px"></td>
-                <td class="tengah">
-                    <h4>KEMENTERIAN PENDIDIKAN, KEBUDAYAAN, RISET DAN TEKNOLOGI</h4>
-                    <h3>POLITEKNIK PERTANIAN NEGERI SAMARINDA</h3>
-                    <h5>Kampus Gunung Panjang Jl. Samratulangi Samarinda 75131 Telp. 0541-260421, Fax. 0541-260680</h5>
-                    <h5>email: info@politanisamarinda.ac.id politanismd@gmail.com, www.politanisamarinda.ac.id </h5>
-                </td>
+            <td><img src="{{ public_path('logo_politani.png') }}" width="100px"></td>
+            <td class="tengah">
+                <h4>KEMENTERIAN PENDIDIKAN, KEBUDAYAAN, RISET DAN TEKNOLOGI</h4>
+                <h3>POLITEKNIK PERTANIAN NEGERI SAMARINDA</h3>
+                <h5>Kampus Gunung Panjang Jl. Samratulangi Samarinda 75131 Telp. 0541-260421, Fax. 0541-260680</h5>
+                <h5>email: info@politanisamarinda.ac.id politanismd@gmail.com, www.politanisamarinda.ac.id </h5>
+            </td>
     </div>
     <div>
         <h4 style="text-align:center">DATA UKT MAHASISWA <br>POLITEKNIK PERTANIAN NEGERI SAMARINDA</h4>
@@ -128,37 +147,41 @@
             <tr>
                 <td>Foto Slip Gaji</td>
                 <td>:</td>
-                <td><img src="{{ public_path('fotoarsip/foto_slip_gaji/' . $arsip->foto_slip_gaji) }}" class="img-fluid"></td>
+                <td><img src="{{ public_path('fotoarsip/foto_slip_gaji/' . $arsip->foto_slip_gaji) }}"
+                        class="img-fluid"></td>
             </tr>
             <tr>
                 <td>Foto Daya Listrik</td>
                 <td>:</td>
-                <td><img src="{{ public_path('fotoarsip/foto_daya_listrik/' . $arsip->foto_daya_listrik) }}" class="img-fluid">
+                <td><img src="{{ public_path('fotoarsip/foto_daya_listrik/' . $arsip->foto_daya_listrik) }}"
+                        class="img-fluid">
                 </td>
             </tr>
             <tr>
                 @if ($arsip->foto_kendaraan === null || $arsip->foto_kendaraan === '')
                 @else
-                <td>Foto Kendaraan</td>
-                <td>:</td>
-                <td><img src="{{ public_path('fotoarsip/foto_kendaraan/' . $arsip->foto_kendaraan) }}" class="img-fluid"></td>
+                    <td>Foto Kendaraan</td>
+                    <td>:</td>
+                    <td><img src="{{ public_path('fotoarsip/foto_kendaraan/' . $arsip->foto_kendaraan) }}"
+                            class="img-fluid"></td>
                 @endif
             </tr>
             <h5 class="card-header">III. GOLONGAN UKT</h5>
-                    <tr>
-                        <td>Golongan</td>
-                        <td>:</td>
-                        <td>
-                            {{ $arsip->nama_golongan }}
+            <tr>
+                <td>Golongan</td>
+                <td>:</td>
+                <td>
+                    {{ $arsip->nama_golongan }}
 
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Nominal</td>
-                        <td>:</td>
-                        <td>Rp{{ number_format($arsip->nominal) }}</td>
-                    </tr>
-         </div>
-        </table>
+                </td>
+            </tr>
+            <tr>
+                <td>Nominal</td>
+                <td>:</td>
+                <td>Rp{{ number_format($arsip->nominal) }}</td>
+            </tr>
+    </div>
+    </table>
 </body>
+
 </html>

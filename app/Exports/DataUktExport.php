@@ -5,7 +5,8 @@ namespace App\Exports;
 use App\Models\Admin;
 use App\Models\Berkas;
 use App\Models\Mahasiswa;
-use App\Models\Golongan; // Perbaikan pada namespace
+use App\Models\Golongan;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Prodi;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
@@ -20,16 +21,22 @@ class DataUktExport implements FromCollection, WithHeadings, ShouldAutoSize, Wit
     */
     public function collection()
     {
+
+        if(Auth::guard('admin')->check() && Auth::user()->role == 'verifikator'){
+            $Data = Berkas::where('status', 'Lulus Verifikasi')
+            ->where('admin_id', auth()->user()->id)
+            ->get();
+        }else{
         $Data = Berkas::where('status', 'Lulus Verifikasi')
-        ->select('mahasiswa_id', 'admin_id', 'golongan_id')
         ->get();
+        }
 
         $Data = $Data->map(function ($DataUKT) {
             $mahasiswa = Mahasiswa::find($DataUKT->mahasiswa_id);
             $admin = Admin::find($DataUKT->admin_id);
             $golongan = Golongan::find($DataUKT->golongan_id);
             $prodi = Prodi::find($mahasiswa->prodi_id);
-            $nominalFormatted = 'Rp '. number_format($golongan->nominal, 0, ',', '.');
+            $nominalFormatted = 'Rp '. number_format($DataUKT->nominal_ukt, 0, ',', '.');
 
             $exportData = [
                 'no_pendaftaran' => $mahasiswa->id,
@@ -39,7 +46,7 @@ class DataUktExport implements FromCollection, WithHeadings, ShouldAutoSize, Wit
                 'jurusan' => $prodi->jurusan->nama,
                 'verifikator' => $admin->nama,
                 'golongan' => $golongan->nama,
-                'nominal' => 'Rp ' . $nominalFormatted,
+                'nominal' => $nominalFormatted,
                 'jalur' => $mahasiswa->jalur,
             ];
 

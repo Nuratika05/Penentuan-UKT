@@ -74,7 +74,7 @@ use App\Http\Controllers\KelompokUKTController;
     Route::get('admin/arsipp/folder/{id}/export', [FolderArsipController::class, 'arsipexport'])->name('arsip.export');
     Route::get('admin/arsipp/folder/print/{id}', [FolderArsipController::class, 'print'])->name('arsip.print');
     Route::get('admin/arsipp/folder/detail/{id}', [FolderArsipController::class, 'detail'])->name('arsip.detail');
-    Route::post('admin/arsipp/lulus-veririfikasi/arsip', [FolderArsipController::class, 'arsip'])->name('admin.lulus-verifikasi.arsip');
+    Route::post('admin/data-ukt/lulus-verifikasi/arsipkan', [FolderArsipController::class, 'arsip'])->name('admin.lulus-verifikasi.arsip');
 
     Route::get('admin/data-ukt/semua-data-ukt', [DataUktController::class, 'index'])->name('admin.data-ukt');
     Route::get('admin/data-ukt/menunggu-verifikasi', [DataUktController::class, 'verif'])->name('admin.menunggu-verifikasi');

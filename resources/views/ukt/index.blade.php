@@ -20,30 +20,31 @@
                         {{ Session::get('success') }}
                     </div>
                 @endif
-                @if (isset($dataExists) && $dataExists)
-                <a id="search" class="text-align =center"></a><br>
+                @if (Auth::guard('admin')->check() && Auth::user()->role == 'superadmin' && (isset($dataExists) && $dataExists))
+                    <a id="search" class="text-align =center"></a><br>
                 @endif
             </div>
             <div class="col-md-6 text-end m-auto">
                 <div class="col-md-12 mb-5">
                     @if (isset($dataExists) && $dataExists)
-                        <a href="{{ route('datauktexport') }}" class="btn btn-outline-success float-end mb-1 btn-sm"
-                            onClick="return confirm('Yakin akan melakukan export?')">Export</a>
-                        @if (Auth::guard('admin')->check() && Auth::user()->role == 'verifikator')
-                            <a href="{{ route('admin.data-ukt.printukt') }}" class="btn btn-outline-secondary float-end mb-1 btn-sm">Print</a>
-                        @endif
+                        <a href="{{ route('datauktexport') }}"
+                            class="btn btn-outline-success float-end mb-1 btn-sm">Export</a>
+                        <a href="{{ route('admin.data-ukt.printukt') }}"
+                            class="btn btn-outline-secondary float-end mb-1 btn-sm">Print</a>
                         <!-- Tombol Arsipkan -->
                         @if (Auth::guard('admin')->check() && Auth::user()->role == 'superadmin')
                             <button class="btn btn-outline-secondary float-end mb-1 btn-sm" data-toggle="modal"
                                 data-target="#arsipModal">Arsipkan</button>
 
                             <!-- Modal Arsip -->
-                            <div class="modal fade"  id="arsipModal" tabindex="-1" role="dialog"
-                                aria-labelledby="arsipModalLabel" aria-hidden="true" style="background-color: rgba(0, 0, 0, 0.5) !important;">
+                            <div class="modal fade" id="arsipModal" tabindex="-1" role="dialog"
+                                aria-labelledby="arsipModalLabel" aria-hidden="true"
+                                style="background-color: rgba(0, 0, 0, 0.5) !important;">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-body">
-                                            <p style="font-weight: bold;">Jumlah data yang dipilih: <span id="jumlahDipilih">0</span></p>
+                                            <p style="font-weight: bold;">Jumlah data yang dipilih: <span
+                                                    id="jumlahDipilih">0</span></p>
                                             <form action="{{ route('admin.lulus-verifikasi.arsip') }}" method="POST">
                                                 @csrf
                                                 <div class="form-group">
@@ -56,12 +57,18 @@
                                                 </div>
                                                 <br>
                                                 <div class="form-group">
-                                                    <input type="number" id="tahun_angkatan" name="tahun_angkatan" class="form-control" placeholder="Masukkan Tahun Angkatan">
+                                                    <input type="number" id="tahun_angkatan" name="tahun_angkatan"
+                                                        class="form-control" placeholder="Masukkan Tahun Angkatan">
                                                 </div>
+                                                @csrf
+                                                @foreach ($berkas as $item)
+                                                    <input type="hidden" name="data_ids[]" value="{{ $item->id }}">
+                                                @endforeach
                                                 <br>
-                                                <button type="submit" class="btn btn-primary btn-sm" onClick="return confirm('Yakin akan mengarsipkan data?')">Arsipkan</button>
+                                                <button type="submit" id="arsipButton" class="btn btn-primary btn-sm"
+                                                    onClick="return confirm('Yakin akan mengarsipkan data?')">Arsipkan</button>
                                                 <a class=" close btn btn-secondary btn-sm" type="button"
-                                                    data-dismiss="modal"  style="color: white;">Kembali</a>
+                                                    data-dismiss="modal" style="color: white;">Kembali</a>
                                             </form>
                                         </div>
                                     </div>
@@ -77,8 +84,8 @@
             <table class="datatable table py-3">
                 <thead>
                     <tr>
-                        @if (isset($dataExists) && $dataExists)
-                        <th><input type="checkbox" id="centang_semua"></th>
+                        @if (Auth::guard('admin')->check() && Auth::user()->role == 'superadmin' && (isset($dataExists) && $dataExists))
+                            <th><input type="checkbox" id="centang_semua"></th>
                         @endif
                         <th>No</th>
                         <th>No.Pendaftaran</th>
@@ -97,8 +104,8 @@
                 <tbody class="table-border-bottom-0">
                     @foreach ($berkas as $item)
                         <tr>
-                            @if (isset($dataExists) && $dataExists)
-                            <td><input type="checkbox" class="centang_data" value="{{ $item->id }}"></td>
+                            @if (Auth::guard('admin')->check() && Auth::user()->role == 'superadmin' && (isset($dataExists) && $dataExists))
+                                <td><input type="checkbox" class="centang_data" value="{{ $item->id }}"></td>
                             @endif
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $item->mahasiswa->id }}</td>
@@ -133,17 +140,17 @@
                                 @if ($item->status == 'Menunggu Verifikasi' || $item->status == 'Belum Lengkap' || $item->golongan_id == null)
                                     -
                                 @else
-                                    Rp {{ number_format($item->nominal_ukt,0,',','.') }}
+                                    Rp {{ number_format($item->nominal_ukt, 0, ',', '.') }}
                                 @endif
                             </td>
                             <td>{{ $item->mahasiswa->jalur }}</td>
                             <td>
                                 @if ($item->status == 'Menunggu Verifikasi' || $item->status == 'Belum Lengkap')
-                                <a class="btn btn-xs btn-primary"
-                                    href="{{ route('admin.data-ukt.edit', $item->id) }}">Verifikasi</a>
+                                    <a class="btn btn-xs btn-primary"
+                                        href="{{ route('admin.data-ukt.edit', $item->id) }}">Verifikasi</a>
                                 @elseif ($item->status == 'Lulus Verifikasi')
-                                <a class="btn btn-xs btn-primary"
-                                href="{{ route('admin.data-ukt.edit', $item->id) }}">Detail</a>
+                                    <a class="btn btn-xs btn-primary"
+                                        href="{{ route('admin.data-ukt.edit', $item->id) }}">Detail</a>
                                     <a class="btn btn-xs btn-secondary"
                                         href="{{ route('admin.data-ukt.print', $item->id) }}">Print</a>
                                 @endif
@@ -165,12 +172,14 @@
     </div>
     @if ($berkas->status == 'Lulus Verifikasi')
         <div class="col-md-12 mb-5">
-            <a href="{{ route('data-ukt.print') }}" target="_blank" class="btn btn-outline-secondary float-end mb-1 btn-sm">Print</a>
+            <a href="{{ route('data-ukt.print') }}" target="_blank"
+                class="btn btn-outline-secondary float-end mb-1 btn-sm">Print</a>
         </div>
     @endif
     <div class="col-md-6 text-end m-auto">
         @if ($berkas->status == 'Belum Lengkap' || $berkas->status == 'Menunggu Verifikasi')
-            <a href="{{ route('data-ukt.edit', $berkas->id) }}" class="btn btn-outline-primary float-end mb-1 ">Edit Data</a>
+            <a href="{{ route('data-ukt.edit', $berkas->id) }}" class="btn btn-outline-primary float-end mb-1 ">Edit
+                Data</a>
         @endif
     </div>
     <div class="col-md-12">
@@ -252,77 +261,75 @@
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-    $(document).ready(function() {
-    var table = $('.datatable').DataTable({});
-    table.columns(11).every(function() {
-        var column = this;
-        var uniqueValues = column.data().unique().sort().toArray();
-        var maxWidth = 0;
-        $.each(uniqueValues, function(index, value) {
-            var tempSpan = $('<span style="visibility:hidden;white-space:nowrap;">' + value + '</span>').appendTo('body');
-            maxWidth = Math.max(maxWidth, tempSpan.width());
-            tempSpan.remove();
-        });
+        $(document).ready(function() {
+            var table = $('.datatable').DataTable({});
+            table.columns(11).every(function() {
+                var column = this;
+                var uniqueValues = column.data().unique().sort().toArray();
+                var maxWidth = 0;
+                $.each(uniqueValues, function(index, value) {
+                    var tempSpan = $('<span style="visibility:hidden;white-space:nowrap;">' +
+                        value + '</span>').appendTo('body');
+                    maxWidth = Math.max(maxWidth, tempSpan.width());
+                    tempSpan.remove();
+                });
 
-        var select = $('<select class="form-select" id="jalur_pendaftaran"><option value="" disabled selected>--Pilih Jalur Pendaftaran--</option></select>')
-            .css('min-width', maxWidth + 'px')
-            .on('change', function() {
-                var val = $.fn.dataTable.util.escapeRegex($(this).val());
-                column.search(val ? '^' + val + '$' : '', true, false).draw();
-                // Set ulang centang berdasarkan jalur pendaftaran
-                if (val) {
-                    $('.centang_data').prop('checked', false);
-                    $('.centang_data[data-jalur="' + val + '"]').prop('checked', true);
-                    $('#centang_semua').prop('checked', $('.centang_data').length === $('.centang_data:checked').length);
-                    updateJumlahArsipkan();
-                }
+                var select = $(
+                        '<select class="form-select" id="jalur_pendaftaran"><option value="" disabled selected>--Pilih Jalur Pendaftaran--</option></select>'
+                        )
+                    .css('min-width', maxWidth + 'px')
+                    .on('change', function() {
+                        var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                        column.search(val ? '^' + val + '$' : '', true, false).draw();
+                        if (val) {
+                            $('.centang_data').prop('checked', false);
+                            $('.centang_data[data-jalur="' + val + '"]').prop('checked', true);
+                            $('#centang_semua').prop('checked', $('.centang_data').length === $(
+                                '.centang_data:checked').length);
+                            updateJumlahArsipkan();
+                        }
+                    });
+
+                $.each(uniqueValues, function(index, value) {
+                    select.append('<option value="' + value + '">' + value + '</option>');
+                });
+
+                // Masukkan elemen select ke dalam tempat yang sesuai
+                $('#search').append(select);
             });
 
-        $.each(uniqueValues, function(index, value) {
-            select.append('<option value="' + value + '">' + value + '</option>');
-        });
+            // Event listener untuk checkbox "Centang Semua"
+            $('#centang_semua').on('change', function() {
+                $('.centang_data').prop('checked', $(this).prop('checked'));
+                updateJumlahArsipkan();
+            });
 
-        // Masukkan elemen select ke dalam tempat yang sesuai
-        $('#search').append(select);
-    });
+            // Event listener untuk checkbox individu
+            $('.centang_data').on('change', function() {
+                var semua_tercentang = true;
+                $('.centang_data').each(function() {
+                    if (!$(this).prop('checked')) {
+                        semua_tercentang = false;
+                    }
+                });
+                $('#centang_semua').prop('checked', semua_tercentang);
+                updateJumlahArsipkan();
+            });
 
-    // Event listener untuk checkbox "Centang Semua"
-    $('#centang_semua').on('change', function() {
-        $('.centang_data').prop('checked', $(this).prop('checked'));
-        updateJumlahArsipkan();
-    });
+            $('#arsipButton').on('click', function() {
+                var ada_tercentang = $('.centang_data:checked').length > 0;
+                if (!ada_tercentang) {
+                    alert('Tidak ada data yang dipilih.');
+                    return false;
+                }
+                return confirm('Yakin akan mengarsipkan data?');
+            });
 
-    // Event listener untuk checkbox individu
-    $('.centang_data').on('change', function() {
-        var semua_tercentang = true;
-        $('.centang_data').each(function() {
-            if (!$(this).prop('checked')) {
-                semua_tercentang = false;
+            function updateJumlahArsipkan() {
+                var jumlah_dipilih = $('.centang_data:checked').length;
+                $('#jumlahDipilih').text(jumlah_dipilih);
+                $('#arsipButton').prop('disabled', jumlah_dipilih === 0);
             }
         });
-        $('#centang_semua').prop('checked', semua_tercentang);
-        updateJumlahArsipkan();
-    });
-
-    // Event listener untuk tombol "Arsipkan"
-    $('#arsipButton').on('click', function() {
-        // Lakukan pengecekan lagi untuk memastikan bahwa setidaknya satu data dicentang
-        var ada_tercentang = $('.centang_data:checked').length > 0;
-        if (!ada_tercentang) {
-            alert('Tidak ada data yang dicentang.');
-            return false; // Mencegah pengiriman formulir jika tidak ada data yang dicentang
-        }
-        return confirm('Yakin akan mengarsipkan data?');
-    });
-
-    // Fungsi untuk memperbarui jumlah data yang dicentang yang akan diarsipkan
-    function updateJumlahArsipkan() {
-        var jumlah_dipilih = $('.centang_data:checked').length;
-        $('#jumlahDipilih').text(jumlah_dipilih);
-        // Aktifkan atau nonaktifkan tombol "Arsipkan" berdasarkan apakah ada data yang dicentang
-        $('#arsipButton').prop('disabled', jumlah_dipilih === 0);
-    }
-});
-
     </script>
 @endsection

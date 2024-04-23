@@ -8,6 +8,8 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Collection;
 
 class ArsipExport implements FromCollection, WithHeadings, ShouldAutoSize, WithStyles
 {
@@ -24,30 +26,33 @@ class ArsipExport implements FromCollection, WithHeadings, ShouldAutoSize, WithS
     */
     public function collection()
     {
-
-        $arsips = Arsip::where('id_folder', $this->id)->get();
-        $admin = Admin::find($arsips->admin_id);
+        if(Auth::guard('admin')->check() && Auth::user()->role == 'verifikator'){
+            $DataArsips = Arsip::where('id_folder', $this->id)
+            ->where('admin_id', auth()->user()->id)->get();
+        }else{
+        $DataArsips = Arsip::where('id_folder', $this->id)->get();
+        }
         $exportData = collect();
-        foreach ($arsips as $arsip) {
-            // Format nominal
-            $nominalFormatted = 'Rp '.number_format($arsip->nominal, 0, ',', '.');
 
-            // Tambahkan data arsip yang telah diformat ke dalam koleksi untuk diekspor
-            $exportData->push([
-                'no_pendaftaran' => $arsip->no_pendaftaran,
-                'nama_mahasiswa' => $arsip->nama_mahasiswa,
-                'nama_prodi' => $arsip->nama_prodi,
-                'jenjang' => $arsip->jenjang,
-                'nama_jurusan' => $arsip->nama_jurusan,
-                'verifikator' => $admin->nama,
-                'nama_golongan' => $arsip->nama_golongan,
-                'nominal' => $nominalFormatted,
-                'tahun_angkatan' => $arsip->tahun_angkatan,
-                'jalur' => $arsip->jalur,
-            ]);
+        foreach ($DataArsips as $item) {
+        $nominalFormatted = 'Rp '.number_format($item->nominal, 0, ',', '.');
+        $admin = Admin::find($item->admin_id);
+        $exportDataRow = [
+            'no_pendaftaran' => $item->no_pendaftaran,
+            'nama_mahasiswa' => $item->nama_mahasiswa,
+            'nama_prodi' => $item->nama_prodi,
+            'jenjang' => $item->jenjang,
+            'nama_jurusan' => $item->nama_jurusan,
+            'verifikator' => $item->admin->nama,
+            'nama_golongan' => $item->nama_golongan,
+            'nominal' => $nominalFormatted,
+            'tahun_angkatan' => $item->tahun_angkatan,
+            'jalur' => $item->jalur,
+        ];
+
+        $exportData->push($exportDataRow);
         }
 
-        // Kembalikan koleksi data yang telah diformat
         return $exportData;
     }
 
@@ -82,7 +87,7 @@ class ArsipExport implements FromCollection, WithHeadings, ShouldAutoSize, WithS
                 'alignment' => ['horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER],
             ],
             // Style untuk data
-            'A2:I' . ($sheet->getHighestRow()) => [
+            'A2:J' . ($sheet->getHighestRow()) => [
                 'alignment' => ['horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT],
             ],
         ];

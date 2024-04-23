@@ -85,7 +85,7 @@
     <div class="rangkasurat">
         <table class="tablee" width="100%">
             <tr>
-                <td><img src="{{ public_path('logo_politani.png')}}" width="100px"></td>
+                <td><img src="{{ public_path('logo_politani.png') }}" width="100px"></td>
                 <td class="tengah">
                     <h4>KEMENTERIAN PENDIDIKAN, KEBUDAYAAN, RISET DAN TEKNOLOGI</h4>
                     <h3>POLITEKNIK PERTANIAN NEGERI SAMARINDA</h3>
@@ -109,16 +109,16 @@
                 <th>Nominal UKT</th>
             </tr>
             @foreach ($berkas as $id)
-            <tr class="table-td">
-                <td style="border-right: 1px solid #000;">{{ $loop->iteration }}</td>
-                <td style="border-right: 1px solid #000;">{{ $id->mahasiswa->id }}</td>
-                <td style="border-right: 1px solid #000;">{{ $id->mahasiswa->nama }}</td>
-                <td style="border-right: 1px solid #000;">{{ $id->mahasiswa->prodi->nama }}</td>
-                <td style="border-right: 1px solid #000;">{{ $id->mahasiswa->prodi->jenjang }}</td>
-                <td style="border-right: 1px solid #000;">{{ $id->mahasiswa->prodi->jurusan->nama }}</td>
-                <td style="border-right: 1px solid #000;">{{ $id->golongan->nama }}</td>
-                <td style="border-right: 1px solid #000;">Rp{{ number_format ($id->nominal_ukt,0,',','.' )}}</td>
-            </tr>
+                <tr class="table-td">
+                    <td style="border-right: 1px solid #000;">{{ $loop->iteration }}</td>
+                    <td style="border-right: 1px solid #000;">{{ $id->mahasiswa->id }}</td>
+                    <td style="border-right: 1px solid #000;">{{ $id->mahasiswa->nama }}</td>
+                    <td style="border-right: 1px solid #000;">{{ $id->mahasiswa->prodi->nama }}</td>
+                    <td style="border-right: 1px solid #000;">{{ $id->mahasiswa->prodi->jenjang }}</td>
+                    <td style="border-right: 1px solid #000;">{{ $id->mahasiswa->prodi->jurusan->nama }}</td>
+                    <td style="border-right: 1px solid #000;">{{ $id->golongan->nama }}</td>
+                    <td style="border-right: 1px solid #000;">Rp{{ number_format($id->nominal_ukt, 0, ',', '.') }}</td>
+                </tr>
             @endforeach
         </table>
     </div>

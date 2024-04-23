@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" class="light-style customizer-hide" dir="ltr" data-theme="theme-default" data-template="vertical-menu-template-free">
+<html lang="en" class="light-style customizer-hide" dir="ltr" data-theme="theme-default"
+    data-template="vertical-menu-template-free">
 
 <head>
     <meta charset="utf-8" />
@@ -25,7 +26,8 @@
 
     <!-- Core CSS -->
     <link rel="stylesheet" href="{{ asset('assets/vendor/css/core.css') }}" class="template-customizer-core-css" />
-    <link rel="stylesheet" href="{{ asset('assets/vendor/css/theme-default.css') }}" class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/css/theme-default.css') }}"
+        class="template-customizer-theme-css" />
     <link rel="stylesheet" href="{{ asset('assets/css/demo.css') }}" />
 
     <!-- Vendors CSS -->
@@ -56,26 +58,30 @@
                                 <span class="app-brand-logo demo">
                                     <img src="{{ asset('logo_politani.png') }}" alt="Logo Politani" width="40px" />
                                 </span>
-                                <span class="text-capitalize app-brand-text demo text-body fw-bolder">ADMIN UKT POLITANI</span>
+                                <span class="text-capitalize app-brand-text demo text-body fw-bolder">ADMIN UKT
+                                    POLITANI</span>
                             </a>
                         </div>
-                        @if(Session::has('loginErrorAdmin'))
-                        <div class="alert alert-danger" role="alert">
-                            {{ Session::get('loginErrorAdmin') }}
-                        </div>
+                        @if (Session::has('loginErrorAdmin'))
+                            <div class="alert alert-danger" role="alert">
+                                {{ Session::get('loginErrorAdmin') }}
+                            </div>
                         @endif
-                        <form id="formAuthentication" class="mb-3" action="{{ route('admin.login') }}" method="POST">
+                        <form id="formAuthentication" class="mb-3" action="{{ route('admin.login') }}"
+                            method="POST">
                             @csrf
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control" name="email" required autocomplete="email" value="{{ old('email') }}" autofocus />
+                                <input type="email" class="form-control" name="email" required autocomplete="email"
+                                    value="{{ old('email') }}" autofocus />
                             </div>
                             <div class="mb-3 form-password-toggle">
                                 <div class="d-flex justify-content-between">
                                     <label class="form-label" for="password">Password</label>
                                 </div>
                                 <div class="input-group input-group-merge">
-                                    <input type="password" id="password" class="form-control" name="password" required autocomplete="current-password" aria-describedby="password" />
+                                    <input type="password" id="password" class="form-control" name="password" required
+                                        autocomplete="current-password" aria-describedby="password" />
                                     <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                                 </div>
                             </div>
@@ -113,4 +119,3 @@
 </body>
 
 </html>
-
