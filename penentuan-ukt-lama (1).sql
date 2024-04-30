@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Apr 30, 2024 at 02:19 PM
+-- Generation Time: Apr 30, 2024 at 02:24 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -112,14 +112,6 @@ CREATE TABLE `folders` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `folders`
---
-
-INSERT INTO `folders` (`id`, `nama`, `created_at`, `updated_at`) VALUES
-(3, '2024 january', '2024-03-21 04:33:39', '2024-03-31 18:37:25'),
-(8, 'SNBT 2024', '2024-03-28 22:18:39', '2024-03-28 22:18:39');
 
 -- --------------------------------------------------------
 
