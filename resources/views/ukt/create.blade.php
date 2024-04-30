@@ -116,22 +116,16 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
         $(document).ready(function() {
-            // Dapatkan elemen select kriteria
             var kriteriaSelect = $('select#3');
 
-            // Dapatkan elemen form kendaraan
             var formKendaraan = $('div#foto_kendaraan');
-
-            // Tangani perubahan pada setiap elemen select
             kriteriaSelect.change(function() {
-                // Dapatkan nilai opsi yang dipilih
                 var selectedValue = $(this).val();
-
-                // Tentukan apakah form kendaraan harus ditampilkan atau disembunyikan
-                var isFormVisible = (selectedValue != 17);
-                // Tampilkan atau sembunyikan form kendaraan
+                var isFormVisible = (selectedValue != 'tidak ada kendaraan');
                 formKendaraan.toggle(isFormVisible);
-
+                if (!isFormVisible) {
+                    $('#foto_kendaraan').val('');
+                }
             });
         });
     </script>

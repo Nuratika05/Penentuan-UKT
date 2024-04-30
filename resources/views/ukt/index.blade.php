@@ -33,8 +33,8 @@
                             class="btn btn-outline-secondary float-end mb-1 btn-sm">Print</a>
                         <!-- Tombol Arsipkan -->
                         @if (Auth::guard('admin')->check() && Auth::user()->role == 'superadmin')
-                            <button class="btn btn-outline-secondary float-end mb-1 btn-sm" data-toggle="modal"
-                                data-target="#arsipModal">Arsipkan</button>
+                            <button id="arsipkan" class="btn btn-outline-secondary float-end mb-1 btn-sm"
+                                data-toggle="modal" data-target="#arsipModal" disabled>Arsipkan</button>
 
                             <!-- Modal Arsip -->
                             <div class="modal fade" id="arsipModal" tabindex="-1" role="dialog"
@@ -59,16 +59,11 @@
                                                 <div class="form-group">
                                                     <input type="number" id="tahun_angkatan" name="tahun_angkatan"
                                                         class="form-control" placeholder="Masukkan Tahun Angkatan">
+                                                    <input type="hidden" id="data_ids_input" name="data_ids[]">
+                                                    <br>
+                                                    <button type="submit" id="arsipButton" class="btn btn-primary btn-sm" id="arsipForm">Arsipkan</button>
+                                                    <a class=" close btn btn-secondary btn-sm" type="button" data-dismiss="modal" style="color: white;">Kembali</a>
                                                 </div>
-                                                @csrf
-                                                @foreach ($berkas as $item)
-                                                    <input type="hidden" name="data_ids[]" value="{{ $item->id }}">
-                                                @endforeach
-                                                <br>
-                                                <button type="submit" id="arsipButton" class="btn btn-primary btn-sm"
-                                                    onClick="return confirm('Yakin akan mengarsipkan data?')">Arsipkan</button>
-                                                <a class=" close btn btn-secondary btn-sm" type="button"
-                                                    data-dismiss="modal" style="color: white;">Kembali</a>
                                             </form>
                                         </div>
                                     </div>
@@ -276,7 +271,7 @@
 
                 var select = $(
                         '<select class="form-select" id="jalur_pendaftaran"><option value="" disabled selected>--Pilih Jalur Pendaftaran--</option></select>'
-                        )
+                    )
                     .css('min-width', maxWidth + 'px')
                     .on('change', function() {
                         var val = $.fn.dataTable.util.escapeRegex($(this).val());
@@ -294,17 +289,14 @@
                     select.append('<option value="' + value + '">' + value + '</option>');
                 });
 
-                // Masukkan elemen select ke dalam tempat yang sesuai
                 $('#search').append(select);
             });
 
-            // Event listener untuk checkbox "Centang Semua"
             $('#centang_semua').on('change', function() {
                 $('.centang_data').prop('checked', $(this).prop('checked'));
                 updateJumlahArsipkan();
             });
 
-            // Event listener untuk checkbox individu
             $('.centang_data').on('change', function() {
                 var semua_tercentang = true;
                 $('.centang_data').each(function() {
@@ -316,19 +308,29 @@
                 updateJumlahArsipkan();
             });
 
-            $('#arsipButton').on('click', function() {
+            $('#arsipkan').on('click', function() {
                 var ada_tercentang = $('.centang_data:checked').length > 0;
                 if (!ada_tercentang) {
-                    alert('Tidak ada data yang dipilih.');
-                    return false;
+                    // Tidak melakukan apa-apa jika tidak ada data yang dipilih
+                    return;
                 }
-                return confirm('Yakin akan mengarsipkan data?');
+            });
+
+            $('#arsipButton').on('click', function() {
+                var data_ids = [];
+                $('.centang_data:checked').each(function() {
+                    data_ids.push($(this).val());
+                });
+                $('#data_ids_input').val(data_ids);
+                if (confirm("Yakin Akan Mengarsipkan Data?")) {
+                    $('#arsipForm').submit();
+                }
             });
 
             function updateJumlahArsipkan() {
                 var jumlah_dipilih = $('.centang_data:checked').length;
                 $('#jumlahDipilih').text(jumlah_dipilih);
-                $('#arsipButton').prop('disabled', jumlah_dipilih === 0);
+                $('#arsipkan').prop('disabled', jumlah_dipilih === 0);
             }
         });
     </script>

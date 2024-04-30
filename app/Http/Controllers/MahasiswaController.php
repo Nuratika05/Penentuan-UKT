@@ -36,8 +36,6 @@ class MahasiswaController extends Controller
         $request->validate(Mahasiswa::rules(), Mahasiswa::$messages);
 
         try {
-      //      dd($request->id);
-      //dd($request->all());
         Mahasiswa::create([
 
             'id' => $request->id,
@@ -55,13 +53,11 @@ class MahasiswaController extends Controller
         } catch (QueryException $e) {
         $errorCode = $e->errorInfo[1];
         if ($errorCode == 1062) {
-            // Kode 1062 adalah kode untuk kesalahan unik (duplicate key)
             return redirect()->route('mahasiswa.index')->with('error', 'Gagal Menambahkan Data. Nomor Pendaftaran Sudah Ada.')->withErrors($validator)->withInput();
         }elseif ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
 
         } else {
-            // Tangani jenis kesalahan lain jika diperlukan
             return redirect()->route('mahasiswa.index')->with('error', 'Gagal Menambahkan Data. Terjadi Kesalahan.')->withErrors($validator)->withInput();
         }
 

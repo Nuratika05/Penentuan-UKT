@@ -11,7 +11,7 @@
                         @method('PUT')
                         <div class="mb-3">
                             <label for="nama">Nama Golongan</label>
-                            <select name="nama" id="nama" class="form-select">
+                            <select name="nama" id="nama" class="form-select"> 
                                 <option value="Kategori I" {{ $golongan->nama == 'Kategori I' ? 'selected' : '' }}>Kategori
                                     I</option>
                                 <option value="Kategori II" {{ $golongan->nama == 'Kategori II' ? 'selected' : '' }}>

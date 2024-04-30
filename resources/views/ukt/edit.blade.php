@@ -156,7 +156,7 @@
                                                 <th>Rekomendasi Golongan</th>
                                                 <td>:</td>
                                                 <td>{{ $berkas->golongan->nama }} =
-                                                    Rp{{ number_format($berkas->nominal_ukt, 0, ',', '.') }}</td>
+                                                    Rp {{ number_format($berkas->nominal_ukt, 0, ',', '.') }}</td>
                                             </tr>
                                             <tr>
                                                 <th>Ubah Status</th>
@@ -181,13 +181,12 @@
                                                 <th>Tetapkan Golongan UKT</th>
                                                 <td>:</td>
                                                 <td>
-                                                    <select name="nominal_ukt" id="nominal_ukt" class="form-select"
+                                                    <select name="golongan_id" id="golongan_id" class="form-select"
                                                         required>
-                                                        @foreach ($nominalUkts as $nominalUkt)
-                                                            <option value="{{ $nominalUkt['nominal_ukt'] }}"
-                                                                {{ $berkas->golongan->nama == $nominalUkt['golongan_id'] ? 'selected' : '' }}>
-                                                                {{ $nominalUkt['golongan_id'] }} = Rp
-                                                                {{ number_format($nominalUkt['nominal_ukt'], 0, ',', '.') }}
+                                                        @foreach ($golongan as $gol)
+                                                            <option value="{{ $gol->id }}"
+                                                                {{ $berkas->golongan_id == $gol->id ? 'selected' : '' }}>
+                                                                {{ $gol->nama }} = Rp {{ number_format($nominalUkts[$loop->index]['nominal_ukt'], 0, ',', '.') }}
                                                             </option>
                                                         @endforeach
                                                     </select>
@@ -206,7 +205,8 @@
                                                 <td>:</td>
                                                 <td>
                                                     Rp{{ number_format($berkas->nominal_ukt, 0, ',', '.') }}
-                                                </td </tr>
+                                                </td>
+                                            </tr>
                                         @endif
                                     </table>
                         </div>
@@ -339,6 +339,7 @@
                             </div>
                         @enderror
                     </div>
+                    <img id="preview_foto_kendaraan" src="" class="rounded img-fluid" width="250px">
                 @else
                     <div class="mb-3" id="foto_kendaraan">
                         <label for="foto_kendaraan" class="form-label">Foto Kendaraan</label><span class="text-danger"
@@ -390,40 +391,45 @@
                 );
             }
         });
-    </script>
-    <script>
+
         $(document).ready(function() {
             var kriteriaSelect = $('select#3');
-
             var formKendaraan = $('div#foto_kendaraan');
 
-            kriteriaSelect.on('change', function() {
-                var selectedValue = $(this).val();
+            function toggleFormVisibility() {
+                var selectedValue = kriteriaSelect.val();
                 var isFormVisible = (selectedValue != 17);
                 formKendaraan.toggle(isFormVisible);
 
-            });
-            if (kriteriaSelect.val() == 17) {
-                formKendaraan.hide();
-            } else {
-                formKendaraan.show();
+                if (!isFormVisible) {
+                    $('#foto_kendaraan').val(''); // Hapus nilai input file
+                    $('#preview_foto_kendaraan').attr('src', ''); // Hapus pratinjau gambar
+                }
             }
+
+            kriteriaSelect.on('change', function() {
+                toggleFormVisibility();
+            });
+
+            if (kriteriaSelect.val() == 'tidak ada kendaraan') {
+                formKendaraan.hide();
+            }
+
+            toggleFormVisibility();
         });
-    </script>
-    <script>
+
         function goBack() {
             window.history.back();
         }
-    </script>
-    <script>
+
         $(document).ready(function() {
             // Fungsi untuk menampilkan/menyembunyikan opsi select berdasarkan status yang dipilih
             function toggleGolonganUktSelect() {
                 var status = $('#status').val();
                 if (status === 'Menunggu Verifikasi' || status === 'Belum Lengkap') {
-                    $('#nominal_ukt').closest('tr').hide();
+                    $('#golongan_id').closest('tr').hide();
                 } else {
-                    $('#nominal_ukt').closest('tr').show();
+                    $('#golongan_id').closest('tr').show();
                 }
             }
 

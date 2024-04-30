@@ -226,12 +226,8 @@ class DataUktController extends Controller
                 'subkriteria_id' => $subkriteria->id,
             ];
             }
-
-        // Setelah perulangan, simpan semua data ke dalam tabel
         Penilaian::insert($dataPenilaian);
 
-
-        // Dapatkan Nilai Subkriteria dari subkriteria yang dipilih
         $nilai = Penilaian::where('mahasiswa_id', $mahasiswa->id)->get();
         $total = 0;
         foreach($nilai as $key => $value)
@@ -261,15 +257,10 @@ class DataUktController extends Controller
                     'Kategori V' => 'kategori5',
                     'Kategori VI' => 'kategori6',
                     'Kategori VII' => 'kategori7',
-                // Lanjutkan dengan pemetaan untuk kategori lainnya sesuai dengan kebutuhan Anda
                 ];
 
-                // Memastikan bahwa ada pemetaan yang sesuai untuk nama golongan yang ditemukan
                 if (array_key_exists($namaGolongan, $pemetaanKolom)) {
-                    // Mendapatkan nama kolom yang sesuai dari tabel KelompokUKT
                     $namaKolom = $pemetaanKolom[$namaGolongan];
-
-                    // Mengambil nilai nominal UKT dari kolom yang sesuai di tabel KelompokUKT
                     $nominalUkt = $kelompokUkt->$namaKolom;
                 } else {
                 }
@@ -291,7 +282,7 @@ class DataUktController extends Controller
         $foto_kendaraan->move($path, $file_kendaraan);
         }
         else{
-            $file_kendaraan = null; // Setel nilai menjadi null jika foto kendaraan tidak ada
+            $file_kendaraan = null;
         }
 
         $foto_slip_gaji = $request->file('foto_slip_gaji');
@@ -317,18 +308,16 @@ class DataUktController extends Controller
         ]);
 
         DB::commit();
-        // Redirect kembali dengan kesalahan
             return redirect()->route('mahasiswa.data-ukt')->with('success', 'Data-UKT berhasil dibuat.');
         } catch (\Exception $e) {
             DB::rollBack();
-            // Handle the case where Berkas creation fails
             return back()->withErrors(['error' => 'Terjadi kesalahan: ' . $e->getMessage()])->withInput();
         }
 }
 
     public function edit(Request $request, $id)
     {
-        // dd($request);
+
         if(Auth::guard('mahasiswa')->check())
         {
             $mahasiswa = auth()->guard('mahasiswa')->user();
@@ -384,7 +373,7 @@ class DataUktController extends Controller
             return view('ukt.edit', compact('berkas','nominalUkts', 'golongan', 'penilaians', 'kriteria', 'prodis', 'kelompokUkt'));
         }
     }
-    public function update(Request $request, $id)
+      public function update(Request $request, $id)
     {
 
         if(Auth::guard('mahasiswa')->check())
@@ -460,24 +449,18 @@ class DataUktController extends Controller
             $total = 0;
             foreach($nilai as $key => $value)
             {
-                // jumlahkan nilai subkriteria
             $total += $value->subkriteria->nilai;
             }
 
             $prodi_id = $mahasiswa->prodi_id;
             $kelompokUkt = KelompokUKT::where('prodi_id', $prodi_id)->first();
             if ($kelompokUkt) {
-            // Ambil golongan berdasarkan perhitungan
                 $dataGolongan = Golongan::where('nilai_minimal', '<=', $total)
                 ->where('nilai_maksimal', '>=', $total)
                 ->first();
 
-            // Pastikan data golongan ditemukan
             if ($dataGolongan) {
-                // Ambil nama golongan
                 $namaGolongan = $dataGolongan->nama;
-
-                // Membuat pemetaan antara nama golongan dari tabel Golongan dengan nama kolom di tabel KelompokUKT
                 $pemetaanKolom = [
                     'Kategori I' => 'kategori1',
                     'Kategori II' => 'kategori2',
@@ -486,15 +469,9 @@ class DataUktController extends Controller
                     'Kategori V' => 'kategori5',
                     'Kategori VI' => 'kategori6',
                     'Kategori VII' => 'kategori7',
-                // Lanjutkan dengan pemetaan untuk kategori lainnya sesuai dengan kebutuhan Anda
                 ];
-
-                // Memastikan bahwa ada pemetaan yang sesuai untuk nama golongan yang ditemukan
                 if (array_key_exists($namaGolongan, $pemetaanKolom)) {
-                    // Mendapatkan nama kolom yang sesuai dari tabel KelompokUKT
                     $namaKolom = $pemetaanKolom[$namaGolongan];
-
-                    // Mengambil nilai nominal UKT dari kolom yang sesuai di tabel KelompokUKT
                     $nominalUkt = $kelompokUkt->$namaKolom;
                 } else {
                   $nominalUkt = null;
@@ -546,43 +523,40 @@ class DataUktController extends Controller
             $berkas = Berkas::find($id);
             $mahasiswa = $berkas->mahasiswa;
             $prodi_id = $mahasiswa->prodi_id;
-            $golongan = Golongan::all();
-            $nominalUkts = [];
-
-            if ($prodi_id) {
-                $kelompokUkt = KelompokUKT::where('prodi_id', $prodi_id)->first();
-                if ($kelompokUkt) {
-                        $pemetaanKolom = [
-                            'Kategori I' => 'kategori1',
-                            'Kategori II' => 'kategori2',
-                            'Kategori III' => 'kategori3',
-                            'Kategori IV' => 'kategori4',
-                            'Kategori V' => 'kategori5',
-                            'Kategori VI' => 'kategori6',
-                            'Kategori VII' => 'kategori7',
-                        ];
-                    }
-                    foreach ($golongan as $gol) {
-                        $namaGolongan = $gol->nama;
-                        $namaKolom = $pemetaanKolom[$namaGolongan];
-                        $nilaiKategori = $kelompokUkt->$namaKolom;
-                    }
+            $dataGolongan = Golongan::all();
+            $kelompokUkt = KelompokUKT::where('prodi_id', $prodi_id)->first();
+            if ($kelompokUkt && $dataGolongan->isNotEmpty()) {
+                $namaGolongan = $dataGolongan->where('id', $request->golongan_id)->pluck('nama')->first();
+                $pemetaanKolom = [
+                    'Kategori I' => 'kategori1',
+                    'Kategori II' => 'kategori2',
+                    'Kategori III' => 'kategori3',
+                    'Kategori IV' => 'kategori4',
+                    'Kategori V' => 'kategori5',
+                    'Kategori VI' => 'kategori6',
+                    'Kategori VII' => 'kategori7',
+                ];
+                if (array_key_exists($namaGolongan, $pemetaanKolom)) {
+                    $namaKolom = $pemetaanKolom[$namaGolongan];
+                    $nominalUkt = $kelompokUkt->$namaKolom;
                 }
-            if ($request->status === "Lulus Verifikasi") {
-                $berkas->update([
-                    'status' => $request->status,
-                    'admin_id' => auth()->guard('admin')->user()->id,
-                    'golongan_id' => $gol->id,
-                    'nominal_ukt' => $nilaiKategori,
-                ]);
-            } else {
-                $berkas->update([
-                    'status' => $request->status,
-                    'admin_id' => auth()->guard('admin')->user()->id,
-                    'keterangan' => $request->keterangan,
-                ]);
             }
-            return redirect()->route('admin.data-ukt')->with('success', 'Berhasil Menyimpan Data.');
+            $updateData = [
+                'status' => $request->status,
+                'admin_id' => auth()->guard('admin')->user()->id,
+            ];
+            if ($request->status === "Lulus Verifikasi") {
+                $updateData['golongan_id'] = $request->golongan_id;
+                $updateData['nominal_ukt'] = $nominalUkt;
+                $updateData['keterangan'] = null;
+
+            } elseif ($request->status === "Belum Lengkap") {
+                $updateData['keterangan'] = $request->keterangan;
+            }
+
+            $berkas->update($updateData);
+
+            return redirect()->route('admin.data-ukt')->with('success', 'Berhasil Verifikasi Data.');
         }
     }
 

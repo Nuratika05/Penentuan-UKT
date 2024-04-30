@@ -38,61 +38,53 @@ class FolderArsipController extends Controller
             ->get();
         }
         $dataExists = $arsip->isNotEmpty();
-        // Teruskan data ke tampilan
         return view('folderarsip.folder', compact('arsip', 'folder', 'dataExists'));
     }
     public function arsip(Request $request)
     {
+
         $request->validate([
             'data_ids' => 'required|array',
         ]);
-
         $dataIds = $request->input('data_ids');
         $jumlahDataDiarsipkan = 0;
 
         foreach ($dataIds as $dataId) {
         $item = Berkas::findOrFail($dataId);
-        //foto_tempat_tinggal
+
         if ($item->foto_tempat_tinggal) {
             $pathAsaltempattinggal = public_path('foto_tempat_tinggal/' . $item->foto_tempat_tinggal);
             $namaFiletempattinggal = pathinfo($pathAsaltempattinggal, PATHINFO_BASENAME);
             $pathTujuantempattinggal = public_path('fotoarsip/foto_tempat_tinggal/' . $namaFiletempattinggal);
 
-            // Memeriksa apakah file foto_slip_gaji ada sebelum mencoba memindahkannya
             if (File::exists($pathAsaltempattinggal)) {
                 File::move($pathAsaltempattinggal, $pathTujuantempattinggal);
             }
         }
-        //foto_daya_listrik
         if ($item->foto_daya_listrik) {
             $pathAsaldayalistrik = public_path('foto_daya_listrik/' . $item->foto_daya_listrik);
             $namaFiledayalistrik = pathinfo($pathAsaldayalistrik, PATHINFO_BASENAME);
             $pathTujuandayalistrik = public_path('fotoarsip/foto_daya_listrik/' . $namaFiledayalistrik);
 
-            // Memeriksa apakah file foto_slip_gaji ada sebelum mencoba memindahkannya
             if (File::exists($pathAsaldayalistrik)) {
                 File::move($pathAsaldayalistrik, $pathTujuandayalistrik);
             }
         }
-        //foto_slip_gaji
         if ($item->foto_slip_gaji) {
             $pathAsalSlipGaji = public_path('foto_slip_gaji/' . $item->foto_slip_gaji);
             $namaFileSlipGaji = pathinfo($pathAsalSlipGaji, PATHINFO_BASENAME);
             $pathTujuanSlipGaji = public_path('fotoarsip/foto_slip_gaji/' . $namaFileSlipGaji);
 
-            // Memeriksa apakah file foto_slip_gaji ada sebelum mencoba memindahkannya
             if (File::exists($pathAsalSlipGaji)) {
                 File::move($pathAsalSlipGaji, $pathTujuanSlipGaji);
             }
         }
 
-        // Memeriksa apakah file kendaraan ada
         if ($item->foto_kendaraan) {
             $pathAsalkendaraan = public_path('foto_kendaraan/' . $item->foto_kendaraan);
             $namaFilekendaraan = pathinfo($pathAsalkendaraan, PATHINFO_BASENAME);
             $pathTujuankendaraan = public_path('fotoarsip/foto_kendaraan/' . $namaFilekendaraan);
 
-            // Memeriksa apakah file foto_slip_gaji ada sebelum mencoba memindahkannya
             if (File::exists($pathAsalkendaraan)) {
                 File::move($pathAsalkendaraan, $pathTujuankendaraan);
             }
@@ -120,20 +112,22 @@ class FolderArsipController extends Controller
 
         ]);
 
-        $penilaians = Penilaian::where('mahasiswa_id', $dataId)->get();
+        $penilaians = Penilaian::where('mahasiswa_id', $item->mahasiswa_id)->get();
         foreach ($penilaians as $penilaian) {
-        PenilaianArsip::create([
-            'no_pendaftaran' => $penilaian->mahasiswa->id,
-            'kriteria' => $penilaian->kriteria->nama,
-            'subkriteria' => $penilaian->subkriteria->nama,
-        ]);
+            PenilaianArsip::create([
+                'no_pendaftaran' => $penilaian->mahasiswa->id,
+                'kriteria' => $penilaian->kriteria->nama,
+                'subkriteria' => $penilaian->subkriteria->nama,
+            ]);
         }
 
+        $mahasiswaId = $item->mahasiswa->id;
         $item->delete();
-        Penilaian::where('mahasiswa_id', $dataId)->delete();
-        Mahasiswa::where('id', $dataId)->delete();
+        Penilaian::where('mahasiswa_id', $mahasiswaId)->delete();
+        Mahasiswa::where('id', $mahasiswaId)->delete();
         $jumlahDataDiarsipkan++;
     }
+
         if ($jumlahDataDiarsipkan > 0) {
             return redirect()->back()->with('success', 'Berhasil mengarsipkan ' . $jumlahDataDiarsipkan . ' data.');
         } else {
