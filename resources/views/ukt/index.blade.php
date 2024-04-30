@@ -19,6 +19,10 @@
                     <div class="alert alert-success" role="alert">
                         {{ Session::get('success') }}
                     </div>
+                @elseif (Session::has('error'))
+                    <div class="alert alert-danger" role="alert">
+                        {{ Session::get('error') }}
+                    </div>
                 @endif
                 @if (Auth::guard('admin')->check() && Auth::user()->role == 'superadmin' && (isset($dataExists) && $dataExists))
                     <a id="search" class="text-align =center"></a><br>
@@ -48,7 +52,7 @@
                                             <form action="{{ route('admin.lulus-verifikasi.arsip') }}" method="POST">
                                                 @csrf
                                                 <div class="form-group">
-                                                    <select name="id_folder" class="form-select">
+                                                    <select name="id_folder" class="form-select" autofocus required>
                                                         <option value="" selected disabled>--Pilih Folder--</option>
                                                         @foreach ($folder as $fol)
                                                             <option value="{{ $fol->id }}">{{ $fol->nama }}</option>
@@ -58,12 +62,12 @@
                                                 <br>
                                                 <div class="form-group">
                                                     <input type="number" id="tahun_angkatan" name="tahun_angkatan"
-                                                        class="form-control" placeholder="Masukkan Tahun Angkatan">
+                                                        class="form-control" placeholder="Masukkan Tahun Angkatan" required>
                                                     <input type="hidden" id="data_ids_input" name="data_ids[]">
-                                                    <br>
-                                                    <button type="submit" id="arsipButton" class="btn btn-primary btn-sm" id="arsipForm">Arsipkan</button>
-                                                    <a class=" close btn btn-secondary btn-sm" type="button" data-dismiss="modal" style="color: white;">Kembali</a>
                                                 </div>
+                                                <br>
+                                                <button type="submit" id="arsipButton" class="btn btn-primary btn-sm">Arsipkan</button>
+                                                <a class=" close btn btn-secondary btn-sm" type="button" data-dismiss="modal" style="color: white;">Kembali</a>
                                             </form>
                                         </div>
                                     </div>
@@ -322,9 +326,6 @@
                     data_ids.push($(this).val());
                 });
                 $('#data_ids_input').val(data_ids);
-                if (confirm("Yakin Akan Mengarsipkan Data?")) {
-                    $('#arsipForm').submit();
-                }
             });
 
             function updateJumlahArsipkan() {
