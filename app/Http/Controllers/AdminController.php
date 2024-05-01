@@ -115,7 +115,7 @@ class AdminController extends Controller
 
             if ($errorCode == 1451) {
 
-                return redirect()->route('mahasiswa.index')->with('error', 'Data tidak dapat dihapus karena terkait dengan data lain.');
+                return redirect()->route('admin.index')->with('error', 'Data tidak dapat dihapus karena terkait dengan data lain.');
             }
 
             // Jika ada pengecualian lain, lemparkan kembali pengecualian
