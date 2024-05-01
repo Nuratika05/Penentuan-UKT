@@ -106,7 +106,20 @@ class AdminController extends Controller
 
     public function destroy(Admin $admin)
     {
-        $admin->delete();
-        return redirect()->route('admin.index')->with('success', 'Berhasil Menghapus Data.');
+
+        try {
+            $admin->delete();
+            return redirect()->route('admin.index')->with('success', 'Berhasil Menghapus Data.');
+        } catch (QueryException $e) {
+            $errorCode = $e->errorInfo[1];
+
+            if ($errorCode == 1451) {
+
+                return redirect()->route('mahasiswa.index')->with('error', 'Data tidak dapat dihapus karena terkait dengan data lain.');
+            }
+
+            // Jika ada pengecualian lain, lemparkan kembali pengecualian
+            throw $e;
+        }
     }
 }
