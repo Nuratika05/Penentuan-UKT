@@ -29,7 +29,7 @@ class AdminController extends Controller
     public function store(Request $request)
     {
         $message = [
-            'password' => 'Password harus berisi minimal 8 karakter',
+            'password' => 'Password harus berisi minimal 4 karakter',
         ];
         $request->validate([
             'password' => ['required', Password::min(4)],
@@ -78,10 +78,10 @@ class AdminController extends Controller
             ]);
         } else {
             $message = [
-                'password' => 'Password harus berisi minimal 8 karakter',
+                'password' => 'Password harus berisi minimal 4 karakter',
             ];
             $request->validate([
-                'password' => ['required', Password::min(8)],
+                'password' => ['required', Password::min(4)],
             ],$message);
             // jika input password terisi
             $admin->update([
