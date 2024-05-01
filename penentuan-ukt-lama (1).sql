@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Apr 30, 2024 at 02:24 PM
+-- Generation Time: May 01, 2024 at 07:12 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -43,7 +43,7 @@ CREATE TABLE `admins` (
 --
 
 INSERT INTO `admins` (`id`, `nama`, `email`, `role`, `jurusan_id`, `password`, `created_at`, `updated_at`) VALUES
-(22, 'Rekayasa dan Komputer', 'rekayasadankomputer@gmail.com', 'verifikator', 3, '$2y$10$/gh.4OHUzorHl0GHWS.lT.xvnQqb2apL0nhyGm3R86WyuG0GztyJe', '2023-12-29 01:39:07', '2024-04-30 05:05:53'),
+(22, 'Rekayasa dan Komputer\r\n', 'rekayasadankomputer@gmail.com', 'verifikator', 3, '$2y$10$sbPxpG86UQYDzoN2sHoZxeymoh5jqIUSXOTy52DtLypHz9FWvAuUW', '2023-12-29 01:39:07', '2024-04-30 18:50:14'),
 (30, 'Pertanian', 'pertanian@gmail.com', 'verifikator', 1, '$2y$10$dL.JpFZEZ8Ma/zNp.n3Ge.oToVIng4TZtNvb/MVaLEhITskIjEQtK', '2023-12-29 21:33:37', '2024-04-30 05:06:29'),
 (33, 'Lingkungan dan Kehutanan', 'lingkungandankehutanan@gmail.com', 'verifikator', 2, '$2y$10$091vuiAqnrB0GcRtgRSehOzyhAHl6dPiYf9qIUKuDlxo9fQtfl7Ky', '2024-01-02 03:59:51', '2024-04-30 05:07:00'),
 (34, 'Super Admin', 'admin@gmail.com', 'superadmin', NULL, '$2y$10$JohywLr.gB3sxAq.n/jJrO1xCqdhMNLRsmx7moUvbFunfWf11DlnG', '2024-04-30 05:04:11', '2024-04-30 05:04:11');
@@ -569,19 +569,19 @@ ALTER TABLE `admins`
 -- AUTO_INCREMENT for table `arsips`
 --
 ALTER TABLE `arsips`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT for table `berkas`
 --
 ALTER TABLE `berkas`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=117;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=120;
 
 --
 -- AUTO_INCREMENT for table `folders`
 --
 ALTER TABLE `folders`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `golongans`
@@ -611,7 +611,7 @@ ALTER TABLE `kriterias`
 -- AUTO_INCREMENT for table `mahasiswa_temps`
 --
 ALTER TABLE `mahasiswa_temps`
-  MODIFY `code_temps` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `code_temps` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -623,13 +623,13 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `penilaians`
 --
 ALTER TABLE `penilaians`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1439;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1463;
 
 --
 -- AUTO_INCREMENT for table `penilaian_arsips`
 --
 ALTER TABLE `penilaian_arsips`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=169;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=177;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
