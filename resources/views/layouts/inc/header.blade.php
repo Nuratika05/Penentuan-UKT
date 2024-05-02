@@ -8,7 +8,7 @@ id="layout-navbar">
 
 <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
     @if (Auth::guard('mahasiswa')->check())
-    <a href="{{ asset('storage/pdf/PanduanPenggunaMahasiswa.pdf') }}" target="_blank"><img src="{{ asset('assets/img/pdf.png') }}" style="width: 20px">Panduan Pendaftaran</a>
+    <a href="{{ asset('storage/PanduanPenggunaMahasiswa.pdf') }}" target="_blank"><img src="{{ asset('assets/img/pdf.png') }}" style="width: 20px">Panduan Pendaftaran</a>
     @endif
 
     <ul class="navbar-nav flex-row align-items-center ms-auto">

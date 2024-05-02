@@ -112,15 +112,15 @@
                             </h5>
                             <p>
                                 @if (Auth::guard('admin')->check() && Auth::user()->role == 'superadmin')
-                                    <a href="{{ asset('storage/pdf/PanduanPenggunaAdmin.pdf') }}" target="_blank"><img
+                                    <a href="{{ asset('storage/PanduanPenggunaAdmin.pdf') }}" target="_blank"><img
                                             src="{{ asset('assets/img/pdf.png') }}" style="width: 30px">Panduan
                                         Pengguna</a>
                                 @elseif (Auth::guard('admin')->check() && Auth::user()->role == 'verifikator')
-                                    <a href="{{ asset('storage/pdf/PanduanPenggunaVerifikator.pdf') }}"
+                                    <a href="{{ asset('storage/PanduanPenggunaVerifikator.pdf') }}"
                                         target="_blank"><img src="{{ asset('assets/img/pdf.png') }}"
                                             style="width: 30px">Panduan Pengguna</a>
                                 @else
-                                    <a href="{{ asset('storage/pdf/PanduanPenggunaMahasiswa.pdf') }}"
+                                    <a href="{{ asset('storage/PanduanPenggunaMahasiswa.pdf') }}"
                                         target="_blank"><img src="{{ asset('assets/img/pdf.png') }}"
                                             style="width: 30px">Panduan
                                         Pengguna</a>
