@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\KelompokUKTController;
 use App\Models\KelompokUKT;
 
+
 class DataUktController extends Controller
 {
     public function index()
@@ -131,7 +132,7 @@ class DataUktController extends Controller
                 ->get();
             }
                 $dataExists = $berkas->isNotEmpty();
-                return view('ukt.index', compact('berkas', 'dataExists' , 'folder'));
+                return view('ukt.indexlulus', compact('berkas', 'dataExists' , 'folder'));
         }
     }
     public function tidaklengkap(){

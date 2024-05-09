@@ -29,7 +29,7 @@
         <div class="row">
             <div class="col-md-8">
                 <div class="card-body">
-                    <form action="{{ route('mahasiswa.store') }}" method="POST" autocomplete="off">
+                    <form action="{{ route('mahasiswa.store') }}" method="POST">
                         @csrf
                         <div class="mb-3">
                             <label for="id" class="form-label">No.Pendaftaran</label>
