@@ -27,9 +27,14 @@
             <br>
         </div>
         <div class="col-md-6 text-end m-auto">
-            <div class="col-md-12 mb-5">
-                <a href="{{ route('arsip.export', $folder->id) }}"
-                    class="btn btn-outline-success float-end mb-1 btn-sm">Export</a>
+                <div class="col-md-12 mb-5">
+                    <form action="{{ route('admin.arsipp.hapusarsip') }}" method="POST" id="deleteForm">
+                        @csrf
+                        <input type="hidden" id="data_ids_input" name="ids[]">
+                        <button type="submit" id="hapus" class="btn btn-outline-danger float-end mb-1 btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">Hapus</button>
+                    </form>
+                    <a href="{{ route('arsip.export', $folder->id) }}" class="btn btn-outline-success float-end mb-1 btn-sm">Export</a>
+                </div>
             </div>
         </div>
         <div class="card p-4">
@@ -37,6 +42,7 @@
                 <table class="datatable table py-3">
                     <thead>
                         <tr>
+                            <th><input type="checkbox" id="centang_semua"></th>
                             <th>No</th>
                             <th>Folder</th>
                             <th>No.Pendaftaran</th>
@@ -55,6 +61,7 @@
                     <tbody class="table-border-bottom-0">
                         @foreach ($arsip as $item)
                             <tr>
+                                <td><input type="checkbox" class="centang_data" name="ids[]" value="{{ $item->id }}"></td>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $item->folder->nama }}</td>
                                 <td>{{ $item->no_pendaftaran }}</td>
@@ -80,4 +87,37 @@
             </div>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#centang_semua').on('click', function() {
+                $('.centang_data').prop('checked', this.checked);
+            });
+
+            $('.centang_data').on('click', function() {
+                if (!$(this).prop('checked')) {
+                    $('#centang_semua').prop('checked', false);
+                } else {
+                    if ($('.centang_data:checked').length === $('.centang_data').length) {
+                        $('#centang_semua').prop('checked', true);
+                    }
+                }
+            });
+        });
+        $('#hapus').on('click', function(e) {
+                e.preventDefault();
+                var ids = [];
+                $('.centang_data:checked').each(function() {
+                    ids.push($(this).val());
+                });
+                $('#data_ids_input').val(ids);
+
+                if (ids.length === 0) {
+                    $(this).prop('disabled', true);
+                } else {
+                    $(this).prop('disabled', false);
+                    $('#deleteForm').submit(); // Submit formulir setelah mengatur nilai input tersembunyi
+                }
+    });
+    </script>
 @endsection

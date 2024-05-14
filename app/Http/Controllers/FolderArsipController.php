@@ -157,4 +157,24 @@ class FolderArsipController extends Controller
         $pdf->setPaper('F4', 'portrait');
         return $pdf->stream("UKT_Mahasiswa.pdf");
     }
+    public function HapusArsip(Request $request)
+        {
+            $request->validate([
+                'ids' => 'required|array',
+            ]);
+            $ids = $request->input('ids');
+            $jumlahData = 0;
+            foreach ($ids as $id) {
+                    $item = Arsip::findOrFail($id);
+                    $noPendaftaran = $item->no_pendaftaran;
+                    $item->delete();
+                    PenilaianArsip::where('no_pendaftaran', $noPendaftaran)->delete();
+                    $jumlahData++;
+            }
+            if ($jumlahData > 0) {
+                return redirect()->back()->with('success', 'Data berhasil dihapus.');
+        } else {
+        return redirect()->back()->with('error', 'Tidak ada data yang dipilih.');
+    }
+    }
 }

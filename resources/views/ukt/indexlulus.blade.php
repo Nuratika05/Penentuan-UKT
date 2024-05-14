@@ -12,78 +12,81 @@
         }
     </style>
     <div class="row">
-        @if (Auth::guard('admin')->check())
-            <div class="col-md-6">
-                <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"></span> Data UKT Mahasiswa</h4>
-                @if (Session::has('success'))
-                    <div class="alert alert-success" role="alert">
-                        {{ Session::get('success') }}
-                    </div>
-                @elseif (Session::has('error'))
-                    <div class="alert alert-danger" role="alert">
-                        {{ Session::get('error') }}
-                    </div>
-                @endif
+        <div class="col-md-6">
+            <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"></span> Data UKT Mahasiswa</h4>
+            @if (Session::has('success'))
+                <div class="alert alert-success" role="alert">
+                    {{ Session::get('success') }}
+                </div>
+            @elseif (Session::has('error'))
+                <div class="alert alert-danger" role="alert">
+                    {{ Session::get('error') }}
+                </div>
+            @endif
+            @if (Auth::guard('admin')->check() && Auth::user()->role == 'superadmin')
+                <a id="search" class="text-align =center"></a><br>
+            @endif
+        </div>
+        <div class="col-md-6 text-end m-auto">
+            <div class="col-md-12 mb-5">
+                <a href="{{ route('datauktexport') }}" class="btn btn-outline-success float-end mb-1 btn-sm">Export</a>
+                <a href="{{ route('admin.data-ukt.printukt') }}" class="btn btn-outline-secondary float-end mb-1 btn-sm">Print</a>
+                <!-- Tombol Arsipkan -->
                 @if (Auth::guard('admin')->check() && Auth::user()->role == 'superadmin')
-                    <a id="search" class="text-align =center"></a><br>
-                @endif
-            </div>
-            <div class="col-md-6 text-end m-auto">
-                <div class="col-md-12 mb-5">
-                        <a href="{{ route('datauktexport') }}"
-                            class="btn btn-outline-success float-end mb-1 btn-sm">Export</a>
-                        <a href="{{ route('admin.data-ukt.printukt') }}"
-                            class="btn btn-outline-secondary float-end mb-1 btn-sm">Print</a>
-                        <!-- Tombol Arsipkan -->
-                        @if (Auth::guard('admin')->check() && Auth::user()->role == 'superadmin')
-                            <button id="arsipkan" class="btn btn-outline-secondary float-end mb-1 btn-sm"
-                                data-toggle="modal" data-target="#arsipModal" disabled>Arsipkan</button>
+                    <button id="arsipkan" class="btn btn-outline-secondary float-end mb-1 btn-sm" data-toggle="modal"
+                        data-target="#arsipModal" disabled>Arsipkan</button>
 
-                            <!-- Modal Arsip -->
-                            <div class="modal fade" id="arsipModal" tabindex="-1" role="dialog"
-                                aria-labelledby="arsipModalLabel" aria-hidden="true"
-                                style="background-color: rgba(0, 0, 0, 0.5) !important;">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-body">
-                                            <p style="font-weight: bold;">Jumlah data yang dipilih: <span
-                                                    id="jumlahDipilih">0</span></p>
-                                            <form action="{{ route('admin.lulus-verifikasi.arsip') }}" method="POST">
-                                                @csrf
-                                                <div class="form-group">
-                                                    <select name="id_folder" class="form-select" autofocus required>
-                                                        <option value="" selected disabled>--Pilih Folder--</option>
-                                                        @foreach ($folder as $fol)
-                                                            <option value="{{ $fol->id }}">{{ $fol->nama }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                                <br>
-                                                <div class="form-group">
-                                                    <input type="number" id="tahun_angkatan" name="tahun_angkatan"
-                                                        class="form-control" placeholder="Masukkan Tahun Angkatan" required>
-                                                    <input type="hidden" id="data_ids_input" name="data_ids[]">
-                                                </div>
-                                                <br>
-                                                <button type="submit" id="arsipButton" class="btn btn-primary btn-sm">Arsipkan</button>
-                                                <a class=" close btn btn-secondary btn-sm" type="button" data-dismiss="modal" style="color: white;">Kembali</a>
-                                            </form>
+                    <!-- Modal Arsip -->
+                    <div class="modal fade" id="arsipModal" tabindex="-1" role="dialog" aria-labelledby="arsipModalLabel"
+                        aria-hidden="true" style="background-color: rgba(0, 0, 0, 0.5) !important;">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <p style="font-weight: bold;">Jumlah data yang dipilih: <span
+                                            id="jumlahDipilih">0</span></p>
+                                    <form action="{{ route('admin.lulus-verifikasi.arsip') }}" method="POST">
+                                        @csrf
+                                        <div class="form-group">
+                                            <select name="id_folder" class="form-select" autofocus required>
+                                                <option value="" selected disabled>--Pilih Folder--</option>
+                                                @foreach ($folder as $fol)
+                                                    <option value="{{ $fol->id }}">{{ $fol->nama }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
-                                    </div>
+                                        <br>
+                                        <div class="form-group">
+                                            <input type="number" id="tahun_angkatan" name="tahun_angkatan"
+                                                class="form-control" placeholder="Masukkan Tahun Angkatan" required>
+                                            <input type="hidden" id="data_ids_input" name="data_ids[]">
+                                        </div>
+                                        <br>
+                                        <button type="submit" id="arsipButton"
+                                            class="btn btn-primary btn-sm">Arsipkan</button>
+                                        <a class=" close btn btn-secondary btn-sm" type="button" data-dismiss="modal"
+                                            style="color: white;">Kembali</a>
+                                    </form>
                                 </div>
                             </div>
-                </div>
-        @endif
-    </div>
+                        </div>
+                    </div>
+                @endif
+                <div>
+                <form action="{{ route('admin.data-ukt.hapussemua') }}" method="POST" id="deleteForm">
+                    @csrf
+                    <input type="hidden" id="data_ids_input_delete" name="ids[]">
+                    <button type="submit" id="hapus" class="btn btn-outline-danger float-end mb-1 btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">Hapus</button>
+                </form>
+            </div>
+            </div>
+        </div>
     </div>
     <div class="card p-4">
         <div class="table-responsive text-nowrap">
             <table class="datatable table py-3">
                 <thead>
                     <tr>
-                        @if (Auth::guard('admin')->check() && Auth::user()->role == 'superadmin')
-                            <th><input type="checkbox" id="centang_semua"></th>
-                        @endif
+                        <th><input type="checkbox" id="centang_semua"></th>
                         <th>No</th>
                         <th>No.Pendaftaran</th>
                         <th>Nama</th>
@@ -101,9 +104,7 @@
                 <tbody class="table-border-bottom-0">
                     @foreach ($berkas as $item)
                         <tr>
-                            @if (Auth::guard('admin')->check() && Auth::user()->role == 'superadmin')
-                                <td><input type="checkbox" class="centang_data" value="{{ $item->id }}"></td>
-                            @endif
+                            <td><input type="checkbox" class="centang_data" value="{{ $item->id }}"></td>
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $item->mahasiswa->id }}</td>
                             <td>{{ $item->mahasiswa->nama }}</td>
@@ -142,15 +143,10 @@
                             </td>
                             <td>{{ $item->mahasiswa->jalur }}</td>
                             <td>
-                                @if ($item->status == 'Menunggu Verifikasi' || $item->status == 'Belum Lengkap')
-                                    <a class="btn btn-xs btn-primary"
-                                        href="{{ route('admin.data-ukt.edit', $item->id) }}">Verifikasi</a>
-                                @elseif ($item->status == 'Lulus Verifikasi')
-                                    <a class="btn btn-xs btn-primary"
-                                        href="{{ route('admin.data-ukt.edit', $item->id) }}">Detail</a>
-                                    <a class="btn btn-xs btn-secondary"
-                                        href="{{ route('admin.data-ukt.print', $item->id) }}">Print</a>
-                                @endif
+                                <a class="btn btn-xs btn-primary"
+                                    href="{{ route('admin.data-ukt.edit', $item->id) }}">Detail</a>
+                                <a class="btn btn-xs btn-secondary"
+                                    href="{{ route('admin.data-ukt.print', $item->id) }}">Print</a>
                             </td>
                         </tr>
                     @endforeach
@@ -158,106 +154,9 @@
             </table>
         </div>
     </div>
-@elseif (Auth::guard('mahasiswa')->check())
-    <div class="col-md-6">
-        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"></span> Data Kriteria Mahasiswa</h4>
-        @if (Session::has('success'))
-            <div class="alert alert-success" role="alert">
-                {{ Session::get('success') }}
-            </div>
-        @endif
-    </div>
-    @if ($berkas->status == 'Lulus Verifikasi')
-        <div class="col-md-12 mb-5">
-            <a href="{{ route('data-ukt.print') }}" target="_blank"
-                class="btn btn-outline-secondary float-end mb-1 btn-sm">Print</a>
-        </div>
-    @endif
-    <div class="col-md-6 text-end m-auto">
-        @if ($berkas->status == 'Belum Lengkap' || $berkas->status == 'Menunggu Verifikasi')
-            <a href="{{ route('data-ukt.edit', $berkas->id) }}" class="btn btn-outline-primary float-end mb-1 ">Edit
-                Data</a>
-        @endif
-    </div>
-    <div class="col-md-12">
-        <div class="card">
-            <div class="card-body">
-                <table class="table table-borderless w-75">
-                    <tr>
-                        <th>Status</th>
-                        <td>:</td>
-                        <td>
-                            @if ($berkas->status == 'Menunggu Verifikasi')
-                                <span class="badge bg-label-warning rounded">{{ $berkas->status }}</span>
-                            @elseif($berkas->status == 'Belum Lengkap')
-                                <span class="badge bg-label-danger rounded">{{ $berkas->status }}</span>
-                            @else
-                                <span class="badge bg-label-primary rounded">{{ $berkas->status }}</span>
-                            @endif
-                        </td>
-                    </tr>
-                    @if ($berkas->status == 'Belum Lengkap')
-                        <tr>
-                            <th>Keterangan</th>
-                            <td>:</td>
-                            <td> <span class="text-danger">{{ $berkas->keterangan }} !</span></td>
-                    @endif
-                    </tr>
-                </table>
-            </div>
-        </div>
-    </div>
-    <div>
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-body">
-                    <table class="table table-borderless w-75">
-                        <tr>
-                            @foreach ($penilaians as $data => $nilai)
-                                @foreach ($nilai as $data)
-                        <tr>
-                            <th>{{ $data->kriteria->nama }}</th>
-                            <td>:</td>
-                            <td>{{ $data->subkriteria->nama }}</td>
-                        </tr>
-                        @endforeach
-                        @endforeach
-
-                        <tr>
-                            <th>Foto Tempat Tinggal</th>
-                            <td>:</td>
-                            <td><img src="{{ asset('foto_tempat_tinggal/' . $berkas->foto_tempat_tinggal) }}"
-                                    class="rounded img-fluid" width="250px"></td>
-                        </tr>
-                        <tr>
-                            <th>Foto Slip Gaji</th>
-                            <td>:</td>
-                            <td><img src="{{ asset('foto_slip_gaji/' . $berkas->foto_slip_gaji) }}"
-                                    class="rounded img-fluid" width="250px"></td>
-                        </tr>
-                        <tr>
-                            <th>Foto Daya Listrik</th>
-                            <td>:</td>
-                            <td><img src="{{ asset('foto_daya_listrik/' . $berkas->foto_daya_listrik) }}"
-                                    class="rounded img-fluid" width="250px"></td>
-                        </tr>
-                        @if ($berkas->foto_kendaraan === null || $berkas->foto_kendaraan === '')
-                        @else
-                            <tr>
-                                <th>Foto Kendaraan</th>
-                                <td>:</td>
-                                <td><img src="{{ asset('foto_kendaraan/' . $berkas->foto_kendaraan) }}"
-                                        class="rounded img-fluid" width="250px"></td>
-                            </tr>
-                        @endif
-                    </table>
-                </div>
-            </div>
-        </div>
-        @endif
-    </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
+
         $(document).ready(function() {
             var table = $('.datatable').DataTable({});
             table.columns(11).every(function() {
@@ -330,7 +229,25 @@
                 var jumlah_dipilih = $('.centang_data:checked').length;
                 $('#jumlahDipilih').text(jumlah_dipilih);
                 $('#arsipkan').prop('disabled', jumlah_dipilih === 0);
+
             }
         });
+
+        $('#hapus').on('click', function(e) {
+                e.preventDefault();
+                var ids = [];
+                $('.centang_data:checked').each(function() {
+                    ids.push($(this).val());
+                });
+                $('#data_ids_input_delete').val(ids);
+
+                if (ids.length === 0) {
+                    $(this).prop('disabled', true);
+                } else {
+                    $(this).prop('disabled', false);
+                    $('#deleteForm').submit(); // Submit formulir setelah mengatur nilai input tersembunyi
+                }
+        });
+
     </script>
 @endsection

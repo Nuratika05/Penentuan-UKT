@@ -74,6 +74,7 @@ use App\Http\Controllers\KelompokUKTController;
     Route::get('admin/arsipp/folder/{id}/export', [FolderArsipController::class, 'arsipexport'])->name('arsip.export');
     Route::get('admin/arsipp/folder/print/{id}', [FolderArsipController::class, 'print'])->name('arsip.print');
     Route::get('admin/arsipp/folder/detail/{id}', [FolderArsipController::class, 'detail'])->name('arsip.detail');
+    Route::post('admin/arsipp/hapusarsip', [FolderArsipController::class, 'HapusArsip'])->name('admin.arsipp.hapusarsip');
     Route::post('admin/data-ukt/lulus-verifikasi/arsipkan', [FolderArsipController::class, 'arsip'])->name('admin.lulus-verifikasi.arsip');
 
     Route::get('admin/data-ukt/semua-data-ukt', [DataUktController::class, 'index'])->name('admin.data-ukt');
@@ -81,6 +82,7 @@ use App\Http\Controllers\KelompokUKTController;
     Route::get('admin/data-ukt/belum-lengkap', [DataUktController::class, 'tidaklengkap'])->name('admin.data-belum-lengkap');
     Route::get('admin/data-ukt/lulus-verifikasi', [DataUktController::class, 'LulusVerifikasi'])->name('admin.lulus-verifikasi');
     Route::get('admin/data-ukt/lulus-verifikasi/export', [DataUktController::class, 'datauktexport'])->name('datauktexport');
+    Route::post('admin/data-ukt/hapussemua', [DataUktController::class, 'HapusSemua'])->name('admin.data-ukt.hapussemua');
     Route::get('admin/data-ukt/detail/{id}', [DataUktController::class, 'edit'])->name('admin.data-ukt.edit');
     Route::post('admin/data-ukt/update/{id}', [DataUktController::class, 'update'])->name('admin.data-ukt.update');
     Route::get('admin/data-ukt/lulus-verfikasi/print/{id}', [DataUktController::class, 'print'])->name('admin.data-ukt.print');

@@ -7,7 +7,6 @@
                 document.write(new Date().getFullYear());
 
             </script>
-            , made with ❤️
         </div>
     </div>
 </footer>
