@@ -23,37 +23,36 @@ class DataUktExport implements FromCollection, WithHeadings, ShouldAutoSize, Wit
     {
 
         if(Auth::guard('admin')->check() && Auth::user()->role == 'verifikator'){
+            $verifikatorJurusanId = Auth::guard('admin')->user()->jurusan_id;
             $Data = Berkas::where('status', 'Lulus Verifikasi')
-            ->where('admin_id', auth()->user()->id)
+            ->whereHas('admin', function ($query) use ($verifikatorJurusanId) {
+                $query->where('jurusan_id', $verifikatorJurusanId);
+            })
             ->get();
         }else{
         $Data = Berkas::where('status', 'Lulus Verifikasi')
         ->get();
         }
+        $exportData = collect();
 
-        $Data = $Data->map(function ($DataUKT) {
-            $mahasiswa = Mahasiswa::find($DataUKT->mahasiswa_id);
-            $admin = Admin::find($DataUKT->admin_id);
-            $golongan = Golongan::find($DataUKT->golongan_id);
-            $prodi = Prodi::find($mahasiswa->prodi_id);
-            $nominalFormatted = 'Rp '. number_format($DataUKT->nominal_ukt, 0, ',', '.');
+        foreach ($Data as $berkas) {
+            $nominalFormatted = 'Rp '. number_format($berkas->nominal_ukt, 0, ',', '.');
 
-            $exportData = [
-                'no_pendaftaran' => $mahasiswa->id,
-                'nama' => $mahasiswa->nama,
-                'prodi' => $prodi->nama,
-                'jenjang' => $prodi->jenjang,
-                'jurusan' => $prodi->jurusan->nama,
-                'verifikator' => $admin->nama,
-                'golongan' => $golongan->nama,
+            $exportDataRow = [
+                'no_pendaftaran' => $berkas->mahasiswa->id,
+                'nama' => $berkas->mahasiswa->nama,
+                'prodi' => $berkas->mahasiswa->prodi->nama,
+                'jenjang' => $berkas->mahasiswa->prodi->jenjang,
+                'jurusan' => $berkas->mahasiswa->prodi->jurusan->nama,
+                'verifikator' => $berkas->admin->nama,
+                'jalur' => $berkas->mahasiswa->jalur,
+                'golongan' => $berkas->golongan->nama,
                 'nominal' => $nominalFormatted,
-                'jalur' => $mahasiswa->jalur,
             ];
+            $exportData->push($exportDataRow);
+        };
 
-            return $exportData;
-        });
-
-        return $Data;
+        return $exportData;
     }
 
     /**
@@ -68,9 +67,9 @@ class DataUktExport implements FromCollection, WithHeadings, ShouldAutoSize, Wit
             'Jenjang',
             'Jurusan',
             'Verifikator',
+            'Jalur Pendaftaran',
             'Golongan',
             'Nominal',
-            'Jalur Pendaftaran',
         ];
     }
     public function map($row): array
@@ -83,9 +82,9 @@ class DataUktExport implements FromCollection, WithHeadings, ShouldAutoSize, Wit
         $row->jenjang,
         $row->jurusan,
         $row->verifikator,
+        $row->jalur,
         $row->golongan,
         $row->nominal,
-        $row->jalur,
     ];
 }
 

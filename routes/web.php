@@ -73,6 +73,7 @@ use App\Http\Controllers\KelompokUKTController;
     Route::get('admin/arsipp/folder/{id}', [FolderArsipController::class, 'index'])->name('admin.arsip');
     Route::get('admin/arsipp/folder/{id}/export', [FolderArsipController::class, 'arsipexport'])->name('arsip.export');
     Route::get('admin/arsipp/folder/print/{id}', [FolderArsipController::class, 'print'])->name('arsip.print');
+    Route::get('admin/arsipp/folder/{id}/print', [FolderArsipController::class, 'printarsip'])->name('arsip.printarsip');
     Route::get('admin/arsipp/folder/detail/{id}', [FolderArsipController::class, 'detail'])->name('arsip.detail');
     Route::post('admin/arsipp/hapusarsip', [FolderArsipController::class, 'HapusArsip'])->name('admin.arsipp.hapusarsip');
     Route::post('admin/data-ukt/lulus-verifikasi/arsipkan', [FolderArsipController::class, 'arsip'])->name('admin.lulus-verifikasi.arsip');

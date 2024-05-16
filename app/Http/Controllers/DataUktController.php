@@ -202,6 +202,10 @@ class DataUktController extends Controller
             'foto_kendaraan.image' => 'Foto Kendaraan harus dalam format gambar',
             'foto_kendaraan.mimes' => 'Foto Kendaraan format: JPG,JPEG,PNG',
             'foto_kendaraan.max' => 'Foto Kendaraan: Ukuran Maksimal 2 MB',
+            'foto_beasiswa.required' => 'Foto Beasiswa tidak boleh kosong',
+            'foto_beasiswa.image' => 'Foto Beasiswa harus dalam format gambar',
+            'foto_beasiswa.mimes' => 'Foto Beasiswa format: JPG,JPEG,PNG',
+            'foto_beasiswa.max' => 'Foto Beasiswa: Ukuran Maksimal 2 MB',
         ];
 
         $validatedData = $request->validate([
@@ -210,6 +214,7 @@ class DataUktController extends Controller
             'foto_slip_gaji'=>'required|image|mimes:jpeg,png,jpg|max:2048',
             'foto_daya_listrik'=>'required|image|mimes:jpeg,png,jpg|max:2048',
             'foto_kendaraan' => $request->has('foto_kendaraan') ? 'required|image|mimes:jpeg,png,jpg|max:2048' : 'nullable',
+            'foto_beasiswa' => $request->has('foto_beasiswa') ? 'required|image|mimes:jpeg,png,jpg|max:2048' : 'nullable',
         ],$message);
 
         DB::beginTransaction();
@@ -296,6 +301,17 @@ class DataUktController extends Controller
         $path = public_path('foto_daya_listrik');
         $foto_daya_listrik->move($path, $file_listrik);
 
+        if ($request->has('foto_beasiswa')) {
+            $foto_beasiswa = $request->file('foto_beasiswa');
+            $file_beasiswa = date('YmdHis').'_'.$foto_beasiswa->getClientOriginalName();
+            $path = public_path('foto_beasiswa');
+            $foto_beasiswa->move($path, $file_beasiswa);
+            }
+            else{
+                $file_beasiswa = null;
+            }
+
+
 
         Berkas::create([
             'mahasiswa_id' => $mahasiswa->id,
@@ -303,6 +319,7 @@ class DataUktController extends Controller
             'foto_tempat_tinggal' => $file_tempat_tinggal,
             'foto_daya_listrik' => $file_listrik,
             'foto_kendaraan' => $file_kendaraan,
+            'foto_beasiswa' => $file_beasiswa,
             'status' => 'Menunggu Verifikasi',
             'golongan_id' => $dataGolongan->id,
             'nominal_ukt' => $nominalUkt,
@@ -396,10 +413,15 @@ class DataUktController extends Controller
                 'foto_kendaraan.image' => 'Foto Kendaraan harus dalam format gambar',
                 'foto_kendaraan.mimes' => 'Foto Kendaraan format: JPG,JPEG,PNG',
                 'foto_kendaraan.max' => 'Foto Kendaraan: Ukuran Maksimal 2 MB',
+                'foto_beasiswa.required' => 'Foto Beasiswa tidak boleh kosong',
+                'foto_beasiswa.image' => 'Foto Beasiswa harus dalam format gambar',
+                'foto_beasiswa.mimes' => 'Foto Beasiswa format: JPG,JPEG,PNG',
+                'foto_beasiswa.max' => 'Foto Beasiswa: Ukuran Maksimal 2 MB',
             ];
             $request->validate([
                 'foto_tempat_tinggal' => $request->has('foto_tempat_tinggal') ? 'required|image|mimes:jpeg,png,jpg|max:2048' : 'nullable',
                 'foto_kendaraan'=> $request->has('foto_kendaraan') ? 'required|image|mimes:jpeg,png,jpg|max:2048' : 'nullable',
+                'foto_beasiswa'=> $request->has('foto_beasiswa') ? 'required|image|mimes:jpeg,png,jpg|max:2048' : 'nullable',
                 'foto_slip_gaji'=> $request->has('foto_slip_gaji') ? 'required|image|mimes:jpeg,png,jpg|max:2048' : 'nullable',
                 'foto_daya_listrik'=>$request->has('foto_daya_listrik') ? 'required|image|mimes:jpeg,png,jpg|max:2048' : 'nullable',
             ],$messages);
@@ -489,7 +511,7 @@ class DataUktController extends Controller
 
                 unset($input['kriteria']);
                 // Jika input tempat tinggal ada filenya
-                foreach (['foto_tempat_tinggal', 'foto_kendaraan', 'foto_slip_gaji', 'foto_daya_listrik']as $imageField) {
+                foreach (['foto_tempat_tinggal', 'foto_kendaraan', 'foto_slip_gaji', 'foto_daya_listrik', 'foto_beasiswa']as $imageField) {
                     if ($request->hasFile($imageField)) {
                         if (!is_null($berkas->$imageField)) {
                         // Hapus gambar sebelumnya

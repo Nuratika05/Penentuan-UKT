@@ -62,7 +62,7 @@ class MahasiswaExport implements FromCollection, WithHeadings, ShouldAutoSize, W
                 'alignment' => ['horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER],
             ],
              // Style untuk data
-            'A2:H' . ($sheet->getHighestRow()) => [
+            'A2:K' . ($sheet->getHighestRow()) => [
                 'alignment' => ['horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT],
             ],
         ];

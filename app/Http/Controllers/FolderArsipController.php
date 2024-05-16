@@ -12,6 +12,7 @@ use App\Models\PenilaianArsip;
 use App\Models\Penilaian;
 use App\Models\Mahasiswa;
 use App\Models\Folder;
+use App\Models\Jurusan;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Admin;
 
@@ -20,7 +21,6 @@ use Illuminate\Http\Request;
 class FolderArsipController extends Controller
 {
     public function index($id){
-        $admin = auth()->guard('admin')->user();
         $folder = Folder::findOrFail($id);
 
         if(Auth::guard('admin')->check() && Auth::user()->role == 'superadmin'){
@@ -29,13 +29,11 @@ class FolderArsipController extends Controller
         }
 
         elseif(Auth::guard('admin')->check() && Auth::user()->role == 'verifikator'){
+            $verifikatorJurusanId = Auth::guard('admin')->user()->jurusan_id;
+            $namaJurusan = Jurusan::where('id', $verifikatorJurusanId)->value('nama');
             $arsip = Arsip::where('id_folder', $id)
-            ->where(function ($query) use ($admin) {
-                $query->whereHas('admin', function ($q) use ($admin) {
-                    $q->where('nama_jurusan', $admin->jurusan->nama);
-                });
-            })
-            ->get();
+                ->where('nama_jurusan', $namaJurusan)
+                ->get();
         }
         $dataExists = $arsip->isNotEmpty();
         return view('folderarsip.folder', compact('arsip', 'folder', 'dataExists'));
@@ -89,6 +87,15 @@ class FolderArsipController extends Controller
                 File::move($pathAsalkendaraan, $pathTujuankendaraan);
             }
         }
+        if ($item->foto_beasiswa) {
+            $pathAsalbeasiswa = public_path('foto_beasiswa/' . $item->foto_beasiswa);
+            $namaFilebeasiswa = pathinfo($pathAsalbeasiswa, PATHINFO_BASENAME);
+            $pathTujuanbeasiswa = public_path('fotoarsip/foto_beasiswa/' . $namaFilebeasiswa);
+
+            if (File::exists($pathAsalbeasiswa)) {
+                File::move($pathAsalbeasiswa, $pathTujuanbeasiswa);
+            }
+        }
 
         Arsip::create([
             'id_folder' => $request->id_folder,
@@ -104,11 +111,12 @@ class FolderArsipController extends Controller
             'nominal' => $item->nominal_ukt,
             'tahun_angkatan' => $request->tahun_angkatan,
             'jalur' => $item->mahasiswa->jalur,
-            'admin_id' => $item->admin_id,
+            'admin' => $item->admin->nama,
             'foto_slip_gaji' => $item->foto_slip_gaji,
             'foto_tempat_tinggal' => $item->foto_tempat_tinggal,
             'foto_kendaraan' => $item->foto_kendaraan,
             'foto_daya_listrik' => $item->foto_daya_listrik,
+            'foto_beasiswa' => $item->foto_beasiswa,
 
         ]);
 
@@ -162,19 +170,41 @@ class FolderArsipController extends Controller
             $request->validate([
                 'ids' => 'required|array',
             ]);
+
             $ids = $request->input('ids');
-            $jumlahData = 0;
-            foreach ($ids as $id) {
-                    $item = Arsip::findOrFail($id);
-                    $noPendaftaran = $item->no_pendaftaran;
-                    $item->delete();
-                    PenilaianArsip::where('no_pendaftaran', $noPendaftaran)->delete();
-                    $jumlahData++;
-            }
+            $jumlahData = count($ids);
+            Arsip::whereIn('id', $ids)->delete();
+            $noPendaftarans = Arsip::whereIn('id', $ids)->pluck('no_pendaftaran');
+            PenilaianArsip::whereIn('no_pendaftaran', $noPendaftarans)->delete();
+            $jumlahData++;
+
             if ($jumlahData > 0) {
-                return redirect()->back()->with('success', 'Data berhasil dihapus.');
+                return redirect()->back()->with('success', $jumlahData .'Data berhasil dihapus.');
         } else {
         return redirect()->back()->with('error', 'Tidak ada data yang dipilih.');
     }
     }
+
+    public function printarsip($id)
+        {
+
+            $admin = auth()->guard('admin')->user();
+            if(Auth::guard('admin')->check() && Auth::user()->role == 'verifikator'){
+                $verifikatorJurusanId = Auth::guard('admin')->user()->jurusan_id;
+                $namaJurusan = Jurusan::where('id', $verifikatorJurusanId)->value('nama');
+                $arsip = Arsip::where('id_folder', $id)
+                    ->where('nama_jurusan', $namaJurusan)
+                    ->get();
+            }
+            elseif(Auth::guard('admin')->check() && Auth::user()->role == 'superadmin'){
+                $arsip = Arsip::where('id_folder', $id)->get();
+            }
+            if ($arsip->isEmpty()) {
+                return redirect()->back()->with('error', 'Tidak ada data yang tersedia untuk diprint.');
+            }
+                $pdf = PDF::loadView('folderarsip.printarsip', compact('arsip'));
+                $pdf->setBasePath('public_path');
+                $pdf->setPaper('F4', 'portrait');
+                return $pdf->stream("UKT_Mahasiswa.pdf");
+        }
 }

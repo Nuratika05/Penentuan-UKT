@@ -34,6 +34,7 @@
                         <button type="submit" id="hapus" class="btn btn-outline-danger float-end mb-1 btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">Hapus</button>
                     </form>
                     <a href="{{ route('arsip.export', $folder->id) }}" class="btn btn-outline-success float-end mb-1 btn-sm">Export</a>
+                    <a href="{{ route('arsip.printarsip', $folder->id) }}" class="btn btn-outline-secondary float-end mb-1 btn-sm">Print</a>
                 </div>
             </div>
         </div>
@@ -51,10 +52,10 @@
                             <th>Jenjang</th>
                             <th>Jurusan</th>
                             <th>Verifikator</th>
+                            <th>Jalur</th>
+                            <th>Angkatan </th>
                             <th>Golongan </th>
                             <th>Nominal </th>
-                            <th>Angkatan </th>
-                            <th>Jalur Pendaftaran</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -69,14 +70,14 @@
                                 <td>{{ $item->nama_prodi }}</td>
                                 <td>{{ $item->jenjang }}</td>
                                 <td>{{ $item->nama_jurusan }}</td>
-                                <td>{{ $item->admin->nama }}</td>
+                                <td>{{ $item->admin }}</td>
+                                <td>{{ $item->jalur }}</td>
+                                <td>{{ $item->tahun_angkatan }}</td>
                                 <td>{{ $item->nama_golongan }}</td>
                                 <td>Rp{{ number_format($item->nominal) }}</td>
-                                <td>{{ $item->tahun_angkatan }}</td>
-                                <td>{{ $item->jalur }}</td>
                                 <td>
                                     <a class="btn btn-xs btn-primary"
-                                        href="{{ route('arsip.detail', $item->id) }}">Detail</a>
+                                        href="{{ route('arsip.detail', $item->id) }}">Lihat Detail</a>
                                     <a class="btn btn-xs btn-secondary"
                                         href="{{ route('arsip.print', $item->id) }}">Print</a>
                                 </td>
@@ -89,7 +90,7 @@
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).ready(function() {
+         $(document).ready(function() {
             $('#centang_semua').on('click', function() {
                 $('.centang_data').prop('checked', this.checked);
             });
@@ -104,6 +105,7 @@
                 }
             });
         });
+
         $('#hapus').on('click', function(e) {
                 e.preventDefault();
                 var ids = [];
@@ -116,8 +118,9 @@
                     $(this).prop('disabled', true);
                 } else {
                     $(this).prop('disabled', false);
-                    $('#deleteForm').submit(); // Submit formulir setelah mengatur nilai input tersembunyi
+                    $('#deleteForm').submit();
                 }
-    });
+        });
+
     </script>
 @endsection

@@ -53,6 +53,16 @@
                             <td>:</td>
                             <td>{{ $arsip->nama_jurusan }}</td>
                         <tr>
+                        <tr>
+                            <th>Jalur Pendaftaran</th>
+                            <td>:</td>
+                            <td>{{ $arsip->jalur }}</td>
+                        <tr>
+                        <tr>
+                            <th>Tahun Angkatan</th>
+                            <td>:</td>
+                            <td>{{ $arsip->tahun_angkatan }}</td>
+                        <tr>
                     </table>
                 </div>
             </div>
@@ -108,6 +118,19 @@
                                 </td>
                             @endif
                         </tr>
+                        <tr>
+                            @if ($arsip->foto_beasiswa === null || $arsip->foto_beasiswa === '')
+                            @else
+                                <th>Foto Bantuan Pemerintah</th>
+                                <td>:</td>
+                                <td>
+                                    <a href="{{ asset('fotoarsip/foto_beasiswa/' . $arsip->foto_beasiswa) }}"
+                                        data-fancybox="gallery">
+                                        <img src="{{ asset('fotoarsip/foto_beasiswa/' . $arsip->foto_beasiswa) }}"
+                                            class="rounded img-fluid" width="300px" alt="Deskripsi Gambar"></a>
+                                </td>
+                            @endif
+                        </tr>
                     </table>
                 </div>
             </div>
@@ -129,8 +152,9 @@
                 </table>
             </div>
         </div>
+        <br>
         <div>
-            <button class="btn btn-secondary " type="button" onclick="goBack()">Kembali</button>
+            <button class="btn btn-secondary btn-sm " type="button" onclick="goBack()">Kembali</button>
         </div>
     </div>
 @endsection

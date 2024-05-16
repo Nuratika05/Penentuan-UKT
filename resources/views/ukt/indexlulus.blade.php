@@ -42,10 +42,11 @@
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-body">
-                                    <p style="font-weight: bold;">Jumlah data yang dipilih: <span
-                                            id="jumlahDipilih">0</span></p>
                                     <form action="{{ route('admin.lulus-verifikasi.arsip') }}" method="POST">
                                         @csrf
+
+                                    <p style="font-weight: bold;">Jumlah data yang dipilih: <span
+                                        id="jumlahDipilih">0</span></p>
                                         <div class="form-group">
                                             <select name="id_folder" class="form-select" autofocus required>
                                                 <option value="" selected disabled>--Pilih Folder--</option>
@@ -95,9 +96,9 @@
                         <th>Jurusan</th>
                         <th>Status</th>
                         <th>Verifikator</th>
+                        <th>Jalur</th>
                         <th>Golongan </th>
                         <th>Nominal</th>
-                        <th>Jalur</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -127,6 +128,7 @@
                                     {{ $item->admin->nama }}
                                 @endif
                             </td>
+                            <td>{{ $item->mahasiswa->jalur }}</td>
                             <td>
                                 @if ($item->status == 'Menunggu Verifikasi' || $item->status == 'Belum Lengkap' || $item->golongan_id == null)
                                     -
@@ -141,10 +143,9 @@
                                     Rp {{ number_format($item->nominal_ukt, 0, ',', '.') }}
                                 @endif
                             </td>
-                            <td>{{ $item->mahasiswa->jalur }}</td>
                             <td>
                                 <a class="btn btn-xs btn-primary"
-                                    href="{{ route('admin.data-ukt.edit', $item->id) }}">Detail</a>
+                                    href="{{ route('admin.data-ukt.edit', $item->id) }}">Lihat Detail</a>
                                 <a class="btn btn-xs btn-secondary"
                                     href="{{ route('admin.data-ukt.print', $item->id) }}">Print</a>
                             </td>
@@ -159,7 +160,7 @@
 
         $(document).ready(function() {
             var table = $('.datatable').DataTable({});
-            table.columns(11).every(function() {
+            table.columns(9).every(function() {
                 var column = this;
                 var uniqueValues = column.data().unique().sort().toArray();
                 var maxWidth = 0;
@@ -215,6 +216,7 @@
                     // Tidak melakukan apa-apa jika tidak ada data yang dipilih
                     return;
                 }
+
             });
 
             $('#arsipButton').on('click', function() {
@@ -222,7 +224,7 @@
                 $('.centang_data:checked').each(function() {
                     data_ids.push($(this).val());
                 });
-                $('#data_ids_input').val(data_ids);
+                $('#data_ids_input').val(data_ids.join(','));
             });
 
             function updateJumlahArsipkan() {
@@ -247,7 +249,7 @@
                     $(this).prop('disabled', false);
                     $('#deleteForm').submit(); // Submit formulir setelah mengatur nilai input tersembunyi
                 }
-        });
+        }); 
 
     </script>
 @endsection

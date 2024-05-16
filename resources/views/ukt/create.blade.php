@@ -84,7 +84,7 @@
                                 </div>
                             @enderror
                         </div>
-                        <div class="mb-3" id="foto_kendaraan">
+                        <div class="mb-3" id="foto_kendaraan_container">
                             <label for="foto_kendaraan" class="form-label">Foto Kendaraan</label><span class="text-danger"
                                 style="font-size: 15px;"><i> *upload gambar format jpeg.jpg.png uk. max 2 MB</i></span>
                             <input class="form-control @error('foto_kendaraan') is-invalid @enderror" type="file"
@@ -95,6 +95,22 @@
                             @endif
 
                             @error('foto_kendaraan')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="mb-3" id="foto_beasiswa_container">
+                            <label for="foto_beasiswa" class="form-label">Foto Bantuan Pemerintah</label><span class="text-danger"
+                                style="font-size: 15px;"><i> *upload gambar format jpeg.jpg.png uk. max 2 MB</i></span>
+                            <input class="form-control @error('foto_beasiswa') is-invalid @enderror" type="file"
+                                id="foto_beasiswa" accept=".jpeg, .jpg, .png" name="foto_beasiswa">
+
+                            @if (old('foto_beasiswa'))
+                                <p class="text-muted">Gambar Lama: {{ old('foto_beasiswa') }}</p>
+                            @endif
+
+                            @error('foto_beasiswa')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
@@ -116,17 +132,29 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
         $(document).ready(function() {
-            var kriteriaSelect = $('select#3');
+        var kriteriaSelect3 = $('select#3');
+        var kriteriaSelect9 = $('select#9');
 
-            var formKendaraan = $('div#foto_kendaraan');
-            kriteriaSelect.change(function() {
-                var selectedValue = $(this).val();
-                var isFormVisible = (selectedValue != 'tidak ada kendaraan');
-                formKendaraan.toggle(isFormVisible);
-                if (!isFormVisible) {
-                    $('#foto_kendaraan').val('');
-                }
-            });
+        var formKendaraan = $('#foto_kendaraan_container');
+        var formBeasiswa = $('#foto_beasiswa_container');
+
+        kriteriaSelect3.change(function() {
+            var selectedValue = $(this).val();
+            var isFormVisible = (selectedValue != '17');
+            formKendaraan.toggle(isFormVisible);
+            if (!isFormVisible) {
+                $('#foto_kendaraan').val('');
+            }
         });
+
+        kriteriaSelect9.change(function() {
+            var selectedValue = $(this).val();
+            var isFormVisible = (selectedValue != '71');
+            formBeasiswa.toggle(isFormVisible);
+            if (!isFormVisible) {
+                $('#foto_beasiswa').val('');
+            }
+        });
+    });
     </script>
 @endpush

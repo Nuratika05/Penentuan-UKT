@@ -242,7 +242,7 @@ class MahasiswaController extends Controller
         }
     }
 
-    public function importsave(Request $request)
+    public function importsave()
     {
             try
             {
@@ -257,7 +257,7 @@ class MahasiswaController extends Controller
                         'alamat' => $bt->alamat_temps,
                         'prodi_id' => $bt->prodi_id_temps,
                         'jalur' => $bt->jalur_temps,
-                        'password' => Hash::make($request->password_temps),
+                        'password' => Hash::make($bt->password_temps),
                         'created_at' => now(),
                     ]);
                     $successCount++;

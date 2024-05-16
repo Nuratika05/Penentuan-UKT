@@ -128,6 +128,16 @@
                 <td>:</td>
                 <td>{{ $arsip->nama_jurusan }}</td>
             </tr>
+            <tr>
+                <td>Jalur Pendaftaran</td>
+                <td>:</td>
+                <td>{{ $arsip->jalur }}</td>
+            </tr>
+            <tr>
+                <td>Tahun Angkatan</td>
+                <td>:</td>
+                <td>{{ $arsip->tahun_angkatan }}</td>
+            </tr>
             <h5 class="card-header">II. DATA KRITERIA MAHASISWA</h5>
             @foreach ($penilaianarsip as $data => $nilai)
                 @foreach ($nilai as $data)
@@ -163,6 +173,15 @@
                     <td>Foto Kendaraan</td>
                     <td>:</td>
                     <td><img src="{{ public_path('fotoarsip/foto_kendaraan/' . $arsip->foto_kendaraan) }}"
+                            class="img-fluid"></td>
+                @endif
+            </tr>
+            <tr>
+                @if ($arsip->foto_beasiswa === null || $arsip->foto_beasiswa === '')
+                @else
+                    <td>Foto Bantuan Pemerintah</td>
+                    <td>:</td>
+                    <td><img src="{{ public_path('fotoarsip/foto_beasiswa/' . $arsip->foto_beasiswa) }}"
                             class="img-fluid"></td>
                 @endif
             </tr>

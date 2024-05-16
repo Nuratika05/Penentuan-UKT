@@ -108,6 +108,11 @@
                 <td>:</td>
                 <td>{{ $berkas->mahasiswa->prodi->jurusan->nama }}</td>
             </tr>
+            <tr>
+                <td>Jalur Pendaftaran</td>
+                <td>:</td>
+                <td>{{ $berkas->mahasiswa->jalur }}</td>
+            </tr>
             <h5 class="card-header">II. DATA KRITERIA MAHASISWA</h5>
             @foreach ($penilaians as $data => $nilai)
                 @foreach ($nilai as $data)
@@ -141,6 +146,14 @@
                 <td>Foto Kendaraan</td>
                 <td>:</td>
                 <td><img src="{{ public_path('foto_kendaraan/' . $berkas->foto_kendaraan) }}" class="img-fluid"></td>
+                @endif
+            </tr>
+            <tr>
+                @if ($berkas->foto_beasiswa === null || $berkas->foto_beasiswa === '')
+                @else
+                <td>Foto Bantuan Pemerintah</td>
+                <td>:</td>
+                <td><img src="{{ public_path('foto_beasiswa/' . $berkas->foto_beasiswa) }}" class="img-fluid"></td>
                 @endif
             </tr>
             <h5 class="card-header">III. GOLONGAN UKT</h5>

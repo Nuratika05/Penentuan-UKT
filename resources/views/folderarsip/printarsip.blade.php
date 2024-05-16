@@ -97,7 +97,7 @@
     </div>
     <div>
         <h4 style="text-align:center">DATA UKT MAHASISWA <br>POLITEKNIK PERTANIAN NEGERI SAMARINDA</h4>
-        <table class="table-th" style="text-align: center">
+        <table style="width:100%;" class="table-th" style="text-align: center">
             <tr>
                 <th style="border-right: 1px solid #000;">No</th>
                 <th style="border-right: 1px solid #000;">Nomor Pendaftaran</th>
@@ -106,22 +106,24 @@
                 <th style="border-right: 1px solid #000;">Jenjang</th>
                 <th style="border-right: 1px solid #000;">Jurusan</th>
                 <th style="border-right: 1px solid #000;">Verifikator</th>
-                <th style="border-right: 1px solid #000;">Jalur Pendaftaran</th>
+                <th style="border-right: 1px solid #000;">Jalur</th>
+                <th style="border-right: 1px solid #000;">Tahun Angkatan</th>
                 <th style="border-right: 1px solid #000;">Golongan</th>
-                <th>Nominal UKT</th>
+                <th style="border-right: 1px solid #000;">Nominal UKT</th>
             </tr>
-            @foreach ($berkas as $id)
+            @foreach ($arsip as $id)
                 <tr class="table-td">
                     <td style="border-right: 1px solid #000;">{{ $loop->iteration }}</td>
-                    <td style="border-right: 1px solid #000;">{{ $id->mahasiswa->id }}</td>
-                    <td style="border-right: 1px solid #000;">{{ $id->mahasiswa->nama }}</td>
-                    <td style="border-right: 1px solid #000;">{{ $id->mahasiswa->prodi->nama }}</td>
-                    <td style="border-right: 1px solid #000;">{{ $id->mahasiswa->prodi->jenjang }}</td>
-                    <td style="border-right: 1px solid #000;">{{ $id->mahasiswa->prodi->jurusan->nama }}</td>
-                    <td style="border-right: 1px solid #000;">{{ $id->admin->nama }}</td>
-                    <td style="border-right: 1px solid #000;">{{ $id->mahasiswa->jalur }}</td>
-                    <td style="border-right: 1px solid #000;">{{ $id->golongan->nama }}</td>
-                    <td style="border-right: 1px solid #000;">Rp{{ number_format($id->nominal_ukt, 0, ',', '.') }}</td>
+                    <td style="border-right: 1px solid #000;">{{ $id->no_pendaftaran }}</td>
+                    <td style="border-right: 1px solid #000;">{{ $id->nama_mahasiswa }}</td>
+                    <td style="border-right: 1px solid #000;">{{ $id->nama_prodi}}</td>
+                    <td style="border-right: 1px solid #000;">{{ $id->jenjang }}</td>
+                    <td style="border-right: 1px solid #000;">{{ $id->nama_jurusan }}</td>
+                    <td style="border-right: 1px solid #000;">{{ $id->admin }}</td>
+                    <td style="border-right: 1px solid #000;">{{ $id->jalur }}</td>
+                    <td style="border-right: 1px solid #000;">{{ $id->tahun_angkatan }}</td>
+                    <td style="border-right: 1px solid #000;">{{ $id->nama_golongan }}</td>
+                    <td style="border-right: 1px solid #000;">Rp{{ number_format($id->nominal, 0, ',', '.') }}</td>
                 </tr>
             @endforeach
         </table>

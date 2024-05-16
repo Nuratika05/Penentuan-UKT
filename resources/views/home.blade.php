@@ -130,6 +130,11 @@
                                 <td>:</td>
                                 <td>{{ $mahasiswa->prodi->jurusan->nama }}</td>
                             </tr>
+                            <tr>
+                                <th>Jalur Pendaftaran</th>
+                                <td>:</td>
+                                <td>{{ $mahasiswa->jalur }}</td>
+                            </tr>
                         </table>
                     </div>
                 </div>

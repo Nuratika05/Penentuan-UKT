@@ -47,9 +47,9 @@
                         <th>Jurusan</th>
                         <th>Status</th>
                         <th>Verifikator</th>
+                        <th>Jalur</th>
                         <th>Golongan </th>
                         <th>Nominal</th>
-                        <th>Jalur</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -79,6 +79,7 @@
                                     {{ $item->admin->nama }}
                                 @endif
                             </td>
+                            <td>{{ $item->mahasiswa->jalur }}</td>
                             <td>
                                 @if ($item->status == 'Menunggu Verifikasi' || $item->status == 'Belum Lengkap' || $item->golongan_id == null)
                                     -
@@ -93,14 +94,13 @@
                                     Rp {{ number_format($item->nominal_ukt, 0, ',', '.') }}
                                 @endif
                             </td>
-                            <td>{{ $item->mahasiswa->jalur }}</td>
                             <td>
                                 @if ($item->status == 'Menunggu Verifikasi' || $item->status == 'Belum Lengkap')
                                     <a class="btn btn-xs btn-primary"
-                                        href="{{ route('admin.data-ukt.edit', $item->id) }}">Verifikasi</a>
+                                        href="{{ route('admin.data-ukt.edit', $item->id) }}">Lihat Detail</a>
                                 @elseif ($item->status == 'Lulus Verifikasi')
                                     <a class="btn btn-xs btn-primary"
-                                        href="{{ route('admin.data-ukt.edit', $item->id) }}">Detail</a>
+                                        href="{{ route('admin.data-ukt.edit', $item->id) }}">Lihat Detail</a>
                                     <a class="btn btn-xs btn-secondary"
                                         href="{{ route('admin.data-ukt.print', $item->id) }}">Print</a>
                                 @endif
@@ -192,6 +192,15 @@
                                 <th>Foto Kendaraan</th>
                                 <td>:</td>
                                 <td><img src="{{ asset('foto_kendaraan/' . $berkas->foto_kendaraan) }}"
+                                        class="rounded img-fluid" width="250px"></td>
+                            </tr>
+                        @endif
+                        @if ($berkas->foto_beasiswa === null || $berkas->foto_beasiswa === '')
+                        @else
+                            <tr>
+                                <th>Foto Bantuan Pemerintah</th>
+                                <td>:</td>
+                                <td><img src="{{ asset('foto_beasiswa/' . $berkas->foto_beasiswa) }}"
                                         class="rounded img-fluid" width="250px"></td>
                             </tr>
                         @endif
