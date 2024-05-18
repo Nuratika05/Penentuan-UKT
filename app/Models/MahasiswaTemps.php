@@ -32,15 +32,5 @@ class MahasiswaTemps extends  Model
         'upload_code',
     ];
 
-
-    public function prodi()
-    {
-        return $this->belongsTo(Prodi::class, 'prodi_id_temps', 'id');
-    }
-
-    public function penilaian()
-    {
-        return $this->hasMany(Penilaian::class);
-    }
 }
 

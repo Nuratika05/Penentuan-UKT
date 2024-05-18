@@ -168,69 +168,84 @@ class MahasiswaController extends Controller
                     $check = "Valid";
                     $error_location = array();
                     //A
-
-                    $duplicateDataMahasiswaTemps = MahasiswaTemps::where('id_temps', '=', $d['id_temps'])
-                    ->where('upload_code', '!=', $upload_code)
-                    ->first();
-                    if ($duplicateDataMahasiswaTemps != null) {
-                        $check = "Tidak Valid";
-                        array_push($error_location, "DUPLICATE DATA ");
-                    }
-                    $duplicateDataMahasiswa = Mahasiswa::where('id', '=', $d['id_temps'])->first();
-                    if ($duplicateDataMahasiswa != null) {
-                        $check = "Tidak Valid";
-                        array_push($error_location, "NO PENDAFTARAN SUDAH DIGUNAKAN " );
-                    }
                     if ($d['id_temps'] == null) {
                         $check = "Tidak Valid";
-                        array_push($error_location, "NO PENDAFTARAN TIDAK BOLEH KOSONG ");
-                    }
+                        array_push($error_location, "(NO PENDAFTARAN TIDAK BOLEH KOSONG)");
+                        } else {
+                            $duplicateIdTempsCount = MahasiswaTemps::where('id_temps', $d['id_temps'])
+                            ->count();
+                            if ($duplicateIdTempsCount > 1) {
+                                $check = "Tidak Valid";
+                                array_push($error_location, "(DUPLIKAT DATA)");
+                            }
+                            $duplicateDataMahasiswa = Mahasiswa::where('id', $d['id_temps'])->first();
+                            if ($duplicateDataMahasiswa != null) {
+                                $check = "Tidak Valid";
+                                array_push($error_location, "(NO PENDAFTARAN SUDAH DIGUNAKAN)" );
+                            }
+                        }
 
                     //B
-                    if ($d['nama_temps'] == null) {
+                    if ($d['nama_temps'] == null || $d['nama_temps'] == '') {
                         $check = "Tidak Valid";
-                        array_push($error_location, "NAMA TIDAK BOLEH KOSONG ");
+                        array_push($error_location, "(NAMA TIDAK BOLEH KOSONG)");
                     }
 
                     //C
-                    if (!in_array($d['jenis_kelamin_temps'], ['Laki-laki', 'Perempuan'])) {
+                    if ($d['jenis_kelamin_temps'] == null || $d['jenis_kelamin_temps'] == '') {
                         $check = "Tidak Valid";
-                        array_push($error_location, "JENIS KELAMIN TIDAK VALID " );
-                    }
+                        array_push($error_location, "(JENIS KELAMIN TIDAK BOLEH KOSONG)" );
+                        } elseif (!in_array($d['jenis_kelamin_temps'], ['Laki-laki', 'Perempuan'])) {
+                        $check = "Tidak Valid";
+                        array_push($error_location, "(JENIS KELAMIN TIDAK VALID)" );
+                        }
 
                     //D
-                    if (!is_numeric($d['no_telepon_temps'])) {
+                    if ($d['no_telepon_temps'] == null || $d['no_telepon_temps'] == '') {
                         $check = "Tidak Valid";
-                        array_push($error_location, "NO TELEPON HARUS ANGKA ");
-                    }
+                        array_push($error_location, "(NO TELEPON TIDAK BOLEH KOSONG)" );
+                        } elseif (!is_numeric($d['no_telepon_temps'])) {
+                        $check = "Tidak Valid";
+                        array_push($error_location, "(NO TELEPON HARUS ANGKA)");
+                        }
+
 
                     //E
-                    if ($d['alamat_temps'] == null) {
+                    if ($d['alamat_temps'] == null || $d['alamat_temps'] == '') {
                         $check = "Tidak Valid";
-                        array_push($error_location, "ALAMAT TIDAK BOLEH KOSONG " );
+                        array_push($error_location, "(ALAMAT TIDAK BOLEH KOSONG)" );
                     }
 
                     //F
-                    $prodi = Prodi::where('nama', '=', $d['prodi_id_temps'])->first();
-                    if ($prodi != null) {
+                    if ($d['prodi_id_temps'] == null || $d['prodi_id_temps'] == '') {
                         $check = "Tidak Valid";
-                        array_push($error_location, "PRODI TIDAK VALID ");
-                    }
-
-                    if ($d['jalur_temps'] == null) {
-                        $check = "Tidak Valid";
-                        array_push($error_location, "JALUR PENDAFTARAN TIDAK BOLEH KOSONG " );
+                        array_push($error_location, "(PRODI TIDAK BOLEH KOSONG)" );
+                    } else {
+                        $prodi = Prodi::where('nama', $d['prodi_id_temps'])->first();
+                        if ($prodi == null) {
+                            $check = "Tidak Valid";
+                            array_push($error_location, "(PRODI TIDAK VALID)");
+                        }
                     }
 
                     //G
-                    if (preg_match('/^[0-9]{8}$/', $d['password_temps']) == false) {
+                    if ($d['jalur_temps'] == null || $d['jalur_temps'] == '') {
                         $check = "Tidak Valid";
-                        array_push($error_location, "PASSWORD HARUS TERDIRI DARI 8 ANGKA ");
+                        array_push($error_location, "(JALUR TIDAK BOLEH KOSONG)" );
+                    }
+
+                    //H
+                    if ($d['password_temps'] == null || $d['password_temps'] == '') {
+                        $check = "Tidak Valid";
+                        array_push($error_location, "(PASSWORD TIDAK BOLEH KOSONG)" );
+                    }
+                    elseif (preg_match('/^[0-9]{8}$/', $d['password_temps']) == false) {
+                        $check = "Tidak Valid";
+                        array_push($error_location, "(PASSWORD HARUS 8 ANGKA)");
                     }
 
 
-
-                    $mhs_temps->eror_location = $error_location ?? [];
+                    $mhs_temps->eror_location = json_encode($error_location ?? []);
                     $mhs_temps->check = $check;
                     $mhs_temps->save();
                 }
@@ -249,13 +264,26 @@ class MahasiswaController extends Controller
                 $mhs_temps = MahasiswaTemps::where('check', 'Valid')->get();
                 $successCount = 0;
                 foreach ($mhs_temps as $bt) {
+
+                    $prodiTemps = $bt->prodi_id_temps;
+                    if (is_numeric($prodiTemps)) {
+                        $prodiId = (int) $prodiTemps;
+
+                    } else {
+                        $prodi = Prodi::where('nama', $prodiTemps)->first();
+                        if ($prodi) {
+                            $prodiId = $prodi->id;
+                        } else {
+                            $prodiId = null;
+                        }
+                    }
                     Mahasiswa::insert([
                         'id' => $bt->id_temps,
                         'nama' => $bt->nama_temps,
                         'jenis_kelamin' => $bt->jenis_kelamin_temps,
                         'no_telepon' => $bt->no_telepon_temps,
                         'alamat' => $bt->alamat_temps,
-                        'prodi_id' => $bt->prodi_id_temps,
+                        'prodi_id' => $prodiId,
                         'jalur' => $bt->jalur_temps,
                         'password' => Hash::make($bt->password_temps),
                         'created_at' => now(),

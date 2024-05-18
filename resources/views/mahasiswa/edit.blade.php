@@ -78,7 +78,7 @@
 
                         <div class="mb-3">
                             <label for="password" class="form-label">Password</label><span class="text-danger"
-                                style="font-size: 10px;"><i> *Kosongkan jika tidak ingin mengubah password</i></span>
+                                style="font-size: 10px;"><i> *Abaikan jika tidak ingin mengubah password</i></span>
                             <div class="input-group">
                                 <input type="password" name="password" id="password" maxlength="8"
                                     class="form-control @error('password') is-invalid @enderror">

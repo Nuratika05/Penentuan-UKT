@@ -31,7 +31,7 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
     public function model(array $row)
     {
 
-        $prodiId = Prodi::where('nama', $row['prodi'])->value('id') ?? null;
+       // $prodiId = Prodi::where('nama', $row['prodi'])->value('nama') ?? null;
 
        return new MahasiswaTemps([
         'id_temps' => $row['no_pendaftaran'] ?? null,
@@ -39,7 +39,7 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
         'jenis_kelamin_temps' => $row['jenis_kelamin'] ?? null,
         'no_telepon_temps' => $row['no_telepon'] ?? null,
         'alamat_temps' => $row['alamat'] ?? null,
-        'prodi_id_temps' => $prodiId,
+        'prodi_id_temps' => $row['prodi'] ?? null,
         'jalur_temps' => $row['jalur_pendaftaran'] ?? null,
         'password_temps' => $row['password'] ?? null,
         'status_upload' => 'Draft',

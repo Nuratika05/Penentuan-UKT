@@ -60,12 +60,12 @@
         <div class="row">
             <div class="col-md-12">
                 @if ($mhs_temps->where('check', 'Valid')->count() != null)
-                    <a class="btn btn-outline-primary float-end mb-1 btn-sm "onClick="return confirm('Semua data yang dikirim hanya data Valid. Apakah sudah yakin?')"
-                        href="{{ route('mahasiswaimportsave') }}">Kirim<i class="bx bx-share"></i>
+                    <a class="btn btn-outline-primary float-end mb-1 btn-sm "onClick="return confirm('Semua data yang disimpan hanya data Valid. Apakah sudah yakin?')"
+                        href="{{ route('mahasiswaimportsave') }}">Simpan<i class="bx bx-share"></i>
                     </a>
                 @endif
                 <a class="btn btn-outline-danger mb-1 float-end btn-sm"
-                    onClick="return confirm('Yakin akan menghapus data import?')"
+                    onClick="return confirm('Yakin akan menghapus import?')"
                     href="{{ route('mahasiswaimportbatal') }}">
                     Hapus</i>
                 </a>
@@ -88,7 +88,7 @@
                                     <th>No Telepon</th>
                                     <th>Alamat</th>
                                     <th>Prodi</th>
-                                    <th>Jalur Pendaftaran</th>
+                                    <th>Jalur</th>
                                     <th>Password</th>
                                     <th>Validasi</th>
                                     <th>Pesan Kesalahan</th>
@@ -100,16 +100,20 @@
                                     $row = 1;
                                 @endphp
                                 @foreach ($mhs_temps as $bt)
-                                    <tr {!! $bt->check == 'Tidak Valid' ? "style='background-color : goldenrod'" : '' !!}>
+                                @php
+                                    // Decode JSON string to array
+                                    $eror_location = json_decode($bt->eror_location, true);
+                                @endphp
+                                    <tr {!! $bt->check == 'Tidak Valid' ? "style='background-color: goldenrod; color:black;'" : '' !!}>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td {!! str_contains($bt->eror_location, 'A' . $row) ? "style='background-color: red'" : '' !!}>{{ $bt->id_temps }}</td>
-                                        <td {!! str_contains($bt->eror_location, 'B' . $row) ? "style='background-color: red'" : '' !!}>{{ $bt->nama_temps }}</td>
-                                        <td {!! str_contains($bt->eror_location, 'C' . $row) ? "style='background-color: red'" : '' !!}>{{ $bt->jenis_kelamin_temps }}</td>
-                                        <td {!! str_contains($bt->eror_location, 'D' . $row) ? "style='background-color: red'" : '' !!}>{{ $bt->no_telepon_temps }}</td>
-                                        <td {!! str_contains($bt->eror_location, 'E' . $row) ? "style='background-color: red'" : '' !!}>{{ $bt->alamat_temps }}</td>
-                                        <td {!! str_contains($bt->eror_location, 'F' . $row) ? "style='background-color: red'" : '' !!}>{{ $bt->prodi->nama }}</td>
-                                        <td {!! str_contains($bt->eror_location, 'G' . $row) ? "style='background-color: red'" : '' !!}>{{ $bt->jalur_temps }}</td>
-                                        <td {!! str_contains($bt->eror_location, 'H' . $row) ? "style='background-color: red'" : '' !!}>{{ $bt->password_temps }}</td>
+                                        <td {!! in_array('(NO PENDAFTARAN TIDAK BOLEH KOSONG)', $eror_location) || in_array('(DUPLIKAT DATA)', $eror_location) || in_array('(NO PENDAFTARAN SUDAH DIGUNAKAN)', $eror_location) ? "style='background-color: rgb(255, 0, 0); color: white;font-weight: bold'" : '' !!}>{{ $bt->id_temps }}</td>
+                                        <td {!! in_array('(NAMA TIDAK BOLEH KOSONG)', $eror_location) ? "style='background-color: rgb(255, 0, 0); color: white; font-weight: bold;'" : '' !!}>{{ $bt->nama_temps }}</td>
+                                        <td {!! in_array('(JENIS KELAMIN TIDAK BOLEH KOSONG)', $eror_location) || in_array('(JENIS KELAMIN TIDAK VALID)', $eror_location) ? "style='background-color: rgb(255, 0, 0); color: white;'" : '' !!}>{{ $bt->jenis_kelamin_temps }}</td>
+                                        <td {!! in_array('(NO TELEPON TIDAK BOLEH KOSONG)', $eror_location) || in_array('(NO TELEPON HARUS ANGKA)', $eror_location) ? "style='background-color: rgb(255, 0, 0); color: white;'" : '' !!}>{{ $bt->no_telepon_temps }}</td>
+                                        <td {!! in_array('(ALAMAT TIDAK BOLEH KOSONG)', $eror_location) ? "style='background-color:rgb(255, 0, 0); color: white;'" : '' !!}>{{ $bt->alamat_temps }}</td>
+                                        <td {!! in_array('(PRODI TIDAK BOLEH KOSONG)', $eror_location) || in_array('(PRODI TIDAK VALID)', $eror_location) ? "style='background-color: rgb(255, 0, 0); color: white;'" : '' !!}>{{ $bt->prodi_id_temps }}</td>
+                                        <td {!! in_array('(JALUR TIDAK BOLEH KOSONG)', $eror_location) ? "style='background-color: rgba(255, 0, 0, 0.945); color: white;'" : '' !!}>{{ $bt->jalur_temps }}</td>
+                                        <td {!! in_array('(PASSWORD TIDAK BOLEH KOSONG)', $eror_location) || in_array('(PASSWORD HARUS 8 ANGKA)', $eror_location) ? "style='background-color: rgb(255, 0, 0); color: white;'" : '' !!}>{{ $bt->password_temps }}</td>
                                         <td>{{ $bt->check }}</td>
                                         <td>{{ $bt->eror_location }}</td>
                                         <td>{{ $bt->status_upload }}</td>
