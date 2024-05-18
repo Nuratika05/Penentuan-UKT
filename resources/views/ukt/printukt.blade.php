@@ -106,7 +106,7 @@
                 <th style="border-right: 1px solid #000;">Jenjang</th>
                 <th style="border-right: 1px solid #000;">Jurusan</th>
                 <th style="border-right: 1px solid #000;">Verifikator</th>
-                <th style="border-right: 1px solid #000;">Jalur Pendaftaran</th>
+                <th style="border-right: 1px solid #000;">Jalur</th>
                 <th style="border-right: 1px solid #000;">Golongan</th>
                 <th>Nominal UKT</th>
             </tr>

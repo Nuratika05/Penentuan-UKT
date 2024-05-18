@@ -61,7 +61,7 @@
                     <li
                         class="menu-item {{ request()->is('admin/semua-data/golongan/kelompokUKT*', 'admin/semua-data/golongan/golongan*') ? 'active open' : '' }}">
                         <a href="javascript:void(0);" class="menu-link menu-text menu-toggle">
-                            <div class="menu-text">Golongan</div>
+                            <div class="menu-text">Kelompok UKT</div>
                         </a>
                         <ul class="menu-sub menu-inner py-1" style="margin-left: 20px;">
                             <li

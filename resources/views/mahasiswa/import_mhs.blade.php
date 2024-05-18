@@ -46,7 +46,7 @@
                 <div class="row row-sm mb-4">
                     <div class="col-sm-12 col-md-12 col-lg-12">
                         <div class="input-group file-browser">
-                            <input class="form-control" type="file" id="excel_upload" name="excel_upload" required>
+                            <input class="form-control" type="file" id="excel_upload" accept=".xlsx, .xls" name="excel_upload" required>
                         </div>
                     </div>
                 </div>

@@ -15,6 +15,7 @@ use App\Models\Folder;
 use App\Models\Jurusan;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Admin;
+use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
 
@@ -40,15 +41,11 @@ class FolderArsipController extends Controller
     }
     public function arsip(Request $request)
     {
-
-        $request->validate([
-            'data_ids' => 'required|array',
-        ]);
-        $dataIds = $request->input('data_ids');
+        $dataIds = $request->ids;
         $jumlahDataDiarsipkan = 0;
 
         foreach ($dataIds as $dataId) {
-        $item = Berkas::findOrFail($dataId);
+        $item = Berkas::whereIn('id', $dataId);
 
         if ($item->foto_tempat_tinggal) {
             $pathAsaltempattinggal = public_path('foto_tempat_tinggal/' . $item->foto_tempat_tinggal);
@@ -165,25 +162,6 @@ class FolderArsipController extends Controller
         $pdf->setPaper('F4', 'portrait');
         return $pdf->stream("UKT_Mahasiswa.pdf");
     }
-    public function HapusArsip(Request $request)
-        {
-            $request->validate([
-                'ids' => 'required|array',
-            ]);
-
-            $ids = $request->input('ids');
-            $jumlahData = count($ids);
-            Arsip::whereIn('id', $ids)->delete();
-            $noPendaftarans = Arsip::whereIn('id', $ids)->pluck('no_pendaftaran');
-            PenilaianArsip::whereIn('no_pendaftaran', $noPendaftarans)->delete();
-            $jumlahData++;
-
-            if ($jumlahData > 0) {
-                return redirect()->back()->with('success', $jumlahData .'Data berhasil dihapus.');
-        } else {
-        return redirect()->back()->with('error', 'Tidak ada data yang dipilih.');
-    }
-    }
 
     public function printarsip($id)
         {
@@ -207,4 +185,43 @@ class FolderArsipController extends Controller
                 $pdf->setPaper('F4', 'portrait');
                 return $pdf->stream("UKT_Mahasiswa.pdf");
         }
+
+        public function HapusArsip(Request $request)
+        {
+            $ids = $request->ids;
+            $jumlahData = 0;
+            $noPendaftarans = Arsip::whereIn('id', $ids)->pluck('no_pendaftaran')->toArray();
+
+            DB::beginTransaction();
+            try {
+                // Hapus berkas
+                $deletedArsip = Arsip::whereIn('id', $ids)->delete();
+
+                if ($deletedArsip) {
+                    // Hapus penilaian terkait dengan mahasiswa_id
+                    $deletedPenilaianArsip = PenilaianArsip::whereIn('no_pendaftaran', $noPendaftarans)->delete();
+                    $remainingPenilaianCount = PenilaianArsip::whereIn('no_pendaftaran', $noPendaftarans)->count();
+
+                    // Pastikan semua penilaian terkait juga terhapus
+                    if ($remainingPenilaianCount == 0) {
+                        // Komit transaksi jika berhasil
+                        DB::commit();
+                        $jumlahData = $deletedArsip;
+                        return response()->json(['success' => true, 'message' => $jumlahData . ' Data Berhasil Dihapus.']);
+                    } else {
+                        // Jika penilaian tidak terhapus, rollback transaksi
+                        DB::rollBack();
+                        return response()->json(['success' => false, 'message' => 'Gagal Menghapus Data Penilaian.']);
+                    }
+                } else {
+                    DB::rollBack();
+                    return response()->json(['success' => false, 'message' => 'Gagal Menghapus Data.']);
+                }
+            } catch (\Exception $e) {
+                // Rollback transaksi jika ada kesalahan
+                DB::rollBack();
+                return response()->json(['success' => false, 'message' => 'Terjadi kesalahan: ' . $e->getMessage()]);
+            }
+        }
+
 }

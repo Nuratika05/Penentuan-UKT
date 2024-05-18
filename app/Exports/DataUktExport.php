@@ -44,8 +44,8 @@ class DataUktExport implements FromCollection, WithHeadings, ShouldAutoSize, Wit
                 'prodi' => $berkas->mahasiswa->prodi->nama,
                 'jenjang' => $berkas->mahasiswa->prodi->jenjang,
                 'jurusan' => $berkas->mahasiswa->prodi->jurusan->nama,
-                'verifikator' => $berkas->admin->nama,
                 'jalur' => $berkas->mahasiswa->jalur,
+                'verifikator' => $berkas->admin->nama,
                 'golongan' => $berkas->golongan->nama,
                 'nominal' => $nominalFormatted,
             ];
@@ -66,8 +66,8 @@ class DataUktExport implements FromCollection, WithHeadings, ShouldAutoSize, Wit
             'Prodi',
             'Jenjang',
             'Jurusan',
-            'Verifikator',
             'Jalur Pendaftaran',
+            'Verifikator',
             'Golongan',
             'Nominal',
         ];
@@ -81,8 +81,8 @@ class DataUktExport implements FromCollection, WithHeadings, ShouldAutoSize, Wit
         $row->prodi,
         $row->jenjang,
         $row->jurusan,
-        $row->verifikator,
         $row->jalur,
+        $row->verifikator,
         $row->golongan,
         $row->nominal,
     ];

@@ -25,19 +25,15 @@
                     </div>
                 @endif
             </div>
-            <div class="col-md-6 text-end m-auto">
-                <form action="{{ route('admin.data-ukt.hapussemua') }}" method="POST" id="deleteForm">
-                    @csrf
-                    <input type="hidden" id="data_ids_input" name="ids[]">
-                    <button type="submit" id="hapus" class="btn btn-outline-danger float-end  mb-1 btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">Hapus</button>
-                </form>
+            <div>
+            <a href="#" id="deleteAll" class="btn btn-outline-danger float-end mb-1 btn-sm">Hapus</a>
             </div>
     </div>
     <div class="card p-4">
         <div class="table-responsive text-nowrap">
             <table class="datatable table py-3">
                 <thead>
-                    <tr>
+                    <tr >
                         <th><input type="checkbox" id="centang_semua"></th>
                         <th>No</th>
                         <th>No.Pendaftaran</th>
@@ -46,8 +42,8 @@
                         <th>Jenjang</th>
                         <th>Jurusan</th>
                         <th>Status</th>
-                        <th>Verifikator</th>
                         <th>Jalur</th>
+                        <th>Verifikator</th>
                         <th>Golongan </th>
                         <th>Nominal</th>
                         <th>Aksi</th>
@@ -55,8 +51,8 @@
                 </thead>
                 <tbody class="table-border-bottom-0">
                     @foreach ($berkas as $item)
-                        <tr>
-                            <td><input type="checkbox" class="centang_data" name="ids[]" value="{{ $item->id }}"></td>
+                        <tr id="dataukt_ids{{ $item->id }}">
+                            <td><input type="checkbox" class="centang_data" name="ids" value="{{ $item->id }}"></td>
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $item->mahasiswa->id }}</td>
                             <td>{{ $item->mahasiswa->nama }}</td>
@@ -72,6 +68,7 @@
                                     <span class="badge bg-label-primary rounded">{{ $item->status }}</span>
                                 @endif
                             </td>
+                            <td>{{ $item->mahasiswa->jalur }}</td>
                             <td>
                                 @if ($item->admin_id == null)
                                     -
@@ -79,7 +76,6 @@
                                     {{ $item->admin->nama }}
                                 @endif
                             </td>
-                            <td>{{ $item->mahasiswa->jalur }}</td>
                             <td>
                                 @if ($item->status == 'Menunggu Verifikasi' || $item->status == 'Belum Lengkap' || $item->golongan_id == null)
                                     -
@@ -211,37 +207,47 @@
         @endif
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    $(document).ready(function() {
-            $('#centang_semua').on('click', function() {
-                $('.centang_data').prop('checked', this.checked);
+    <script>
+         $(function(e) {
+            $("#centang_semua").click(function() {
+                $('.centang_data').prop('checked', $(this).prop('checked'));
             });
-
-            $('.centang_data').on('click', function() {
-                if (!$(this).prop('checked')) {
-                    $('#centang_semua').prop('checked', false);
-                } else {
-                    if ($('.centang_data:checked').length === $('.centang_data').length) {
-                        $('#centang_semua').prop('checked', true);
-                    }
-                }
-            });
-        });
-        $('#hapus').on('click', function(e) {
+            $('#deleteAll').click(function(e){
                 e.preventDefault();
                 var ids = [];
-                $('.centang_data:checked').each(function() {
+                $('input:checkbox[name=ids]:checked').each(function(){
                     ids.push($(this).val());
                 });
-                $('#data_ids_input').val(ids);
 
-                if (ids.length === 0) {
-                    $(this).prop('disabled', true);
-                } else {
-                    $(this).prop('disabled', false);
-                    $('#deleteForm').submit(); // Submit formulir setelah mengatur nilai input tersembunyi
+                if(ids.length > 0){
+                    if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
+                        $.ajax({
+                            url: "{{ route('admin.data-ukt.hapussemua') }}",
+                            type: "POST",
+                            data: {
+                                ids: ids,
+                                _token: '{{ csrf_token() }}',
+                            },
+                            success: function(response){
+                            if (response.success) {
+                                alert(response.message);
+                                $.each(ids, function(key, val){
+                                    $('#dataukt_ids' + val).remove();
+                                });
+                                window.location.reload();
+                            } else {
+                                alert(response.message);
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            alert(xhr.responseJSON.message);
+                        }
+                    });
                 }
+            } else {
+                alert('Tidak ada data yang dipilih.');
+            }
+        });
     });
-
-</script>
+    </script>
 @endsection

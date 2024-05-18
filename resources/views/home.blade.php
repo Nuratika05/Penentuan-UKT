@@ -155,6 +155,12 @@
                                         <td>Rp{{ number_format($berkas->nominal_ukt,0,',','.') }}</td>
                                     </tr>
                                 </table>
+                                <table class="table table-borderless w-50">
+                                    <tr>
+                                        <td><a href="http://online.sia.politanisamarinda.ac.id/daftar_ulang/" style="text-decoration:underline;
+                                            text-blue-100 hover:text-blue-100" target="_blank">Klik Untuk Melakukan Daftar Ulang !</a></td>
+                                    <tr>
+                                </table>
                             </div>
                         </div>
                     @endif

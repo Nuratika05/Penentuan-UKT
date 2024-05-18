@@ -223,17 +223,26 @@ class DataUktController extends Controller
         {
 
             $mahasiswa = auth()->guard('mahasiswa')->user();
-            $dataPenilaian = [];
-            foreach ($request->kriteria as $key => $value) {
-                $subkriteria = Subkriteria::where('id', $value)->first();
-                $dataPenilaian[] = [
-                'mahasiswa_id' => $mahasiswa->id,
-                'kriteria_id' => $subkriteria->kriteria_id,
-                'subkriteria_id' => $subkriteria->id,
-            ];
-            }
-        Penilaian::insert($dataPenilaian);
+            $existingPenilaian = Penilaian::where('mahasiswa_id', $mahasiswa->id)->exists();
 
+            if (!$existingPenilaian) {
+                $dataPenilaian = [];
+                foreach ($request->kriteria as $key => $value) {
+                    $subkriteria = Subkriteria::findOrFail($value);
+
+                    if ($subkriteria) {
+                        $dataPenilaian[] = [
+                            'mahasiswa_id' => $mahasiswa->id,
+                            'kriteria_id' => $subkriteria->kriteria_id,
+                            'subkriteria_id' => $subkriteria->id,
+                        ];
+                    }
+                }
+                // Masukkan data penilaian jika ada
+                if (!empty($dataPenilaian)) {
+                    Penilaian::insert($dataPenilaian);
+                }
+            }
         $nilai = Penilaian::where('mahasiswa_id', $mahasiswa->id)->get();
         $total = 0;
         foreach($nilai as $key => $value)
@@ -643,25 +652,47 @@ class DataUktController extends Controller
                 $pdf->setPaper('F4', 'portrait');
                 return $pdf->stream("UKT_Mahasiswa.pdf");
         }
+
+
         public function HapusSemua(Request $request)
         {
-            $request->validate([
-                'ids' => 'required|array',
-            ]);
-            $ids = $request->input('ids');
+            $ids = $request->ids;
             $jumlahData = 0;
-            foreach ($ids as $id) {
-            $item = Berkas::findOrFail($id);
-                    $mahasiswaId = $item->mahasiswa_id;
-                    $item->delete();
-                    Penilaian::where('mahasiswa_id', $mahasiswaId)->delete();
-                    $jumlahData++;
+
+            // Ambil mahasiswa_id terkait dengan berkas yang akan dihapus
+            $mahasiswaIds = Berkas::whereIn('id', $ids)->pluck('mahasiswa_id')->toArray();
+
+            // Mulai transaksi
+            DB::beginTransaction();
+            try {
+                // Hapus berkas
+                $deletedBerkas = Berkas::whereIn('id', $ids)->delete();
+
+                if ($deletedBerkas) {
+                    // Hapus penilaian terkait dengan mahasiswa_id
+                    $deletedPenilaian = Penilaian::whereIn('mahasiswa_id', $mahasiswaIds)->delete();
+                    $remainingPenilaianCount = Penilaian::whereIn('mahasiswa_id', $mahasiswaIds)->count();
+
+                    // Pastikan semua penilaian terkait juga terhapus
+                    if ($remainingPenilaianCount == 0) {
+                        // Komit transaksi jika berhasil
+                        DB::commit();
+                        $jumlahData = $deletedBerkas;
+                        return response()->json(['success' => true, 'message' => $jumlahData . ' Data Berhasil Dihapus.']);
+                    } else {
+                        // Jika penilaian tidak terhapus, rollback transaksi
+                        DB::rollBack();
+                        return response()->json(['success' => false, 'message' => 'Gagal Menghapus Data Penilaian.']);
+                    }
+                } else {
+                    DB::rollBack();
+                    return response()->json(['success' => false, 'message' => 'Gagal Menghapus Data.']);
+                }
+            } catch (\Exception $e) {
+                // Rollback transaksi jika ada kesalahan
+                DB::rollBack();
+                return response()->json(['success' => false, 'message' => 'Terjadi kesalahan: ' . $e->getMessage()]);
             }
-            if ($jumlahData > 0) {
-                return redirect()->back()->with('success', 'Data berhasil dihapus.');
-        } else {
-        return redirect()->back()->with('error', 'Tidak ada data yang dipilih.');
-    }
-    }
+        }
 
 }

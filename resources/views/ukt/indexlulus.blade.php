@@ -59,7 +59,7 @@
                                         <div class="form-group">
                                             <input type="number" id="tahun_angkatan" name="tahun_angkatan"
                                                 class="form-control" placeholder="Masukkan Tahun Angkatan" required>
-                                            <input type="hidden" id="data_ids_input" name="data_ids[]">
+                                            <input type="hidden" id="data_ids_input" name="ids">
                                         </div>
                                         <br>
                                         <button type="submit" id="arsipButton"
@@ -72,13 +72,6 @@
                         </div>
                     </div>
                 @endif
-                <div>
-                <form action="{{ route('admin.data-ukt.hapussemua') }}" method="POST" id="deleteForm">
-                    @csrf
-                    <input type="hidden" id="data_ids_input_delete" name="ids[]">
-                    <button type="submit" id="hapus" class="btn btn-outline-danger float-end mb-1 btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">Hapus</button>
-                </form>
-            </div>
             </div>
         </div>
     </div>
@@ -95,8 +88,8 @@
                         <th>Jenjang</th>
                         <th>Jurusan</th>
                         <th>Status</th>
-                        <th>Verifikator</th>
                         <th>Jalur</th>
+                        <th>Verifikator</th>
                         <th>Golongan </th>
                         <th>Nominal</th>
                         <th>Aksi</th>
@@ -104,8 +97,8 @@
                 </thead>
                 <tbody class="table-border-bottom-0">
                     @foreach ($berkas as $item)
-                        <tr>
-                            <td><input type="checkbox" class="centang_data" value="{{ $item->id }}"></td>
+                        <tr">
+                            <td><input type="checkbox" class="centang_data" name="ids" value="{{ $item->id }}"></td>
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $item->mahasiswa->id }}</td>
                             <td>{{ $item->mahasiswa->nama }}</td>
@@ -121,6 +114,7 @@
                                     <span class="badge bg-label-primary rounded">{{ $item->status }}</span>
                                 @endif
                             </td>
+                            <td>{{ $item->mahasiswa->jalur }}</td>
                             <td>
                                 @if ($item->admin_id == null)
                                     -
@@ -128,7 +122,6 @@
                                     {{ $item->admin->nama }}
                                 @endif
                             </td>
-                            <td>{{ $item->mahasiswa->jalur }}</td>
                             <td>
                                 @if ($item->status == 'Menunggu Verifikasi' || $item->status == 'Belum Lengkap' || $item->golongan_id == null)
                                     -
@@ -160,7 +153,7 @@
 
         $(document).ready(function() {
             var table = $('.datatable').DataTable({});
-            table.columns(9).every(function() {
+            table.columns(8).every(function() {
                 var column = this;
                 var uniqueValues = column.data().unique().sort().toArray();
                 var maxWidth = 0;
@@ -172,7 +165,7 @@
                 });
 
                 var select = $(
-                        '<select class="form-select" id="jalur_pendaftaran"><option value="" disabled selected>--Pilih Jalur Pendaftaran--</option></select>'
+                        '<select class="form-select" id="jalur_pendaftaran"><option value=""  selected>--Pilih Jalur Pendaftaran--</option></select>'
                     )
                     .css('min-width', maxWidth + 'px')
                     .on('change', function() {
@@ -220,11 +213,11 @@
             });
 
             $('#arsipButton').on('click', function() {
-                var data_ids = [];
+                var all_ids = [];
                 $('.centang_data:checked').each(function() {
-                    data_ids.push($(this).val());
+                    all_ids.push($(this).val());
                 });
-                $('#data_ids_input').val(data_ids.join(','));
+                $('#data_ids_input').val(ids.join(','));
             });
 
             function updateJumlahArsipkan() {
@@ -234,22 +227,5 @@
 
             }
         });
-
-        $('#hapus').on('click', function(e) {
-                e.preventDefault();
-                var ids = [];
-                $('.centang_data:checked').each(function() {
-                    ids.push($(this).val());
-                });
-                $('#data_ids_input_delete').val(ids);
-
-                if (ids.length === 0) {
-                    $(this).prop('disabled', true);
-                } else {
-                    $(this).prop('disabled', false);
-                    $('#deleteForm').submit(); // Submit formulir setelah mengatur nilai input tersembunyi
-                }
-        }); 
-
     </script>
 @endsection
