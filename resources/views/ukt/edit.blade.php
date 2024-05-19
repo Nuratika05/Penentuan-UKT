@@ -231,7 +231,7 @@
                 </div>
             </div>
         </div>
-        @if (Auth::guard('admin')->check() && Auth::user()->role == 'verifikator')
+        @if (Auth::guard('admin')->check() && Auth::user()->role == 'verifikator' && $berkas->status != 'Lulus Verifikasi')
         <div class="card mt-3">
             <span class="card-header text-black">Catatan : <br>
                 <ul>
