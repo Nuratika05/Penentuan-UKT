@@ -344,7 +344,7 @@
                         @if ($berkas->foto_kendaraan === null || $berkas->foto_kendaraan === '')
                             <div class="mb-3" id="foto_kendaraan">
                                 <label for="foto_kendaraan" class="form-label">Foto Kendaraan</label><span
-                                    class="text-danger" style="font-size: 15px;"><i> *Abaikan gambar format: jpeg, jpg,
+                                    class="text-danger" style="font-size: 15px;"><i> *Upload gambar format: jpeg, jpg,
                                         png Ukuran max: 2MB</i></span>
                                 <input class="form-control @error('foto_kendaraan') is-invalid @enderror" type="file"
                                     id="foto_kendaraan" accept=".jpeg, .jpg, .png" name="foto_kendaraan">
@@ -447,7 +447,7 @@
 
             function toggleFormVisibility() {
                 var selectedValue = kriteriaSelect.val();
-                var isFormVisible = (selectedValue != 17);
+                var isFormVisible = (selectedValue != 17 && selectedValue != 'tidak ada kendaraan');
                 formKendaraan.toggle(isFormVisible);
 
                 if (!isFormVisible) {
@@ -473,7 +473,7 @@
 
             function toggleFormVisibility() {
                 var selectedValue = kriteriaSelect.val();
-                var isFormVisible = (selectedValue != 71);
+                var isFormVisible = (selectedValue != 71 && selectedValue != "Tidak Terima");
                 formBeasiswa.toggle(isFormVisible);
 
                 if (!isFormVisible) {

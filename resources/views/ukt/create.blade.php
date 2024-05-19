@@ -41,8 +41,8 @@
                             <input class="form-control  @error('foto_tempat_tinggal') is-invalid @enderror" type="file"
                                 id="foto_tempat_tinggal" accept=".jpeg, .jpg, .png" name="foto_tempat_tinggal" required>
 
-                            @if (old('foto_tempat_tinggal'))
-                                <p class="text-muted">Gambar Lama: {{ old('foto_tempat_tinggal') }}</p>
+                            @if (session('temp_file_paths.foto_tempat_tinggal'))
+                                <p class="text-muted">Gambar Lama: {{ session('temp_file_paths.foto_tempat_tinggal') }}</p>
                             @endif
                             @error('foto_tempat_tinggal')
                                 <div class="invalid-feedback">
@@ -57,8 +57,8 @@
                             <input class="form-control  @error('foto_slip_gaji') is-invalid @enderror" type="file"
                                 id="foto_slip_gaji" accept=".jpeg, .jpg, .png" name="foto_slip_gaji" required>
 
-                            @if (old('foto_slip_gaji'))
-                                <p class="text-muted">Gambar Lama: {{ old('foto_slip_gaji') }}</p>
+                            @if (session('temp_file_paths.foto_slip_gaji'))
+                                <p class="text-muted">Gambar Lama: {{ session('temp_file_paths.foto_slip_gaji') }}</p>
                             @endif
                             @error('foto_slip_gaji')
                                 <div class="invalid-feedback">
@@ -74,8 +74,8 @@
                             <input class="form-control @error('foto_daya_listrik') is-invalid @enderror" type="file"
                                 id="foto_daya_listrik" accept=".jpeg, .jpg, .png" name="foto_daya_listrik" required>
 
-                            @if (old('foto_daya_listrik'))
-                                <p class="text-muted">Gambar Lama: {{ old('foto_daya_listrik') }}</p>
+                            @if (session('temp_file_paths.foto_daya_listrik'))
+                                <p class="text-muted">Gambar Lama: {{ session('temp_file_paths.foto_daya_listrik') }}</p>
                             @endif
                             @error('foto_daya_listrik')
                                 <div class="invalid-feedback">
@@ -90,8 +90,8 @@
                             <input class="form-control @error('foto_kendaraan') is-invalid @enderror" type="file"
                                 id="foto_kendaraan" accept=".jpeg, .jpg, .png" name="foto_kendaraan">
 
-                            @if (old('foto_kendaraan'))
-                                <p class="text-muted">Gambar Lama: {{ old('foto_kendaraan') }}</p>
+                            @if (session('temp_file_paths.foto_kendaraan'))
+                                <p class="text-muted">Gambar Lama: {{ session('temp_file_paths.foto_kendaraan') }}</p>
                             @endif
 
                             @error('foto_kendaraan')
@@ -104,10 +104,10 @@
                             <label for="foto_beasiswa" class="form-label">Foto Bantuan Pemerintah</label><span class="text-danger"
                                 style="font-size: 15px;"><i> *upload gambar format jpeg.jpg.png uk. max 2 MB</i></span>
                             <input class="form-control @error('foto_beasiswa') is-invalid @enderror" type="file"
-                                id="foto_beasiswa" accept=".jpeg, .jpg, .png" name="foto_beasiswa">
+                                id="foto_beasiswa" accept=".jpeg, .jpg, .png" name="foto_beasiswa" >
 
-                            @if (old('foto_beasiswa'))
-                                <p class="text-muted">Gambar Lama: {{ old('foto_beasiswa') }}</p>
+                            @if (session('temp_file_paths.foto_beasiswa'))
+                                <p class="text-muted">Gambar Lama: {{ session('temp_file_paths.foto_beasiswa') }}</p>
                             @endif
 
                             @error('foto_beasiswa')
@@ -138,22 +138,37 @@
         var formKendaraan = $('#foto_kendaraan_container');
         var formBeasiswa = $('#foto_beasiswa_container');
 
-        kriteriaSelect3.change(function() {
-            var selectedValue = $(this).val();
-            var isFormVisible = (selectedValue != '17');
+        // Fungsi untuk menyembunyikan form foto kendaraan jika opsi "Tidak Ada Kendaraan" dipilih
+        function hideKendaraanForm() {
+            var selectedValue = kriteriaSelect3.val();
+            var isFormVisible = (selectedValue != 17 && selectedValue != 'tidak ada kendaraan' );
             formKendaraan.toggle(isFormVisible);
             if (!isFormVisible) {
                 $('#foto_kendaraan').val('');
             }
-        });
+        }
 
-        kriteriaSelect9.change(function() {
-            var selectedValue = $(this).val();
-            var isFormVisible = (selectedValue != '71');
+        // Fungsi untuk menyembunyikan form foto beasiswa jika opsi "Tidak Ada Beasiswa" dipilih
+        function hideBeasiswaForm() {
+            var selectedValue = kriteriaSelect9.val();
+            var isFormVisible = (selectedValue != 71 && selectedValue != 'Tidak Terima');
             formBeasiswa.toggle(isFormVisible);
             if (!isFormVisible) {
                 $('#foto_beasiswa').val('');
             }
+        }
+
+        // Panggil fungsi untuk menyembunyikan form saat dokumen siap
+        hideKendaraanForm();
+        hideBeasiswaForm();
+
+        // Tangani perubahan pada input kriteria
+        kriteriaSelect3.change(function() {
+            hideKendaraanForm();
+        });
+
+        kriteriaSelect9.change(function() {
+            hideBeasiswaForm();
         });
     });
     </script>

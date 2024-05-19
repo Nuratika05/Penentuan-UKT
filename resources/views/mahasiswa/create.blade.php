@@ -92,7 +92,7 @@
                                 style="font-size: 15px;"><i> *tanggal lahir (cth: 05052002)</i>
                                 <div class="input-group">
                                     <input type="password" name="password" id="password" maxlength="8"
-                                        class="form-control @error('password') is-invalid @enderror">
+                                        class="form-control @error('password') is-invalid @enderror" required>
                                     <button type="button" id="showPasswordBtn" class="btn btn-outline-secondary"><i
                                             id="showPasswordIcon" class="bx bx-hide"></i></button>
                                 </div>

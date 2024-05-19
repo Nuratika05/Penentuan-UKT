@@ -29,6 +29,7 @@
         </div>
         <div class="col-md-6 text-end m-auto">
             <div class="col-md-12 mb-5">
+                <a href="#" id="deleteAll" class="btn btn-outline-danger float-end mb-1 btn-sm">Hapus</a>
                 <a href="{{ route('datauktexport') }}" class="btn btn-outline-success float-end mb-1 btn-sm">Export</a>
                 <a href="{{ route('admin.data-ukt.printukt') }}" class="btn btn-outline-secondary float-end mb-1 btn-sm">Print</a>
                 <!-- Tombol Arsipkan -->
@@ -97,7 +98,7 @@
                 </thead>
                 <tbody class="table-border-bottom-0">
                     @foreach ($berkas as $item)
-                        <tr">
+                        <tr id="dataukt_ids{{ $item->id }}">
                             <td><input type="checkbox" class="centang_data" name="ids" value="{{ $item->id }}"></td>
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $item->mahasiswa->id }}</td>
@@ -226,6 +227,43 @@
                 $('#arsipkan').prop('disabled', jumlah_dipilih === 0);
 
             }
+
+            $('#deleteAll').click(function(e){
+                e.preventDefault();
+                var ids = [];
+                $('input:checkbox[name=ids]:checked').each(function(){
+                    ids.push($(this).val());
+                });
+
+                if(ids.length > 0){
+                    if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
+                        $.ajax({
+                            url: "{{ route('admin.data-ukt.hapussemua') }}",
+                            type: "POST",
+                            data: {
+                                ids: ids,
+                                _token: '{{ csrf_token() }}',
+                            },
+                            success: function(response){
+                            if (response.success) {
+                                alert(response.message);
+                                $.each(ids, function(key, val){
+                                    $('#dataukt_ids' + val).remove();
+                                });
+                                window.location.reload();
+                            } else {
+                                alert(response.message);
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            alert(xhr.responseJSON.message);
+                        }
+                    });
+                }
+            } else {
+                alert('Tidak ada data yang dipilih.');
+            }
         });
+    });
     </script>
 @endsection
