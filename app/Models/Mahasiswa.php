@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\Rule;
+use App\Observers\MahasiswaObserver;
+
 class Mahasiswa extends Authenticatable
 {
     use HasFactory;
@@ -74,5 +76,10 @@ class Mahasiswa extends Authenticatable
     public function penilaian()
     {
         return $this->hasMany(Penilaian::class);
+    }
+    protected static function boot()
+    {
+        parent::boot();
+        self::observe(MahasiswaObserver::class);
     }
 }

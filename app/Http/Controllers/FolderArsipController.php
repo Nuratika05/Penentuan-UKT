@@ -41,102 +41,92 @@ class FolderArsipController extends Controller
     }
     public function arsip(Request $request)
     {
-        $dataIds = $request->ids;
+        $dataIds = json_decode($request->ids, true);
+        if (!is_array($dataIds)) {
+            return response()->json(['success' => false, 'message' => 'Terjadi kesalahan dalam pemrosesan data.']);
+        }
+
         $jumlahDataDiarsipkan = 0;
 
-        foreach ($dataIds as $dataId) {
-        $item = Berkas::whereIn('id', $dataId);
+        DB::beginTransaction();
 
-        if ($item->foto_tempat_tinggal) {
-            $pathAsaltempattinggal = public_path('foto_tempat_tinggal/' . $item->foto_tempat_tinggal);
-            $namaFiletempattinggal = pathinfo($pathAsaltempattinggal, PATHINFO_BASENAME);
-            $pathTujuantempattinggal = public_path('fotoarsip/foto_tempat_tinggal/' . $namaFiletempattinggal);
+        try {
+            foreach ($dataIds as $dataId) {
+            $arsipBerkas = Berkas::where('id', $dataId)->get();
 
-            if (File::exists($pathAsaltempattinggal)) {
-                File::move($pathAsaltempattinggal, $pathTujuantempattinggal);
+            if ($arsipBerkas->isEmpty()) {
+                continue;
             }
-        }
-        if ($item->foto_daya_listrik) {
-            $pathAsaldayalistrik = public_path('foto_daya_listrik/' . $item->foto_daya_listrik);
-            $namaFiledayalistrik = pathinfo($pathAsaldayalistrik, PATHINFO_BASENAME);
-            $pathTujuandayalistrik = public_path('fotoarsip/foto_daya_listrik/' . $namaFiledayalistrik);
+            foreach ($arsipBerkas as $item) {
 
-            if (File::exists($pathAsaldayalistrik)) {
-                File::move($pathAsaldayalistrik, $pathTujuandayalistrik);
+                $filePaths = [
+                    'foto_tempat_tinggal' => 'foto_tempat_tinggal',
+                    'foto_daya_listrik' => 'foto_daya_listrik',
+                    'foto_slip_gaji' => 'foto_slip_gaji',
+                    'foto_kendaraan' => 'foto_kendaraan',
+                    'foto_beasiswa' => 'foto_beasiswa'
+                ];
+
+                foreach ($filePaths as $field => $dir) {
+                    if ($item->$field) {
+                        $sourcePath = public_path($dir . '/' . $item->$field);
+                        $destinationPath = public_path('fotoarsip/' . $dir . '/' . $item->$field);
+
+                        if (File::exists($sourcePath)) {
+                            File::move($sourcePath, $destinationPath);
+                        }
+                    }
+                }
+
+                Arsip::create([
+                    'id_folder' => $request->id_folder,
+                    'no_pendaftaran' => $item->mahasiswa->id,
+                    'nama_mahasiswa' => $item->mahasiswa->nama,
+                    'no_telepon' => $item->mahasiswa->no_telepon,
+                    'alamat' => $item->mahasiswa->alamat,
+                    'jenis_kelamin' => $item->mahasiswa->jenis_kelamin,
+                    'nama_prodi' => $item->mahasiswa->prodi->nama,
+                    'jenjang' => $item->mahasiswa->prodi->jenjang,
+                    'nama_jurusan' => $item->mahasiswa->prodi->jurusan->nama,
+                    'nama_golongan' => $item->golongan->nama,
+                    'nominal' => $item->nominal_ukt,
+                    'tahun_angkatan' => $request->tahun_angkatan,
+                    'jalur' => $item->mahasiswa->jalur,
+                    'admin' => $item->admin->nama,
+                    'foto_slip_gaji' => $item->foto_slip_gaji,
+                    'foto_tempat_tinggal' => $item->foto_tempat_tinggal,
+                    'foto_kendaraan' => $item->foto_kendaraan,
+                    'foto_daya_listrik' => $item->foto_daya_listrik,
+                    'foto_beasiswa' => $item->foto_beasiswa,
+
+                ]);
+
+                $penilaians = Penilaian::where('mahasiswa_id', $item->mahasiswa_id)->get();
+                foreach ($penilaians as $penilaian) {
+                    PenilaianArsip::create([
+                        'no_pendaftaran' => $penilaian->mahasiswa->id,
+                        'kriteria' => $penilaian->kriteria->nama,
+                        'subkriteria' => $penilaian->subkriteria->nama,
+                    ]);
+                }
+
+                $mahasiswaId = $item->mahasiswa->id;
+                $item->delete();
+                Penilaian::where('mahasiswa_id', $mahasiswaId)->delete();
+                Mahasiswa::where('id', $mahasiswaId)->delete();
+                $jumlahDataDiarsipkan++;
+                }
             }
-        }
-        if ($item->foto_slip_gaji) {
-            $pathAsalSlipGaji = public_path('foto_slip_gaji/' . $item->foto_slip_gaji);
-            $namaFileSlipGaji = pathinfo($pathAsalSlipGaji, PATHINFO_BASENAME);
-            $pathTujuanSlipGaji = public_path('fotoarsip/foto_slip_gaji/' . $namaFileSlipGaji);
 
-            if (File::exists($pathAsalSlipGaji)) {
-                File::move($pathAsalSlipGaji, $pathTujuanSlipGaji);
+            if ($jumlahDataDiarsipkan > 0) {
+                DB::commit(); // Commit transaksi jika semua langkah berhasil
+                return response()->json(['success' => true, 'message' => $jumlahDataDiarsipkan . ' Data berhasil diarsipkan.']);
+            } else {
+                return response()->json(['success' => false, 'message' => 'Tidak ada data yang diarsipkan.']);
             }
-        }
-
-        if ($item->foto_kendaraan) {
-            $pathAsalkendaraan = public_path('foto_kendaraan/' . $item->foto_kendaraan);
-            $namaFilekendaraan = pathinfo($pathAsalkendaraan, PATHINFO_BASENAME);
-            $pathTujuankendaraan = public_path('fotoarsip/foto_kendaraan/' . $namaFilekendaraan);
-
-            if (File::exists($pathAsalkendaraan)) {
-                File::move($pathAsalkendaraan, $pathTujuankendaraan);
-            }
-        }
-        if ($item->foto_beasiswa) {
-            $pathAsalbeasiswa = public_path('foto_beasiswa/' . $item->foto_beasiswa);
-            $namaFilebeasiswa = pathinfo($pathAsalbeasiswa, PATHINFO_BASENAME);
-            $pathTujuanbeasiswa = public_path('fotoarsip/foto_beasiswa/' . $namaFilebeasiswa);
-
-            if (File::exists($pathAsalbeasiswa)) {
-                File::move($pathAsalbeasiswa, $pathTujuanbeasiswa);
-            }
-        }
-
-        Arsip::create([
-            'id_folder' => $request->id_folder,
-            'no_pendaftaran' => $item->mahasiswa->id,
-            'nama_mahasiswa' => $item->mahasiswa->nama,
-            'no_telepon' => $item->mahasiswa->no_telepon,
-            'alamat' => $item->mahasiswa->alamat,
-            'jenis_kelamin' => $item->mahasiswa->jenis_kelamin,
-            'nama_prodi' => $item->mahasiswa->prodi->nama,
-            'jenjang' => $item->mahasiswa->prodi->jenjang,
-            'nama_jurusan' => $item->mahasiswa->prodi->jurusan->nama,
-            'nama_golongan' => $item->golongan->nama,
-            'nominal' => $item->nominal_ukt,
-            'tahun_angkatan' => $request->tahun_angkatan,
-            'jalur' => $item->mahasiswa->jalur,
-            'admin' => $item->admin->nama,
-            'foto_slip_gaji' => $item->foto_slip_gaji,
-            'foto_tempat_tinggal' => $item->foto_tempat_tinggal,
-            'foto_kendaraan' => $item->foto_kendaraan,
-            'foto_daya_listrik' => $item->foto_daya_listrik,
-            'foto_beasiswa' => $item->foto_beasiswa,
-
-        ]);
-
-        $penilaians = Penilaian::where('mahasiswa_id', $item->mahasiswa_id)->get();
-        foreach ($penilaians as $penilaian) {
-            PenilaianArsip::create([
-                'no_pendaftaran' => $penilaian->mahasiswa->id,
-                'kriteria' => $penilaian->kriteria->nama,
-                'subkriteria' => $penilaian->subkriteria->nama,
-            ]);
-        }
-
-        $mahasiswaId = $item->mahasiswa->id;
-        $item->delete();
-        Penilaian::where('mahasiswa_id', $mahasiswaId)->delete();
-        Mahasiswa::where('id', $mahasiswaId)->delete();
-        $jumlahDataDiarsipkan++;
-    }
-
-        if ($jumlahDataDiarsipkan > 0) {
-            return redirect()->back()->with('success', 'Berhasil mengarsipkan ' . $jumlahDataDiarsipkan . ' data.');
-        } else {
-            return redirect()->back()->with('error', 'Tidak ada data yang diarsipkan.');
+        } catch (\Exception $e) {
+            DB::rollBack(); // Rollback transaksi jika terjadi kesalahan
+            return response()->json(['success' => false, 'message' => 'Terjadi kesalahan: ' . $e->getMessage()]);
         }
     }
     public function detail($id = null){

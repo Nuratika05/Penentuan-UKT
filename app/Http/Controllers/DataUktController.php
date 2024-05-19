@@ -15,8 +15,9 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use App\Exports\DataUktExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\KelompokUKTController;
 use App\Models\KelompokUKT;
+use Illuminate\Support\Facades\Storage;
+
 
 
 class DataUktController extends Controller
@@ -284,55 +285,68 @@ class DataUktController extends Controller
         } else {
             $nominalUkt = null;
         }
+        $tempFilePaths = [];
 
-        $foto_tempat_tinggal = $request->file('foto_tempat_tinggal');
-        $file_tempat_tinggal = date('YmdHis').'_'.$foto_tempat_tinggal->getClientOriginalName();
-        $path = public_path('foto_tempat_tinggal');
-        $foto_tempat_tinggal->move($path, $file_tempat_tinggal);
+        if ($request->hasFile('foto_tempat_tinggal')) {
+            $foto_tempat_tinggal = $request->file('foto_tempat_tinggal');
+            $file_tempat_tinggal = date('YmdHis').'_'.$foto_tempat_tinggal->getClientOriginalName();
+            $path = public_path('foto_tempat_tinggal');
+            $foto_tempat_tinggal->move($path, $file_tempat_tinggal);
+            $tempFilePaths['foto_tempat_tinggal'] = $file_tempat_tinggal;
+        }
 
-        if ($request->has('foto_kendaraan')) {
-        $foto_kendaraan = $request->file('foto_kendaraan');
-        $file_kendaraan = date('YmdHis').'_'.$foto_kendaraan->getClientOriginalName();
-        $path = public_path('foto_kendaraan');
-        $foto_kendaraan->move($path, $file_kendaraan);
+
+        if ($request->hasFile('foto_kendaraan')) {
+            $foto_kendaraan = $request->file('foto_kendaraan');
+            $file_kendaraan = date('YmdHis').'_'.$foto_kendaraan->getClientOriginalName();
+            $path = public_path('foto_kendaraan');
+            $foto_kendaraan->move($path, $file_kendaraan);
+            $tempFilePaths['foto_kendaraan'] = $file_kendaraan;
         }
         else{
             $file_kendaraan = null;
         }
 
-        $foto_slip_gaji = $request->file('foto_slip_gaji');
-        $file_slip_gaji = date('YmdHis').'_'.$foto_slip_gaji->getClientOriginalName();
-        $path = public_path('foto_slip_gaji');
-        $foto_slip_gaji->move($path, $file_slip_gaji);
+        if ($request->hasFile('foto_slip_gaji')) {
+            $foto_slip_gaji = $request->file('foto_slip_gaji');
+            $file_slip_gaji = date('YmdHis').'_'.$foto_slip_gaji->getClientOriginalName();
+            $path = public_path('foto_slip_gaji');
+            $foto_slip_gaji->move($path, $file_slip_gaji);
+            $tempFilePaths['foto_slip_gaji'] = $file_slip_gaji;
+        }
 
-        $foto_daya_listrik = $request->file('foto_daya_listrik');
-        $file_listrik = date('YmdHis').'_'.$foto_daya_listrik->getClientOriginalName();
-        $path = public_path('foto_daya_listrik');
-        $foto_daya_listrik->move($path, $file_listrik);
+        if ($request->hasFile('foto_daya_listrik')) {
+            $foto_daya_listrik = $request->file('foto_daya_listrik');
+            $file_listrik = date('YmdHis').'_'.$foto_daya_listrik->getClientOriginalName();
+            $path = public_path('foto_daya_listrik');
+            $foto_daya_listrik->move($path, $file_listrik);
+            $tempFilePaths['foto_daya_listrik'] = $file_listrik;
+        }
 
-        if ($request->has('foto_beasiswa')) {
+        if ($request->hasFile('foto_beasiswa')) {
             $foto_beasiswa = $request->file('foto_beasiswa');
             $file_beasiswa = date('YmdHis').'_'.$foto_beasiswa->getClientOriginalName();
             $path = public_path('foto_beasiswa');
             $foto_beasiswa->move($path, $file_beasiswa);
+            $tempFilePaths['foto_beasiswa'] = $file_beasiswa;
             }
             else{
                 $file_beasiswa = null;
             }
 
-
-
         Berkas::create([
             'mahasiswa_id' => $mahasiswa->id,
-            'foto_slip_gaji' => $file_slip_gaji,
-            'foto_tempat_tinggal' => $file_tempat_tinggal,
-            'foto_daya_listrik' => $file_listrik,
-            'foto_kendaraan' => $file_kendaraan,
-            'foto_beasiswa' => $file_beasiswa,
+            'foto_slip_gaji' => $tempFilePaths['foto_slip_gaji'] ?? null,
+            'foto_tempat_tinggal' => $tempFilePaths['foto_tempat_tinggal'] ?? null,
+            'foto_daya_listrik' => $tempFilePaths['foto_daya_listrik'] ?? null,
+            'foto_kendaraan' => $tempFilePaths['foto_kendaraan'] ?? null,
+            'foto_beasiswa' => $tempFilePaths['foto_beasiswa'] ?? null,
             'status' => 'Menunggu Verifikasi',
             'golongan_id' => $dataGolongan->id,
             'nominal_ukt' => $nominalUkt,
         ]);
+
+        session()->put('temp_file_paths', $tempFilePaths);
 
         DB::commit();
             return redirect()->route('mahasiswa.data-ukt')->with('success', 'Data-UKT berhasil dibuat.');
@@ -435,7 +449,6 @@ class DataUktController extends Controller
                 'foto_daya_listrik'=>$request->has('foto_daya_listrik') ? 'required|image|mimes:jpeg,png,jpg|max:2048' : 'nullable',
             ],$messages);
 
-
             try
             {
             // dd($request->all());
@@ -448,6 +461,21 @@ class DataUktController extends Controller
             foreach ($request->kriteria as $key => $value)
             {
                 $subkriteria = Subkriteria::where('id', $value)->first();
+                    // Periksa jika kriteria adalah untuk foto kendaraan
+                if ($key == 'Kendaraan' && $value == 'tidak ada kendaraan' || $value == '17' ) {
+                    // Hapus foto kendaraan dari database dan filesystem jika ada
+                    if ($berkas->foto_kendaraan) {
+                        Storage::delete('foto_kendaraan/' . $berkas->foto_kendaraan);
+                        $berkas->foto_kendaraan = null; // Atur foto_kendaraan menjadi null di database
+                    }
+                }
+                if ($key == 'Kendaraan' && $value == 'Tidak Terima' || $value == '71') {
+                    // Hapus foto kendaraan dari database dan filesystem jika ada
+                    if ($berkas->foto_kendaraan) {
+                        Storage::delete('foto_beasiswa/' . $berkas->foto_beasiswa);
+                        $berkas->foto_beasiswa = null; // Atur foto_kendaraan menjadi null di database
+                    }
+                }
 
                 // Cek apakah data penilaian sudah ada untuk kriteria dan mahasiswa tertentu
                 $existingPenilaian = Penilaian::where('mahasiswa_id', $mahasiswa->id)

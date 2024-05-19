@@ -35,7 +35,7 @@
                 <!-- Tombol Arsipkan -->
                 @if (Auth::guard('admin')->check() && Auth::user()->role == 'superadmin')
                     <button id="arsipkan" class="btn btn-outline-secondary float-end mb-1 btn-sm" data-toggle="modal"
-                        data-target="#arsipModal" disabled>Arsipkan</button>
+                        data-target="#arsipModal" >Arsipkan</button>
 
                     <!-- Modal Arsip -->
                     <div class="modal fade" id="arsipModal" tabindex="-1" role="dialog" aria-labelledby="arsipModalLabel"
@@ -43,11 +43,10 @@
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-body">
-                                    <form action="{{ route('admin.lulus-verifikasi.arsip') }}" method="POST">
+                                    <form id="arsipForm">
                                         @csrf
 
-                                    <p style="font-weight: bold;">Jumlah data yang dipilih: <span
-                                        id="jumlahDipilih">0</span></p>
+                                    <p style="font-weight: bold;">Jumlah data yang dipilih: <span id="jumlahDipilih">0</span></p>
                                         <div class="form-group">
                                             <select name="id_folder" class="form-select" autofocus required>
                                                 <option value="" selected disabled>--Pilih Folder--</option>
@@ -60,14 +59,13 @@
                                         <div class="form-group">
                                             <input type="number" id="tahun_angkatan" name="tahun_angkatan"
                                                 class="form-control" placeholder="Masukkan Tahun Angkatan" required>
-                                            <input type="hidden" id="data_ids_input" name="ids">
                                         </div>
                                         <br>
                                         <button type="submit" id="arsipButton"
                                             class="btn btn-primary btn-sm">Arsipkan</button>
                                         <a class=" close btn btn-secondary btn-sm" type="button" data-dismiss="modal"
                                             style="color: white;">Kembali</a>
-                                    </form>
+                                    </id=>
                                 </div>
                             </div>
                         </div>
@@ -204,29 +202,47 @@
                 updateJumlahArsipkan();
             });
 
-            $('#arsipkan').on('click', function() {
-                var ada_tercentang = $('.centang_data:checked').length > 0;
-                if (!ada_tercentang) {
-                    // Tidak melakukan apa-apa jika tidak ada data yang dipilih
-                    return;
-                }
-
+            $('#arsipkan').click(function() {
+                var jumlahDipilih = $('input[type="checkbox"]:checked').length;
+                $('#jumlahDipilih').text(jumlahDipilih);
             });
 
-            $('#arsipButton').on('click', function() {
-                var all_ids = [];
-                $('.centang_data:checked').each(function() {
-                    all_ids.push($(this).val());
+            $('#arsipForm').submit(function(e) {
+                e.preventDefault();
+                var ids = [];
+                $('input:checkbox[name=ids]:checked').each(function() {
+                    ids.push($(this).val());
                 });
-                $('#data_ids_input').val(ids.join(','));
+
+                if(ids.length > 0){
+                    if (confirm('Apakah Anda yakin ingin mengarsipkan data ini?')) {
+                        var formData = new FormData(this);
+                        formData.append('ids', JSON.stringify(ids));
+
+                        $.ajax({
+                            type: 'POST',
+                            url: "{{ route('admin.lulus-verifikasi.arsip') }}",
+                            processData: false,  // Set false jika Anda menggunakan FormData
+                            contentType: false,
+                            data: formData,
+                            success: function(response) {
+                                $('#arsipModal').modal('hide');
+                                if (response.success) {
+                                        alert(response.message);
+                                        window.location.reload();
+                                    } else {
+                                        alert(response.message);
+                                    }
+                            },
+                            error: function(xhr, status, error) {
+                                    alert(xhr.responseJSON.message);
+                            }
+                        });
+                    }
+                } else {
+                    alert('Tidak ada data yang dipilih.');
+                }
             });
-
-            function updateJumlahArsipkan() {
-                var jumlah_dipilih = $('.centang_data:checked').length;
-                $('#jumlahDipilih').text(jumlah_dipilih);
-                $('#arsipkan').prop('disabled', jumlah_dipilih === 0);
-
-            }
 
             $('#deleteAll').click(function(e){
                 e.preventDefault();

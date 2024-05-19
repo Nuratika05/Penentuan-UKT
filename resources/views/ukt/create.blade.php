@@ -41,9 +41,6 @@
                             <input class="form-control  @error('foto_tempat_tinggal') is-invalid @enderror" type="file"
                                 id="foto_tempat_tinggal" accept=".jpeg, .jpg, .png" name="foto_tempat_tinggal" required>
 
-                            @if (session('temp_file_paths.foto_tempat_tinggal'))
-                                <p class="text-muted">Gambar Lama: {{ session('temp_file_paths.foto_tempat_tinggal') }}</p>
-                            @endif
                             @error('foto_tempat_tinggal')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -57,9 +54,6 @@
                             <input class="form-control  @error('foto_slip_gaji') is-invalid @enderror" type="file"
                                 id="foto_slip_gaji" accept=".jpeg, .jpg, .png" name="foto_slip_gaji" required>
 
-                            @if (session('temp_file_paths.foto_slip_gaji'))
-                                <p class="text-muted">Gambar Lama: {{ session('temp_file_paths.foto_slip_gaji') }}</p>
-                            @endif
                             @error('foto_slip_gaji')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -74,9 +68,6 @@
                             <input class="form-control @error('foto_daya_listrik') is-invalid @enderror" type="file"
                                 id="foto_daya_listrik" accept=".jpeg, .jpg, .png" name="foto_daya_listrik" required>
 
-                            @if (session('temp_file_paths.foto_daya_listrik'))
-                                <p class="text-muted">Gambar Lama: {{ session('temp_file_paths.foto_daya_listrik') }}</p>
-                            @endif
                             @error('foto_daya_listrik')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -90,10 +81,6 @@
                             <input class="form-control @error('foto_kendaraan') is-invalid @enderror" type="file"
                                 id="foto_kendaraan" accept=".jpeg, .jpg, .png" name="foto_kendaraan">
 
-                            @if (session('temp_file_paths.foto_kendaraan'))
-                                <p class="text-muted">Gambar Lama: {{ session('temp_file_paths.foto_kendaraan') }}</p>
-                            @endif
-
                             @error('foto_kendaraan')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -105,10 +92,6 @@
                                 style="font-size: 15px;"><i> *upload gambar format jpeg.jpg.png uk. max 2 MB</i></span>
                             <input class="form-control @error('foto_beasiswa') is-invalid @enderror" type="file"
                                 id="foto_beasiswa" accept=".jpeg, .jpg, .png" name="foto_beasiswa" >
-
-                            @if (session('temp_file_paths.foto_beasiswa'))
-                                <p class="text-muted">Gambar Lama: {{ session('temp_file_paths.foto_beasiswa') }}</p>
-                            @endif
 
                             @error('foto_beasiswa')
                                 <div class="invalid-feedback">
