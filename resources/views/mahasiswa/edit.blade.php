@@ -75,7 +75,6 @@
                             <input type="text" name="jalur" id="jalur" class="form-control"
                                 value="{{ old('jalur', $mahasiswa->jalur) }}">
                         </div>
-
                         <div class="mb-3">
                             <label for="password" class="form-label">Password</label><span class="text-danger"
                                 style="font-size: 10px;"><i> *Abaikan jika tidak ingin mengubah password</i></span>
