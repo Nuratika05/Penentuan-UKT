@@ -170,7 +170,7 @@
                                         <!-- Modal Tombol -->
                                         <div class="modal fade" id="arsipModal" tabindex="-1" role="dialog" aria-labelledby="arsipModalLabel"
                                             aria-hidden="true" style="background-color: rgba(0, 0, 0, 0.5) !important;">
-                                            <div class="modal-dialog" role="document">
+                                            <div class="modal-dialog modal-lg" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header" style="justify-content: center;">
                                                         <h5 class="modal-title" style="font-weight: bold; text-transform: uppercase; text-align: center; width: 100%;" id="exampleModalLabel">Perhitungan Data Kriteria Mahasiswa</h5>
@@ -217,7 +217,7 @@
                                                                 <span><b>Diketahui :</b></span>
                                                                 <div class="row">
                                                                     @foreach ($golongan as $gol)
-                                                                    <div class="col-5">
+                                                                    <div class="col-4">
                                                                         <ul>
                                                                             <li>{{ $gol->nama }} : [{{ $gol->nilai_minimal }} - {{ $gol->nilai_maksimal }}]</li>
                                                                         </ul>
