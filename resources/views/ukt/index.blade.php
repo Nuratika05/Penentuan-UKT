@@ -1,33 +1,34 @@
 @extends('layouts.app')
 
 @section('content')
-    <style>
-        .alert-success {
-            color: #005700;
-            /* Warna hijau tua untuk teks */
-            background-color: #DFF0D8;
-            /* Warna latar belakang hijau muda yang sesuai dengan kelas alert-success bawaan Bootstrap */
-            border-color: #005700;
-            /* Warna border yang sesuai */
-        }
-    </style>
-    <div class="row">
-        @if (Auth::guard('admin')->check())
-            <div class="col-md-6">
-                <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"></span> Data UKT Mahasiswa</h4>
-                @if (Session::has('success'))
-                    <div class="alert alert-success" role="alert">
-                        {{ Session::get('success') }}
-                    </div>
-                @elseif (Session::has('error'))
-                    <div class="alert alert-danger" role="alert">
-                        {{ Session::get('error') }}
-                    </div>
-                @endif
+<style>
+    .alert-success {
+        color: #005700;
+        /* Warna hijau tua untuk teks */
+        background-color: #DFF0D8;
+        /* Warna latar belakang hijau muda yang sesuai dengan kelas alert-success bawaan Bootstrap */
+        border-color: #005700;
+        /* Warna border yang sesuai */
+    }
+</style>
+@if (Auth::guard('admin')->check())
+<div class="row">
+    <div class="col-md-6">
+        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"></span> Data UKT Mahasiswa</h4>
+        @if (Session::has('success'))
+            <div class="alert alert-success" role="alert">
+                {{ Session::get('success') }}
             </div>
-            <div>
+        @elseif (Session::has('error'))
+            <div class="alert alert-danger" role="alert">
+                {{ Session::get('error') }}
+            </div>
+        @endif
+    </div>
+    <div class="col-md-6 text-end m-auto">
+        <div class="col-md-12 mb-5">
             <a href="#" id="deleteAll" class="btn btn-outline-danger float-end mb-1 btn-sm">Hapus</a>
-            </div>
+        </div>
     </div>
     <div class="card p-4">
         <div class="table-responsive text-nowrap">
@@ -107,147 +108,142 @@
             </table>
         </div>
     </div>
+</div>
 @elseif (Auth::guard('mahasiswa')->check())
-    <div class="col-md-6">
-        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"></span> Data Kriteria Mahasiswa</h4>
+<div class="row">
+    <div class="col-md-8">
+        <h4 class="fw-bold py-3 mb-4"></span> Data Kriteria Mahasiswa &nbsp;
+            @if ($berkas == null || $berkas->status == 'Belum Lengkap')
+                <span class="badge bg-danger">Belum Lengkap</span>
+            @elseif($berkas->status == 'Menunggu Verifikasi')
+                <span class="badge bg-warning">Menunggu Verifikasi</span>
+            @else
+                <span class="badge bg-primary">Lulus Verifikasi</span>
+            @endif</h4>
         @if (Session::has('success'))
             <div class="alert alert-success" role="alert">
                 {{ Session::get('success') }}
             </div>
         @endif
     </div>
-    <div class="col-md-6 text-end m-auto">
+    <div class="col-md-4 text-end m-auto">
+        @if ($berkas->status != "Lulus Verifikasi")
         <a href="{{ route('data-ukt.edit', $berkas->id) }}" class="btn btn-outline-primary float-end mb-1 ">Edit
-            Data</a>
+            Data
+        </a>
+        @else
+        <a class="btn btn-outline-secondary float-end mb-1 "
+            href="{{ route('data-ukt.print', $berkas->id) }}">Print</a>
+        @endif
+    </div>
+    <div class="col-md-12">
+        <div class="card mt-3" style="background-color: #ece49ce1">
+            <table class="table table-borderless w-75">
+                @if ($berkas->status == 'Belum Lengkap')
+                    <span class="card-header text-black">KETERANGAN : <br>
+                    <span class="text-danger">{{ $berkas->keterangan }} !</span>
+                @endif
+            </table>
+        </div>
     </div>
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
                 <table class="table table-borderless w-75">
                     <tr>
-                        <th>Status</th>
+                        @foreach ($penilaians as $data => $nilai)
+                            @foreach ($nilai as $data)
+                    <tr>
+                        <th>{{ $data->kriteria->nama }}</th>
                         <td>:</td>
-                        <td>
-                            @if ($berkas->status == 'Menunggu Verifikasi')
-                                <span class="badge bg-label-warning rounded">{{ $berkas->status }}</span>
-                            @elseif($berkas->status == 'Belum Lengkap')
-                                <span class="badge bg-label-danger rounded">{{ $berkas->status }}</span>
-                            @else
-                                <span class="badge bg-label-primary rounded">{{ $berkas->status }}</span>
-                            @endif
-                        </td>
+                        <td>{{ $data->subkriteria->nama }}</td>
                     </tr>
-                    @if ($berkas->status == 'Belum Lengkap')
+                    @endforeach
+                    @endforeach
+
+                    <tr>
+                        <th>Foto Tempat Tinggal</th>
+                        <td>:</td>
+                        <td><img src="{{ asset('foto_tempat_tinggal/' . $berkas->foto_tempat_tinggal) }}"
+                                class="rounded img-fluid" width="250px"></td>
+                    </tr>
+                    <tr>
+                        <th>Foto Slip Gaji</th>
+                        <td>:</td>
+                        <td><img src="{{ asset('foto_slip_gaji/' . $berkas->foto_slip_gaji) }}"
+                                class="rounded img-fluid" width="250px"></td>
+                    </tr>
+                    <tr>
+                        <th>Foto Daya Listrik</th>
+                        <td>:</td>
+                        <td><img src="{{ asset('foto_daya_listrik/' . $berkas->foto_daya_listrik) }}"
+                                class="rounded img-fluid" width="250px"></td>
+                    </tr>
+                    @if ($berkas->foto_kendaraan === null || $berkas->foto_kendaraan === '')
+                    @else
                         <tr>
-                            <th>Keterangan</th>
+                            <th>Foto Kendaraan</th>
                             <td>:</td>
-                            <td> <span class="text-danger">{{ $berkas->keterangan }} !</span></td>
+                            <td><img src="{{ asset('foto_kendaraan/' . $berkas->foto_kendaraan) }}"
+                                    class="rounded img-fluid" width="250px"></td>
+                        </tr>
                     @endif
-                    </tr>
+                    @if ($berkas->foto_beasiswa === null || $berkas->foto_beasiswa === '')
+                    @else
+                        <tr>
+                            <th>Foto Bantuan Pemerintah</th>
+                            <td>:</td>
+                            <td><img src="{{ asset('foto_beasiswa/' . $berkas->foto_beasiswa) }}"
+                                    class="rounded img-fluid" width="250px"></td>
+                        </tr>
+                    @endif
                 </table>
             </div>
         </div>
     </div>
-    <div>
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-body">
-                    <table class="table table-borderless w-75">
-                        <tr>
-                            @foreach ($penilaians as $data => $nilai)
-                                @foreach ($nilai as $data)
-                        <tr>
-                            <th>{{ $data->kriteria->nama }}</th>
-                            <td>:</td>
-                            <td>{{ $data->subkriteria->nama }}</td>
-                        </tr>
-                        @endforeach
-                        @endforeach
-
-                        <tr>
-                            <th>Foto Tempat Tinggal</th>
-                            <td>:</td>
-                            <td><img src="{{ asset('foto_tempat_tinggal/' . $berkas->foto_tempat_tinggal) }}"
-                                    class="rounded img-fluid" width="250px"></td>
-                        </tr>
-                        <tr>
-                            <th>Foto Slip Gaji</th>
-                            <td>:</td>
-                            <td><img src="{{ asset('foto_slip_gaji/' . $berkas->foto_slip_gaji) }}"
-                                    class="rounded img-fluid" width="250px"></td>
-                        </tr>
-                        <tr>
-                            <th>Foto Daya Listrik</th>
-                            <td>:</td>
-                            <td><img src="{{ asset('foto_daya_listrik/' . $berkas->foto_daya_listrik) }}"
-                                    class="rounded img-fluid" width="250px"></td>
-                        </tr>
-                        @if ($berkas->foto_kendaraan === null || $berkas->foto_kendaraan === '')
-                        @else
-                            <tr>
-                                <th>Foto Kendaraan</th>
-                                <td>:</td>
-                                <td><img src="{{ asset('foto_kendaraan/' . $berkas->foto_kendaraan) }}"
-                                        class="rounded img-fluid" width="250px"></td>
-                            </tr>
-                        @endif
-                        @if ($berkas->foto_beasiswa === null || $berkas->foto_beasiswa === '')
-                        @else
-                            <tr>
-                                <th>Foto Bantuan Pemerintah</th>
-                                <td>:</td>
-                                <td><img src="{{ asset('foto_beasiswa/' . $berkas->foto_beasiswa) }}"
-                                        class="rounded img-fluid" width="250px"></td>
-                            </tr>
-                        @endif
-                    </table>
-                </div>
-            </div>
-        </div>
-        @endif
-    </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-         $(function(e) {
-            $("#centang_semua").click(function() {
-                $('.centang_data').prop('checked', $(this).prop('checked'));
-            });
-            $('#deleteAll').click(function(e){
-                e.preventDefault();
-                var ids = [];
-                $('input:checkbox[name=ids]:checked').each(function(){
-                    ids.push($(this).val());
-                });
-
-                if(ids.length > 0){
-                    if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
-                        $.ajax({
-                            url: "{{ route('admin.data-ukt.hapussemua') }}",
-                            type: "POST",
-                            data: {
-                                ids: ids,
-                                _token: '{{ csrf_token() }}',
-                            },
-                            success: function(response){
-                            if (response.success) {
-                                alert(response.message);
-                                $.each(ids, function(key, val){
-                                    $('#dataukt_ids' + val).remove();
-                                });
-                                window.location.reload();
-                            } else {
-                                alert(response.message);
-                            }
-                        },
-                        error: function(xhr, status, error) {
-                            alert(xhr.responseJSON.message);
-                        }
-                    });
-                }
-            } else {
-                alert('Tidak ada data yang dipilih.');
-            }
+</div>
+@endif
+<script>
+        $(function(e) {
+        $("#centang_semua").click(function() {
+            $('.centang_data').prop('checked', $(this).prop('checked'));
         });
+        $('#deleteAll').click(function(e){
+            e.preventDefault();
+            var ids = [];
+            $('input:checkbox[name=ids]:checked').each(function(){
+                ids.push($(this).val());
+            });
+
+            if(ids.length > 0){
+                if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
+                    $.ajax({
+                        url: "{{ route('admin.data-ukt.hapussemua') }}",
+                        type: "POST",
+                        data: {
+                            ids: ids,
+                            _token: '{{ csrf_token() }}',
+                        },
+                        success: function(response){
+                        if (response.success) {
+                            alert(response.message);
+                            $.each(ids, function(key, val){
+                                $('#dataukt_ids' + val).remove();
+                            });
+                            window.location.reload();
+                        } else {
+                            alert(response.message);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        alert(xhr.responseJSON.message);
+                    }
+                });
+            }
+        } else {
+            alert('Tidak ada data yang dipilih.');
+        }
     });
-    </script>
+});
+</script>
 @endsection

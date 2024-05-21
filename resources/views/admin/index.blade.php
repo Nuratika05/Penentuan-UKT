@@ -12,10 +12,10 @@
     <div class="col-md-6">
         <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"></span> Data Admin</h4>
         @if (Session::has('success'))
-         <div class="alert alert-success" role="alert">
+            <div class="alert alert-success" role="alert">
         {{ Session::get('success') }} </div>
         @elseif (Session::has('error'))
-         <div class="alert alert-danger" role="alert">
+            <div class="alert alert-danger" role="alert">
         {{ Session::get('error') }}</div>
         @endif
     </div>

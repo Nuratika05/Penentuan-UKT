@@ -39,8 +39,13 @@
 
                         <div class="mb-3" autocomplete="off">
                             <label for="email" class="form-label">Email</label>
-                            <input type="email" name="email" id="email" class="form-control"
+                            <input type="email" name="email" id="email" class="form-control @error('email') is-invalid @enderror"
                                 value="{{ old('email') }}" required>
+                            @error('email')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
                         </div>
 
                         <div class="mb-3" autocomplete="off">
@@ -55,7 +60,7 @@
                         </div>
                         <div class="mb-3" id="jurusan_id">
                             <label for="jurusan">Jurusan </label>
-                            <select name="jurusan_id" id="jurusan" class="form-select" required>
+                            <select name="jurusan_id" id="jurusan" class="form-select">
                                 <option value="">-- Pilih Jurusan --</option>
                                 @foreach ($jurusans as $item)
                                     <option value="{{ $item->id }}"
@@ -68,7 +73,7 @@
                             <label for="password" class="form-label">Password</label>
                             <div class="input-group">
                                 <input type="password" name="password" id="password" maxlength="40"
-                                    class="form-control @error('password') is-invalid @enderror">
+                                    class="form-control @error('password') is-invalid @enderror" required>
                                 <button type="button" id="showPasswordBtn" class="btn btn-outline-secondary"><i
                                         id="showPasswordIcon" class="bx bx-hide"></i></button>
                             </div>
@@ -88,22 +93,25 @@
     </div>
 @endsection
 @push('js')
-    <script {{-- if onchange status belum lengkap append tr textarea keterangan --}}>
+    <script>
         $(document).ready(function() {
-            $('#role').on('change', function() {
-                if (this.value == 'verifikator') {
+            function toggleJurusan() {
+                var role = $('#role').val();
+                if (role === 'verifikator') {
                     $('#jurusan_id').show();
                 } else {
                     $('#jurusan_id').hide();
                 }
-            });
-            if ($('#role').val() == 'verifikator') {
-                $('#jurusan').show();
             }
 
+            $('#role').on('change', function() {
+                toggleJurusan();
+            });
+
+            // Initial check on page load
+            toggleJurusan();
         });
-    </script>
-    <script>
+
         document.getElementById('showPasswordBtn').addEventListener('click', function() {
             var passwordInput = document.getElementById('password');
             var passwordIcon = document.getElementById('showPasswordIcon');

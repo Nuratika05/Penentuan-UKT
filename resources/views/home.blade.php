@@ -72,8 +72,7 @@
             </div>
         @elseif (Auth::guard('mahasiswa')->check())
             <div class="col-md-12">
-                <div class="card">
-                    <h5 class="card-header">
+                    <h4 class="fw-bold py-3 mb-4">
                         Status Kelengkapan Berkas &nbsp;
                         @if ($berkas == null || $berkas->status == 'Belum Lengkap')
                             <span class="badge bg-danger">Belum Lengkap</span>
@@ -82,12 +81,11 @@
                         @else
                             <span class="badge bg-primary">Lulus Verifikasi</span>
                         @endif
-                    </h5>
-                </div>
+                    </h4>
             </div>
             <div class="col-md-12 py-3">
                 <div class="card">
-                    <h5 class="card-header">Profil Mahasiswa</h5>
+                    <h4 class="card-header" style="">Profil Mahasiswa</h4>
                     <div class="card-body">
                         <table class="table table-borderless w-75">
                             <tr>
@@ -141,7 +139,7 @@
                 @if (isset($berkas))
                     @if ($berkas->status == 'Lulus Verifikasi')
                         <div class="card mt-3">
-                            <h5 class="card-header">Penetapan UKT</h5>
+                            <h4 class="card-header">Penetapan UKT</h4>
                             <div class="card-body">
                                 <table class="table table-borderless w-50">
                                     <tr>
@@ -158,7 +156,7 @@
                                 <table class="table table-borderless w-50">
                                     <tr>
                                         <td><a href="http://online.sia.politanisamarinda.ac.id/daftar_ulang/" style="text-decoration:underline;
-                                            text-blue-100 hover:text-blue-100;font-weight: bold;" target="_blank">Klik Untuk Melakukan Daftar Ulang !</a></td>
+                                            text-blue-100 hover:text-blue-100" target="_blank">Klik Untuk Melakukan Daftar Ulang !</a></td>
                                     <tr>
                                 </table>
                             </div>

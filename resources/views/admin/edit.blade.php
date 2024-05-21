@@ -15,7 +15,7 @@
         <div class="row">
             <div class="col-md-8">
                 <div class="card-body">
-                    <form action="{{ route('admin.update', $admin->id) }}" method="POST">
+                    <form action="{{ route('admin.update', $admin->id) }}" method="POST" id="userForm">
                         @csrf
                         @method('PUT')
                         <div class="mb-3">
@@ -26,24 +26,30 @@
 
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
-                            <input type="email" name="email" id="email" class="form-control"
+                            <input type="email" name="email" id="email" class="form-control @error('email') is-invalid @enderror"
                                 value="{{ old('email', $admin->email) }}">
+
+                            @error('email')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
                         </div>
 
                         <div class="mb-3">
                             <label for="role">Role</label>
                             <select name="role" id="role" class="form-select">
                                 <option value="superadmin"
-                                    {{ old('superadmin', $admin->role) == 'superadmin' ? 'selected' : '' }}>Super Admin
+                                    {{ old('role', $admin->role) == 'superadmin' ? 'selected' : '' }}>Super Admin
                                 </option>
                                 <option value="verifikator"
-                                    {{ old('verifikator', $admin->role) == 'verifikator' ? 'selected' : '' }}>Verifikator
+                                    {{ old('role', $admin->role) == 'verifikator' ? 'selected' : '' }}>Verifikator
                                 </option>
                             </select>
                         </div>
                         <div class="mb-3" id="jurusan_id">
                             <label for="jurusan">Jurusan </label>
-                            <select name="jurusan_id" id="jurusan" class="form-select" required>
+                            <select name="jurusan_id" id="jurusan" class="form-select" >
                                 <option value="">-- Pilih Jurusan --</option>
                                 @foreach ($jurusans as $item)
                                     <option value="{{ $item->id }}"
@@ -79,24 +85,33 @@
     </div>
 @endsection
 @push('js')
-    <script {{-- if onchange status belum lengkap append tr textarea keterangan --}}>
-        if ($('#role').val() == 'superadmin') {
-            $('#jurusan_id').hide();
-        }
-
-        // Atur event listener untuk perubahan pada select dengan id 'role'
-        $('#role').on('change', function() {
-            // Periksa nilai yang dipilih pada select 'role'
-            if (this.value == 'superadmin') {
-                // Jika role adalah superadmin, sembunyikan kolom jurusan
-                $('#jurusan_id').hide();
-            } else {
-                // Jika role bukan superadmin, tampilkan kolom jurusan
-                $('#jurusan_id').show();
+    <script >
+        $(document).ready(function() {
+            function toggleJurusan() {
+                if ($('#role').val() == 'superadmin') {
+                    $('#jurusan_id').hide();
+                    $('#jurusan').val(''); // Set jurusan input to empty
+                } else {
+                    $('#jurusan_id').show();
+                }
             }
+
+            // Jalankan fungsi saat halaman dimuat
+            toggleJurusan();
+
+            // Atur event listener untuk perubahan pada select dengan id 'role'
+            $('#role').on('change', function() {
+                toggleJurusan();
+            });
+
+            // Set jurusan_id to null if role is superadmin before form submit
+            $('#userForm').on('submit', function() {
+                if ($('#role').val() == 'superadmin') {
+                    $('#jurusan').val(''); // Set jurusan input to empty
+                }
+            });
         });
-    </script>
-    <script>
+
         document.getElementById('showPasswordBtn').addEventListener('click', function() {
             var passwordInput = document.getElementById('password');
             var passwordIcon = document.getElementById('showPasswordIcon');

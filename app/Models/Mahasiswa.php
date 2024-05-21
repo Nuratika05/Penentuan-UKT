@@ -65,7 +65,6 @@ class Mahasiswa extends Authenticatable
 
     ];
 
-
     protected $guarded = [];
 
     public function prodi()

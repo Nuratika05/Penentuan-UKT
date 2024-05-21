@@ -74,7 +74,7 @@
 
                                 </div>
                             @enderror
-                        </div>
+                        <br>
                         <div class="mb-3" id="foto_kendaraan_container">
                             <label for="foto_kendaraan" class="form-label">Foto Kendaraan</label><span class="text-danger"
                                 style="font-size: 15px;"><i> *upload gambar format jpeg.jpg.png uk. max 2 MB</i></span>
