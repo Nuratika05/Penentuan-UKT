@@ -381,6 +381,15 @@ class DataUktController extends Controller
             $berkas = Berkas::find($id);
             $mahasiswa = $berkas->mahasiswa;
             $prodi_id = $mahasiswa->prodi_id;
+
+            $nilai = Penilaian::where('mahasiswa_id', $mahasiswa->id)->get();
+            $total = 0;
+            foreach($nilai as $key => $value)
+            {
+                // jumlahkan nilai subkriteria
+                $total += $value->subkriteria->nilai;
+            }
+
             $golongan = Golongan::all();
             $nominalUkts = [];
 
@@ -411,7 +420,7 @@ class DataUktController extends Controller
             $penilaians = Penilaian::get()->where('mahasiswa_id', $mahasiswa->id)->groupBy('mahasiswa_id');
             $prodis = Prodi::all();
             $kriteria = Kriteria::all();
-            return view('ukt.edit', compact('berkas','nominalUkts', 'golongan', 'penilaians', 'kriteria', 'prodis', 'kelompokUkt'));
+            return view('ukt.edit', compact('berkas','nominalUkts', 'golongan', 'penilaians', 'kriteria', 'prodis', 'kelompokUkt', 'total'));
         }
     }
       public function update(Request $request, $id)

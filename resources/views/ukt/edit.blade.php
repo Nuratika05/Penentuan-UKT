@@ -149,7 +149,7 @@
                     @if (Auth::guard('admin')->check() && Auth::user()->role == 'verifikator')
                         <form action="{{ route('admin.data-ukt.update', $berkas->id) }}" method="POST">
                             @csrf
-                            <table class="table table-borderless w-75">
+                            <table class="table table-borderless w-100">
                                 <tr>
                                     <th>Prodi/Jenjang</th>
                                     <td>:</td>
@@ -161,6 +161,77 @@
                                     <td>:</td>
                                     <td>{{ $berkas->golongan->nama }} =
                                         Rp {{ number_format($berkas->nominal_ukt, 0, ',', '.') }}</td>
+                                    <td>
+
+                                        <!-- Tombol Rekomendasi Golongan  -->
+                                        <button type="button" class="btn btn-outline-secondary " data-toggle="modal"
+                                            data-target="#arsipModal" >Lihat Perhitungan</button>
+
+                                        <!-- Modal Tombol -->
+                                        <div class="modal fade" id="arsipModal" tabindex="-1" role="dialog" aria-labelledby="arsipModalLabel"
+                                            aria-hidden="true" style="background-color: rgba(0, 0, 0, 0.5) !important;">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header" style="justify-content: center;">
+                                                        <h5 class="modal-title" style="font-weight: bold; text-transform: uppercase; text-align: center; width: 100%;" id="exampleModalLabel">Perhitungan Data Kriteria Mahasiswa</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="card-body">
+                                                            <table class="table table-bordered w-100"> <!-- Menambahkan kelas table-bordered untuk garis pada setiap baris -->
+                                                                <thead>
+                                                                    <tr style="background-color: #ece49ce1">
+                                                                        <th>No</th>
+                                                                        <th>Kriteria</th>
+                                                                        <th>Subkriteria</th>
+                                                                        <th>Nilai</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    @php $i = 1; @endphp
+                                                                    @foreach ($penilaians as $data => $nilai)
+                                                                        @foreach ($nilai as $data)
+                                                                        <tr>
+                                                                            <td>{{ $i++ }}</td>
+                                                                            <td>{{ $data->kriteria->nama }}</td>
+                                                                            <td>{{ $data->subkriteria->nama }}</td>
+                                                                            <td>{{ $data->subkriteria->nilai }}</td>
+                                                                        </tr>
+                                                                        @endforeach
+                                                                    @endforeach
+
+                                                                    <tr>
+                                                                        <td colspan="3" class="text-right"><b>Total Nilai :</b></td>
+                                                                        <td style="background-color: #ece49ce1">{{ $total }}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td colspan="2" class="text-right"><b>Golongan Yang Cocok :</b></td>
+                                                                        <td style="background-color: #ece49ce1">{{ $berkas->golongan->nama }}</td>
+                                                                        <td>{{ $berkas->golongan->nilai_minimal }}-{{ $berkas->golongan->nilai_maksimal }}</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                            <div class="mt-4">
+                                                                <span><b>Diketahui :</b></span>
+                                                                <div class="row">
+                                                                    @foreach ($golongan as $gol)
+                                                                    <div class="col-5">
+                                                                        <ul>
+                                                                            <li>{{ $gol->nama }} : [{{ $gol->nilai_minimal }} - {{ $gol->nilai_maksimal }}]</li>
+                                                                        </ul>
+                                                                    </div>
+                                                                    @endforeach
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Finish Rekomendasi Golongan -->
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th>Ubah Status</th>
@@ -180,7 +251,7 @@
                                         </select>
                                     </td>
                                 </tr>
-                                <tr id="keterangan"></tr>
+                                <tr id="keterangan-row"></tr>
                                 <tr>
                                     <th>Tetapkan Golongan UKT</th>
                                     <td>:</td>
@@ -199,12 +270,15 @@
                                 </tr>
                             </table>
                             <div class="mt-3">
-                                <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+                                <button type="submit" class="btn btn-primary btn-sm" onClick="return confirm('Apakah sudah yakin?')" >Submit</button>
                                 <button type="button" class="btn btn-secondary btn-sm" onclick="history.back()">Kembali</button>
                             </div>
                         </form>
                     @elseif (Auth::guard('admin')->check() && Auth::user()->role == 'superadmin')
                         <h6>Penetapan Golongan UKT hanya bisa dilakukan oleh Verifikator !</h6>
+                        <div class="mt-3">
+                            <button type="button" class="btn btn-secondary btn-sm" onclick="history.back()">Kembali</button>
+                        </div>
                     @endif
                 </div>
             @else
@@ -328,7 +402,6 @@
                             @error('foto_daya_listrik')
                                 <div class="invalid-feedback">
                                     {{ $message }}
-
                                 </div>
                             @enderror
                     </div>
@@ -400,35 +473,58 @@
                     @endif
                     <br>
                     <button type="submit"
-                        class="btn btn-primary btn-sm"onClick="return confirm('Yakin ingin mengubah data?')">Ubah
-                        Data
+                        class="btn btn-primary btn-sm"onClick="return confirm('Yakin ingin mengubah data?')">Ubah Data
                     </button>
-                    <a class="btn btn-danger btn-sm"onClick="return confirm('Yakin ingin membatalkan perubahan?')"
-                        type="button" href="{{ route('mahasiswa.data-ukt') }}">Batal
-                    </a>
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="history.back()">Kembali</button>
                 </form>
             </div>
         </div>
     </div>
 @endif
+@endsection
+@push('js')
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
     $(document).ready(function() {
+        function toggleGolonganUktSelect() {
+            var status = $('#status').val();
+            if (status === 'Menunggu Verifikasi' || status === 'Belum Lengkap') {
+                $('#golongan_id').closest('tr').hide();
+            } else {
+                $('#golongan_id').closest('tr').show();
+            }
+        }
+
+        // Panggil fungsi toggle saat dokumen pertama kali dimuat
+        toggleGolonganUktSelect();
+
+        // Panggil fungsi toggle saat status berubah
+        $('#status').change(function() {
+            toggleGolonganUktSelect();
+        });
+    });
+    </script>
+    <script>
+    $(document).ready(function() {
         $('#status').on('change', function() {
-            if (this.value == 'Belum Lengkap') {
-                $('#keterangan').append(
+            if (this.value === 'Belum Lengkap') {
+                $('#keterangan-row').append(
                     '<th>Keterangan</th><td>:</td><td><textarea name="keterangan" id="keterangan" class="form-control" required></textarea></td>'
                 );
             } else {
-                $('#keterangan').empty();
+                $('#keterangan-row').empty();
             }
         });
-        if ($('#status').val() == 'Belum Lengkap') {
-            $('#keterangan').append(
+
+        // Append textarea if status is 'Belum Lengkap' on document ready
+        if ($('#status').val() === 'Belum Lengkap') {
+            $('#keterangan-row').append(
                 '<th>Keterangan</th><td>:</td><td><textarea name="keterangan" id="keterangan" class="form-control" required>{{ $berkas->keterangan }}</textarea></td>'
             );
         }
     });
-
+    </script>
+    <script>
     $(document).ready(function() {
         var kriteriaSelect = $('select#3');
         var formKendaraan = $('div#foto_kendaraan');
@@ -454,6 +550,8 @@
 
         toggleFormVisibility();
     });
+    </script>
+    <script>
 
     $(document).ready(function() {
         var kriteriaSelect = $('select#9');
@@ -480,30 +578,13 @@
 
         toggleFormVisibility();
     });
+</script>
+<script>
 
     function goBack() {
         window.history.back();
     }
 
-    $(document).ready(function() {
-        // Fungsi untuk menampilkan/menyembunyikan opsi select berdasarkan status yang dipilih
-        function toggleGolonganUktSelect() {
-            var status = $('#status').val();
-            if (status === 'Menunggu Verifikasi' || status === 'Belum Lengkap') {
-                $('#golongan_id').closest('tr').hide();
-            } else {
-                $('#golongan_id').closest('tr').show();
-            }
-        }
-
-        // Panggil fungsi toggle saat dokumen pertama kali dimuat
-        toggleGolonganUktSelect();
-
-        // Panggil fungsi toggle saat status berubah
-        $('#status').change(function() {
-            toggleGolonganUktSelect();
-        });
-    });
 </script>
-@endsection
+@endpush
 

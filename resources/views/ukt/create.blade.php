@@ -102,9 +102,7 @@
                         <br>
                         <button type="submit" class="btn btn-primary btn-sm"
                             onClick="return confirm('Anda yakin dengan semua data yang anda selesaikan?')">Simpan</button>
-                        <a class="btn btn-danger btn-sm" type="button"
-                            onClick="return confirm('Anda yakin akan membatalkan?')"
-                            href="{{ route('mahasiswa.home') }}">Batal</a>
+                            <button type="button" class="btn btn-secondary btn-sm" onclick="history.back()">Kembali</button>
                     </form>
                 </div>
             </div>
