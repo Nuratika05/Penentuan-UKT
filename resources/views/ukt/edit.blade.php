@@ -180,7 +180,7 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         <div class="card-body">
-                                                            <table class="table table-bordered w-100"> <!-- Menambahkan kelas table-bordered untuk garis pada setiap baris -->
+                                                            <table class="table table-bordered w-120"> <!-- Menambahkan kelas table-bordered untuk garis pada setiap baris -->
                                                                 <thead>
                                                                     <tr style="background-color: #ece49ce1">
                                                                         <th>No</th>

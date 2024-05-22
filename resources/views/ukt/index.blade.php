@@ -137,17 +137,17 @@
         @endif
     </div>
     <div class="col-md-12">
-        <div class="card mt-3" style="background-color: #ece49ce1">
-            <table class="table table-borderless w-75">
-                @if ($berkas->status == 'Belum Lengkap')
-                    <span class="card-header text-black">KETERANGAN : <br>
-                    <span class="text-danger">{{ $berkas->keterangan }} !</span>
-                @endif
-            </table>
-        </div>
-    </div>
-    <div class="col-md-12">
         <div class="card">
+            @if ($berkas->status == 'Belum Lengkap')
+            <div class="card-body">
+                <div class="card mt-3" style="background-color: #ece49ce1">
+                    <table class="table table-borderless w-75">
+                            <span class="card-header text-black">KETERANGAN : <br>
+                            <span class="text-danger">{{ $berkas->keterangan }} !</span>
+                    </table>
+                </div>
+            </div>
+            @endif
             <div class="card-body">
                 <table class="table table-borderless w-75">
                     <tr>
