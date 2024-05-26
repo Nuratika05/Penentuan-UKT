@@ -91,7 +91,7 @@
                                 @if($allLinksEmpty)
                                 <p>Belum ada Link</p>
                                 <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addLinkModal">
-                                    Masukkan Link!
+                                    Tambah Link!
                                 </button>
                                 @endif
 
