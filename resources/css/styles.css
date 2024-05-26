@@ -36,3 +36,25 @@ table td {
 form {
     margin-top: 20px;
 }
+
+.link-item {
+    margin-bottom: 15px;
+}
+
+.link-url {
+    font-weight: bold;
+    color: #007bff;
+    text-decoration: none;
+}
+
+.link-url:hover {
+    text-decoration: underline;
+}
+
+.date-background {
+    background-color: #f8f9fa;
+    padding: 5px;
+    border-radius: 5px;
+    display: inline-block;
+}
+

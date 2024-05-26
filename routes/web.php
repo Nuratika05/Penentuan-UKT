@@ -14,6 +14,7 @@ use App\Http\Controllers\SubkriteriaController;
 use App\Http\Controllers\ArsipController;
 use App\Http\Controllers\FolderArsipController;
 use App\Http\Controllers\KelompokUKTController;
+use App\Http\Controllers\LinkController;
 
     // Route Mahasiswa
     Route::get('/', function () {
@@ -23,14 +24,15 @@ use App\Http\Controllers\KelompokUKTController;
 
     Route::get('/login', [LoginController::class, 'formLoginMahasiswa'])->name('mahasiswa.login');
     Route::post('/mahasiswa/login', [LoginController::class, 'storeLoginMahasiswa'])->name('store.mahasiswa.login');
-    Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
     Route::middleware('auth:mahasiswa')->group(function () {
     Route::get('/home', function(){
         return redirect('/');
     })->name('mahasiswa.page');
 
+    Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
     Route::get('/profile', [HomeController::class, 'homeMahasiswa'])->name('mahasiswa.home');
+
     Route::get('/data-ukt', [DataUktController::class, 'index'])->name('mahasiswa.data-ukt');
     Route::get('/data-ukt/create', [DataUktController::class, 'create'])->name('data-ukt.create');
     Route::get('/data-ukt/print', [DataUktController::class, 'print'])->name('data-ukt.print');
@@ -52,8 +54,16 @@ use App\Http\Controllers\KelompokUKTController;
     })->name('admin.page');
 
     Route::get('/admin/dashboard', [HomeController::class, 'homeAdmin'])->name('admin.home');
+    Route::resource('/admin/dashboard/links', LinkController::class);
+
     Route::resource('admin/semua-data/kriteria/kriteria',KriteriaController::class);
     Route::resource('admin/semua-data/kriteria/sub-kriteria',SubkriteriaController::class);
+    Route::resource('admin/semua-data/jurusan', JurusanController::class);
+    Route::resource('admin/semua-data/prodi', ProdiController::class);
+    Route::resource('admin/semua-data/golongan/golongan', GolonganController::class);
+    Route::resource('admin/semua-data/golongan/kelompokUKT', KelompokUKTController::class);
+    Route::resource('admin/admin', AdminController::class)->middleware('superadmin');
+    Route::resource('admin/arsip', ArsipController::class);
 
     Route::resource('admin/semua-data/mahasiswa',MahasiswaController::class);
     Route::get('admin/semua_data/mahasiswa/import', [MahasiswaController::class, 'mahasiswaimport'])->name('mahasiswaimport');
@@ -61,14 +71,6 @@ use App\Http\Controllers\KelompokUKTController;
     Route::get('admin/semua_data/mahasiswa/importsave', [MahasiswaController::class, 'importsave'])->name('mahasiswaimportsave');
     Route::get('admin/semua_data/mahasiswa/import-batal', [MahasiswaController::class, 'importbatal'])->name('mahasiswaimportbatal');
     Route::get('admin/semua_data/mahasiswa/export', [MahasiswaController::class, 'mahasiswaexport'])->name('mahasiswaexport');
-
-    Route::resource('admin/semua-data/jurusan', JurusanController::class);
-    Route::resource('admin/semua-data/prodi', ProdiController::class);
-    Route::resource('admin/semua-data/golongan/golongan', GolonganController::class);
-    Route::resource('admin/semua-data/golongan/kelompokUKT', KelompokUKTController::class);
-
-    Route::resource('admin/admin', AdminController::class)->middleware('superadmin');
-    Route::resource('admin/arsip', ArsipController::class);
 
     Route::get('admin/arsipp/folder/{id}', [FolderArsipController::class, 'index'])->name('admin.arsip');
     Route::get('admin/arsipp/folder/{id}/export', [FolderArsipController::class, 'arsipexport'])->name('arsip.export');
@@ -88,6 +90,7 @@ use App\Http\Controllers\KelompokUKTController;
     Route::post('admin/data-ukt/update/{id}', [DataUktController::class, 'update'])->name('admin.data-ukt.update');
     Route::get('admin/data-ukt/lulus-verfikasi/print/{id}', [DataUktController::class, 'print'])->name('admin.data-ukt.print');
     Route::get('admin/data-ukt/printukt', [DataUktController::class, 'printukt'])->name('admin.data-ukt.printukt');
+
 
 
 });
