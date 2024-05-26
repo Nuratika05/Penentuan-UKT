@@ -147,7 +147,7 @@ class MahasiswaController extends Controller
    public function mahasiswaimport()
    {
             $mhs_temps = MahasiswaTemps::all();
-            return view('mahasiswa.import_mhs', ['mhs_temps' => $mhs_temps]);
+            return view('mahasiswa.import_mhs', compact('mhs_temps'));
     }
     /**
      * import_mhs
@@ -159,6 +159,7 @@ class MahasiswaController extends Controller
     {
         try {
                 $file = $request->file('excel_upload');
+                if ($file) {
                 $upload_code = uniqid();
                 session(['upload_code' => $upload_code]);
                 Excel::import(new MahasiswaImport($upload_code), $file, 'Xlsx');
@@ -250,10 +251,11 @@ class MahasiswaController extends Controller
                     $mhs_temps->save();
                 }
 
-            return redirect()->route('mahasiswaimport')->with('success', 'Data Excel Berhasil di Upload!');
+                return redirect()->route('mahasiswaimport')->with('success', 'Data Excel Berhasil di Upload!');
+            }
+            return redirect()->route('mahasiswaimport')->with('error', 'File Excel tidak ditemukan.');
         } catch (\Throwable $th) {
-            $errorMessage = $th->getMessage();
-            return redirect()->route('mahasiswaimport')->with('error', 'Data Excel Gagal di Upload, Pastikan  Tidak Ada Baris Yang Kosong');
+            return redirect()->route('mahasiswaimport')->with('error', 'Data Excel Gagal di Upload ' . $th->getMessage());
         }
     }
 
