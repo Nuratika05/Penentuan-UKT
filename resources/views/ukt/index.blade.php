@@ -34,7 +34,7 @@
         <div class="table-responsive text-nowrap">
             <table class="datatable table py-3">
                 <thead>
-                    <tr >
+                    <tr>
                         <th><input type="checkbox" id="centang_semua"></th>
                         <th>No</th>
                         <th>No.Pendaftaran</th>
@@ -203,6 +203,7 @@
     </div>
 </div>
 @endif
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
         $(function(e) {
         $("#centang_semua").click(function() {
