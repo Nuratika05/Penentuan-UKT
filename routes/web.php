@@ -21,6 +21,7 @@ use App\Http\Controllers\LinkController;
         return view('page');
     });
 
+    Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
     Route::get('/login', [LoginController::class, 'formLoginMahasiswa'])->name('mahasiswa.login');
     Route::post('/mahasiswa/login', [LoginController::class, 'storeLoginMahasiswa'])->name('store.mahasiswa.login');
@@ -30,9 +31,7 @@ use App\Http\Controllers\LinkController;
         return redirect('/');
     })->name('mahasiswa.page');
 
-    Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
     Route::get('/profile', [HomeController::class, 'homeMahasiswa'])->name('mahasiswa.home');
-
     Route::get('/data-ukt', [DataUktController::class, 'index'])->name('mahasiswa.data-ukt');
     Route::get('/data-ukt/create', [DataUktController::class, 'create'])->name('data-ukt.create');
     Route::get('/data-ukt/print', [DataUktController::class, 'print'])->name('data-ukt.print');

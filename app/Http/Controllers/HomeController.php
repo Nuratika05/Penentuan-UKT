@@ -30,12 +30,24 @@ class HomeController extends Controller
                 $link->isActive = $now->between(Carbon::parse($link->tanggal_aktif), Carbon::parse($link->tanggal_mati));
             });
             $berkas = Berkas::where('status', 'Menunggu Verifikasi')->count();
+            $berkas_belum_lengkap = Berkas::where('status', 'Belum Lengkap')->count();
             $berkas_lulus_verifikasi = Berkas::where('status', 'Lulus Verifikasi')->count();
-            return view('home' , compact('mahasiswa', 'link', 'berkas' , 'berkas_lulus_verifikasi'));
+            return view('home' , compact('mahasiswa', 'link', 'berkas' , 'berkas_belum_lengkap', 'berkas_lulus_verifikasi'));
             }
             elseif(Auth::guard('admin')->check() && Auth::user()->role == 'verifikator'){
             $berkas = Berkas::with(['admin', 'mahasiswa.prodi'])
             ->where('status', 'Menunggu Verifikasi')
+            ->where(function ($query) use ($admin) {
+                $query->whereHas('mahasiswa.prodi', function ($q) use ($admin) {
+                    $q->where('jurusan_id', $admin->jurusan_id);
+                })
+                ->orWhereHas('admin', function ($q) use ($admin) {
+                    $q->where('jurusan_id', $admin->jurusan_id);
+                });
+            })->count();
+
+            $berkas_belum_lengkap = Berkas::with(['admin', 'mahasiswa.prodi'])
+            ->where('status', 'Belum Lengkap')
             ->where(function ($query) use ($admin) {
                 $query->whereHas('mahasiswa.prodi', function ($q) use ($admin) {
                     $q->where('jurusan_id', $admin->jurusan_id);
@@ -56,7 +68,7 @@ class HomeController extends Controller
                 });
             })->count();
 
-            return view('home' , compact('berkas' , 'berkas_lulus_verifikasi'));
+            return view('home' , compact('berkas' , 'berkas_belum_lengkap', 'berkas_lulus_verifikasi'));
         }
     }
     }

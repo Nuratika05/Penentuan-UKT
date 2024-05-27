@@ -2,34 +2,12 @@
 
 @section('content')
     <div class="row">
-        @if (Auth::guard('admin')->check() && Auth::user()->role == 'superadmin')
-            <div class="col-md-4">
-                <div class="card mb-3">
-                    <div class="row g-0">
-                        <div class="col-md-4 m-auto text-center">
-                            <span class="badge bg-label-primary rounded">
-                                <i class="m-0 menu-icon tf-icons bx bx-group bx-lg"></i></span>
-                        </div>
-                        <div class="col-md-8">
-                            <div class="card-body px-1">
-                                <h5 class="card-title">Jumlah Mahasiswa</h5>
-                                <p class="card-text">
-                                    {{ $mahasiswa }} <br>
-                                    <a href="{{ route('mahasiswa.index') }}"
-                                        style="text-decoration:underline; text-blue-600 hover:text-blue-800">Lihat data!</a>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @endif
         @if (Auth::guard('admin')->check())
             <div class="col-md-4">
                 <div class="card mb-3">
                     <div class="row g-0">
                         <div class="col-md-4 m-auto text-center">
-                            <span class="badge bg-label-danger rounded">
+                            <span class="badge bg-label-warning rounded">
                                 <i class="m-0 menu-icon tf-icons bx bx-time bx-lg"></i>
                             </span>
                         </div>
@@ -52,8 +30,32 @@
                 <div class="card mb-3">
                     <div class="row g-0">
                         <div class="col-md-4 m-auto text-center">
+                            <span class="badge bg-label-danger rounded">
+                                <i class="m-0 menu-icon tf-icons bx bx-error-circle bx-lg"></i>
+                            </span>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body px-1">
+                                <h5 class="card-title">Belum Lengkap</h5>
+                                <p class="card-text">
+                                    {{ $berkas_belum_lengkap }} <br>
+                                    <a href="{{ route('admin.data-belum-lengkap') }}"
+                                        style="text-decoration:underline;
+                                    text-blue-600 hover:text-blue-800">Lihat
+                                        data!</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-4 m-auto text-center">
                             <span class="badge bg-label-success rounded"><i
-                                    class="m-0 menu-icon tf-icons bx bx-check bx-lg"></i></span>
+                                class="m-0 menu-icon tf-icons bx bx-check bx-lg"></i>
+                            </span>
                         </div>
                         <div class="col-md-8">
                             <div class="card-body px-1">
@@ -64,6 +66,27 @@
                                         style="text-decoration:underline;
                                     text-blue-100 hover:text-blue-100">Lihat
                                         data!</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @if (Auth::guard('admin')->check() && Auth::user()->role == 'superadmin')
+            <div class="col-md-4">
+                <div class="card mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-4 m-auto text-center">
+                            <span class="badge bg-label-primary rounded">
+                                <i class="m-0 menu-icon tf-icons bx bx-group bx-lg"></i></span>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body px-1">
+                                <h5 class="card-title">Jumlah Mahasiswa</h5>
+                                <p class="card-text">
+                                    {{ $mahasiswa }} <br>
+                                    <a href="{{ route('mahasiswa.index') }}"
+                                        style="text-decoration:underline; text-blue-600 hover:text-blue-800">Lihat data!</a>
                                 </p>
                             </div>
                         </div>
@@ -246,6 +269,7 @@
                     </div>
                 </div>
             </div>
+            @endif
         @elseif (Auth::guard('mahasiswa')->check())
             <div class="col-md-12">
                     <h4 class="fw-bold py-3 mb-4">
