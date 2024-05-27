@@ -20,14 +20,14 @@
                         @method('PUT')
                         <div class="mb-3">
                             <label for="nama" class="form-label">Nama</label>
-                            <input type="text" name="nama" id="nama" class="form-control" autofocus
+                            <input type="text" name="nama" id="nama" class="form-control" autofocus required
                                 value="{{ old('nama', $admin->nama) }}">
                         </div>
 
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
                             <input type="email" name="email" id="email" class="form-control @error('email') is-invalid @enderror"
-                                value="{{ old('email', $admin->email) }}">
+                                value="{{ old('email', $admin->email) }}" required>
 
                             @error('email')
                                 <div class="invalid-feedback">
@@ -38,7 +38,7 @@
 
                         <div class="mb-3">
                             <label for="role">Role</label>
-                            <select name="role" id="role" class="form-select">
+                            <select name="role" id="role" class="form-select" required>
                                 <option value="superadmin"
                                     {{ old('role', $admin->role) == 'superadmin' ? 'selected' : '' }}>Super Admin
                                 </option>

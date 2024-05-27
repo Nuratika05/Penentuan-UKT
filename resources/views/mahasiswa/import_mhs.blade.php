@@ -103,9 +103,10 @@
                                 @php
                                     // Decode JSON string to array
                                     $eror_location = json_decode($bt->eror_location, true);
+                                    $hasError = !empty($eror_location);
                                 @endphp
                                     <tr>
-                                        <td>{{ $loop->iteration }}</td>
+                                        <td {!! $hasError ? "style='background-color: rgb(255, 0, 0); color: white; font-weight: bold'" : '' !!}>{{ $loop->iteration }}</td>
                                         <td {!! in_array('(NO PENDAFTARAN TIDAK BOLEH KOSONG)', $eror_location) || in_array('(DUPLIKAT DATA)', $eror_location) || in_array('(NO PENDAFTARAN SUDAH DIGUNAKAN)', $eror_location) ? "style='background-color: rgb(255, 0, 0); color: white;font-weight: bold'" : '' !!}>{{ $bt->id_temps }}</td>
                                         <td {!! in_array('(NAMA TIDAK BOLEH KOSONG)', $eror_location) ? "style='background-color: rgb(255, 0, 0); color: white; font-weight: bold;'" : '' !!}>{{ $bt->nama_temps }}</td>
                                         <td {!! in_array('(JENIS KELAMIN TIDAK BOLEH KOSONG)', $eror_location) || in_array('(JENIS KELAMIN TIDAK VALID)', $eror_location) ? "style='background-color: rgb(255, 0, 0); color: white;'" : '' !!}>{{ $bt->jenis_kelamin_temps }}</td>

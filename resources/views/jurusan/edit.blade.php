@@ -12,7 +12,7 @@
                         <div class="mb-3">
                             <label for="nama" class="form-label">Nama Jurusan</label>
                             <input type="text" name="nama" id="nama" class="form-control"
-                                value="{{ $jurusan->nama }}">
+                                value="{{ $jurusan->nama }}" autofocus required>
                         </div>
                         <button type="submit" class="btn btn-primary btn-sm"
                             onClick="return confirm('Yakin ingin mengubah data?')">Ubah Data</button>

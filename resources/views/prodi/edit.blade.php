@@ -12,11 +12,11 @@
                         <div class="mb-3">
                             <label for="nama" class="form-label">Nama Prodi</label>
                             <input type="text" name="nama" id="nama" class="form-control"
-                                value="{{ $prodi->nama }}">
+                                value="{{ $prodi->nama }}" autofocus required>
                         </div>
                         <div class="mb-3">
                             <label for="jurusan">Jurusan </label>
-                            <select name="jurusan_id" id="jurusan" class="form-select">
+                            <select name="jurusan_id" id="jurusan" class="form-select" required>
                                 @foreach ($jurusans as $item)
                                     <option value="{{ $item->id }}"
                                         {{ $prodi->jurusan_id == $item->id ? 'selected' : '' }}>{{ $item->nama }}</option>
@@ -25,7 +25,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="jenjang">Jenjang</label>
-                            <select name="jenjang" id="jenjang" class="form-select">
+                            <select name="jenjang" id="jenjang" class="form-select" required>
                                 <option value="D3" {{ $prodi->jenjang == 'D3' ? 'selected' : '' }}>D3</option>
                                 <option value="D4" {{ $prodi->jenjang == 'D4' ? 'selected' : '' }}>D4</option>
                                 <option value="S1 Terapan" {{ $prodi->jenjang == 'S1 Terapan' ? 'selected' : '' }}>S1

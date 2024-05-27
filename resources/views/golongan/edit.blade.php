@@ -11,7 +11,7 @@
                         @method('PUT')
                         <div class="mb-3">
                             <label for="nama">Nama Golongan</label>
-                            <select name="nama" id="nama" class="form-select"> 
+                            <select name="nama" id="nama" class="form-select" autofocus required>
                                 <option value="Kategori I" {{ $golongan->nama == 'Kategori I' ? 'selected' : '' }}>Kategori
                                     I</option>
                                 <option value="Kategori II" {{ $golongan->nama == 'Kategori II' ? 'selected' : '' }}>
@@ -31,12 +31,12 @@
 
                         <div class="mb-3">
                             <label for="nilai_minimal" class="form-label">Nilai Min</label>
-                            <input type="number" name="nilai_minimal" id="nilai_minimal" class="form-control"
+                            <input type="number" name="nilai_minimal" id="nilai_minimal" class="form-control" required
                                 value={{ $golongan->nilai_minimal }}>
                         </div>
                         <div class="mb-3">
                             <label for="nilai_maksimal" class="form-label">Nilai Max</label>
-                            <input type="number" name="nilai_maksimal" id="nilai_maksimal" class="form-control"
+                            <input type="number" name="nilai_maksimal" id="nilai_maksimal" class="form-control" required
                                 value={{ $golongan->nilai_maksimal }}>
                         </div>
                         <button type="submit" class="btn btn-primary btn-sm"

@@ -203,7 +203,7 @@
             });
 
             $('#arsipkan').click(function() {
-                var jumlahDipilih = $('input[type="checkbox"]:checked').length;
+                var jumlahDipilih = $('input:checkbox[name=ids]:checked').length;
                 $('#jumlahDipilih').text(jumlahDipilih);
             });
 

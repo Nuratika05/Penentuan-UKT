@@ -22,12 +22,12 @@
                         <div class="mb-3">
                             <label for="nama" class="form-label">Nama Sub Kriteria</label>
                             <input type="text" name="nama" id="nama" class="form-control"
-                                value="{{ $subkriteria->nama }}">
+                                value="{{ $subkriteria->nama }}" autofocus required>
                         </div>
                         <div class="mb-3">
                             <label for="nilai" class="form-label">Nilai</label>
                             <input type="number" name="nilai" id="nilai" class="form-control"
-                                value="{{ $subkriteria->nilai }}">
+                                value="{{ $subkriteria->nilai }}" required>
                         </div>
                         <button type="submit"
                             class="btn btn-primary btn-sm"onClick="return confirm('Yakin ingin mengubah data?')">Ubah

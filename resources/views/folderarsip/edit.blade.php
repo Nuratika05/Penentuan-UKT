@@ -21,8 +21,8 @@
                         <div class="mb-3">
                             <label for="nama" class="form-label">Nama Folder Arsip</label>
                             <input type="text" name="nama" id="nama"
-                                class="form-control @error('nama') is-invalid @enderror" autofocus
-                                value="{{ $folder->nama }}">
+                                class="form-control @error('nama') is-invalid @enderror"
+                                value="{{ $folder->nama }}" autofocus required>
                             @error('nama')
                                 <div class="invalid-feedback">
                                     {{ $message }}

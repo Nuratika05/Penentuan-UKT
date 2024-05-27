@@ -11,7 +11,7 @@
                     @method('PUT')
                     <div class="mb-3">
                         <label for="nama" class="form-label">Nama Kriteria</label>
-                        <input type="text" name="nama" id="nama" class="form-control" value="{{ $kriteria->nama }}">
+                        <input type="text" name="nama" id="nama" class="form-control" value="{{ $kriteria->nama }}" autofocus required>
                     </div>
                     <button type="submit" class="btn btn-primary btn-sm" onClick="return confirm('Yakin ingin mengubah data?')">Ubah Data</button>
                     <a class="btn btn-secondary btn-sm" type="button" href="{{ route('kriteria.index') }}">Kembali</a>

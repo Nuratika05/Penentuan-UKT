@@ -21,14 +21,14 @@
                         <div class="mb-3">
                             <label for="nama" class="form-label">Nama Mahasiwa</label>
                             <input type="text" name="nama" id="nama" class="form-control"
-                                value="{{ old('nama', $mahasiswa->nama) }}">
+                                value="{{ old('nama', $mahasiswa->nama) }}" autofocus required>
                         </div>
 
                         <div class="mb-3">
                             <label for="id" class="form-label">No.Pendaftaran</label>
                             <input type="text" name="id" id="id"
                                 class="form-control @error('id') is-invalid @enderror"
-                                value="{{ old('id', $mahasiswa->id) }}">
+                                value="{{ old('id', $mahasiswa->id) }}" required>
                             @error('id')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -38,7 +38,7 @@
 
                         <div class="mb-3">
                             <label for="nama" class="form-label">Jenis Kelamin</label>
-                            <select name="jenis_kelamin" id="jenis kelamin" class="form-select">
+                            <select name="jenis_kelamin" id="jenis kelamin" class="form-select" required>
                                 <option value="Laki-laki"
                                     {{ old('jenis_kelamin', $mahasiswa->jenis_kelamin) == 'Laki-laki' ? 'selected' : '' }}>
                                     Laki-laki</option>
@@ -51,17 +51,17 @@
                         <div class="mb-3">
                             <label for="no_telepon" class="form-label">No. Telepon</label>
                             <input type="tel" name="no_telepon" id="no_telepon" class="form-control"
-                                value="{{ old('no_telepon', $mahasiswa->no_telepon) }}">
+                                value="{{ old('no_telepon', $mahasiswa->no_telepon) }}" required>
                         </div>
 
                         <div class="mb-3">
                             <label for="alamat" class="form-label">Alamat</label>
-                            <textarea name="alamat" id="alamat" rows="5" class="form-control">{{ old('alamat', $mahasiswa->alamat) }}</textarea>
+                            <textarea name="alamat" id="alamat" rows="5" class="form-control" required>{{ old('alamat', $mahasiswa->alamat) }}</textarea>
                         </div>
 
                         <div class="mb-3">
                             <label for="prodi" class="form-label">Prodi</label>
-                            <select name="prodi_id" id="prodi" class="form-select">
+                            <select name="prodi_id" id="prodi" class="form-select" required>
                                 @foreach ($prodis as $item)
                                     <option value="{{ $item->id }}"
                                         {{ old('prodi_id', $mahasiswa->prodi_id) == $item->id ? 'selected' : '' }}>
@@ -73,7 +73,7 @@
                         <div class="mb-3">
                             <label for="jalur" class="form-label">Jalur Pendaftaran</label>
                             <input type="text" name="jalur" id="jalur" class="form-control"
-                                value="{{ old('jalur', $mahasiswa->jalur) }}">
+                                value="{{ old('jalur', $mahasiswa->jalur) }}" required>
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">Password</label><span class="text-danger"
