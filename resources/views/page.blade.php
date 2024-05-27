@@ -147,7 +147,8 @@
                             <div class="ms-3">
                                 <h4>Lokasi:</h4>
                                 Jl. Samratulangi, Sungai keledang, Kec. Samarinda Seberang, Kota
-                                Samarinda, Prov. Kalimantan Timur, 75131
+                                Samarinda, Prov. Kalimantan Timur, 75131<br>
+                                <a href="https://www.google.co.id/maps/place/Politeknik+Pertanian+Negeri+Samarinda/@-0.5360357,117.1209845,17z/data=!4m10!1m2!2m1!1spolitani+samarinda!3m6!1s0x2df68080334dac99:0x5327a22a4028b267!8m2!3d-0.5360357!4d117.1235594!15sChJwb2xpdGFuaSBzYW1hcmluZGGSAQp1bml2ZXJzaXR54AEA!16s%2Fg%2F121hftr6?entry=ttu">Lihat Lokasi</a>
                             </div>
                         </div>
                     </div>
@@ -160,6 +161,7 @@
                                 <h4>Email:</h4>
                                 <li>info@politanisamarinda.ac.id</li>
                                 <li>politanismd@gmail.com</li>
+                                <li><a href="https://politanisamarinda.ac.id/">politanisamarinda.ac.id</a></li>
                             </div>
                         </div>
                     </div>
