@@ -348,7 +348,7 @@
                         <label for="{{ $item->id }}" class="form-label">{{ $item->nama }}</label><span
                             class="text-danger" style="font-size: 15px;"><i> *wajib terisi</i></span>
                         <select name="kriteria[{{ $item->id }}]" id="{{ $item->id }}"
-                            class="form-select kriteria-select">
+                            class="form-select kriteria-select" required>
                             @foreach ($subkriteria[$item->id] as $data)
                                 <option value="{{ $data->id }}"
                                     {{ old("kriteria.{$item->id}", $penilaian[$item->id]->subkriteria_id) == $data->id ? 'selected' : '' }}>
