@@ -170,7 +170,7 @@
                                                 <label for="url" class="form-label">Link URL</label>
                                                 <div class="input-group">
                                                     <input type="text" name="url" id="url"
-                                                        class="form-control @error('url') is-invalid @enderror" required>
+                                                        class="form-control @error('url') is-invalid @enderror" autofocus required>
                                                 </div>
                                                 @error('url')
                                                     <div class="invalid-feedback">
@@ -229,7 +229,7 @@
                                             <div class="mb-3">
                                                 <label for="url" class="form-label">Link URL</label>
                                                 <input type="text" name="url" id="url" class="form-control"
-                                                    value="{{ old('url', $item->url) }}" required>
+                                                    value="{{ old('url', $item->url) }}" autofocus required>
                                                 @error('url')
                                                     <div class="invalid-feedback">
                                                         {{ $message }}
