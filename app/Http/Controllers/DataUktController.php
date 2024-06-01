@@ -473,16 +473,22 @@ class DataUktController extends Controller
                     // Periksa jika kriteria adalah untuk foto kendaraan
                 if ($key == 'Kendaraan' && $value == 'tidak ada kendaraan' || $value == '17' ) {
                     // Hapus foto kendaraan dari database dan filesystem jika ada
-                    if ($berkas->foto_kendaraan) {
-                        Storage::delete('foto_kendaraan/' . $berkas->foto_kendaraan);
+                    if (!is_null($berkas->foto_kendaraan)) {
+                        $filePath = public_path('foto_kendaraan/' . $berkas->foto_kendaraan);
+                        if (file_exists($filePath)) {
+                            unlink($filePath);
+                        }
                         $berkas->foto_kendaraan = null; // Atur foto_kendaraan menjadi null di database
                     }
                 }
-                if ($key == 'Kendaraan' && $value == 'Tidak Terima' || $value == '71') {
+                if ($key == 'Penerimaan Bantuan dari Pemerintah' && $value == 'Tidak Terima' || $value == '71') {
                     // Hapus foto kendaraan dari database dan filesystem jika ada
-                    if ($berkas->foto_kendaraan) {
-                        Storage::delete('foto_beasiswa/' . $berkas->foto_beasiswa);
-                        $berkas->foto_beasiswa = null; // Atur foto_kendaraan menjadi null di database
+                    if (!is_null($berkas->foto_beasiswa)) {
+                        $filePath = public_path('foto_beasiswa/' . $berkas->foto_beasiswa);
+                        if (file_exists($filePath)) {
+                            unlink($filePath);
+                        }
+                        $berkas->foto_beasiswa = null; // Atur foto_beasiswa menjadi null di database
                     }
                 }
 
@@ -554,6 +560,7 @@ class DataUktController extends Controller
                 $input['status'] = "Menunggu Verifikasi";
                 $input['golongan_id'] = $dataGolongan->id;
                 $input['nominal_ukt'] = $nominalUkt;
+
 
                 unset($input['kriteria']);
                 // Jika input tempat tinggal ada filenya
@@ -702,7 +709,27 @@ class DataUktController extends Controller
             // Mulai transaksi
             DB::beginTransaction();
             try {
-                // Hapus berkas
+                // Ambil data berkas yang akan dihapus
+                $berkas = Berkas::whereIn('id', $ids)->get();
+                $filePaths = [];
+                // Kumpulkan path file yang akan dihapus
+                foreach ($berkas as $berkasItem) {
+                    if ($berkasItem->foto_tempat_tinggal) {
+                        $filePaths[] = public_path('foto_tempat_tinggal/' . $berkasItem->foto_tempat_tinggal);
+                    }
+                    if ($berkasItem->foto_kendaraan) {
+                        $filePaths[] = public_path('foto_kendaraan/' . $berkasItem->foto_kendaraan);
+                    }
+                    if ($berkasItem->foto_slip_gaji) {
+                        $filePaths[] = public_path('foto_slip_gaji/' . $berkasItem->foto_slip_gaji);
+                    }
+                    if ($berkasItem->foto_daya_listrik) {
+                        $filePaths[] = public_path('foto_daya_listrik/' . $berkasItem->foto_daya_listrik);
+                    }
+                    if ($berkasItem->foto_beasiswa) {
+                        $filePaths[] = public_path('foto_beasiswa/' . $berkasItem->foto_beasiswa);
+                    }
+                }
                 $deletedBerkas = Berkas::whereIn('id', $ids)->delete();
 
                 if ($deletedBerkas) {
@@ -712,6 +739,12 @@ class DataUktController extends Controller
 
                     // Pastikan semua penilaian terkait juga terhapus
                     if ($remainingPenilaianCount == 0) {
+
+                        foreach ($filePaths as $filePath) {
+                            if (file_exists($filePath)) {
+                                unlink($filePath);
+                            }
+                        }
                         // Komit transaksi jika berhasil
                         DB::commit();
                         $jumlahData = $deletedBerkas;

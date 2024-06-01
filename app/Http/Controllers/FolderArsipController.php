@@ -184,6 +184,27 @@ class FolderArsipController extends Controller
 
             DB::beginTransaction();
             try {
+
+                $arsip = Arsip::whereIn('id', $ids)->get();
+                $filePaths = [];
+
+                foreach ($arsip as $arsipItem) {
+                    if ($arsipItem->foto_tempat_tinggal) {
+                        $filePaths[] = public_path('fotoarsip/foto_tempat_tinggal/' . $arsipItem->foto_tempat_tinggal);
+                    }
+                    if ($arsipItem->foto_kendaraan) {
+                        $filePaths[] = public_path('fotoarsip/foto_kendaraan/' . $arsipItem->foto_kendaraan);
+                    }
+                    if ($arsipItem->foto_slip_gaji) {
+                        $filePaths[] = public_path('fotoarsip/foto_slip_gaji/' . $arsipItem->foto_slip_gaji);
+                    }
+                    if ($arsipItem->foto_daya_listrik) {
+                        $filePaths[] = public_path('fotoarsip/foto_daya_listrik/' . $arsipItem->foto_daya_listrik);
+                    }
+                    if ($arsipItem->foto_beasiswa) {
+                        $filePaths[] = public_path('fotoarsip/foto_beasiswa/' . $arsipItem->foto_beasiswa);
+                    }
+                }
                 // Hapus berkas
                 $deletedArsip = Arsip::whereIn('id', $ids)->delete();
 
@@ -194,6 +215,12 @@ class FolderArsipController extends Controller
 
                     // Pastikan semua penilaian terkait juga terhapus
                     if ($remainingPenilaianCount == 0) {
+
+                        foreach ($filePaths as $filePath) {
+                            if (file_exists($filePath)) {
+                                unlink($filePath);
+                            }
+                        }
                         // Komit transaksi jika berhasil
                         DB::commit();
                         $jumlahData = $deletedArsip;
