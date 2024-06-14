@@ -191,6 +191,14 @@ class DataUktController extends Controller
             'foto_tempat_tinggal.image' => 'Foto Tempat Tinggal harus dalam format Gambar',
             'foto_tempat_tinggal.mimes' => 'Foto Tempat Tinggal format: JPG,JPEG,PNG',
             'foto_tempat_tinggal.max' => 'Foto Tempat Tinggal: Ukuran Maksimal 2 MB',
+            'foto_kartu_keluarga.required' => 'Foto Kartu Keluarga tidak boleh kosong',
+            'foto_kartu_keluarga.image' => 'Foto Kartu Keluarga harus dalam format Gambar',
+            'foto_kartu_keluarga.mimes' => 'Foto Kartu Keluarga format: JPG,JPEG,PNG',
+            'foto_kartu_keluarga.max' => 'Foto Kartu Keluarga: Ukuran Maksimal 2 MB',
+            'foto_KTP_orangtua.required' => 'Foto KTP Orang Tua tidak boleh kosong',
+            'foto_KTP_orangtua.image' => 'Foto KTP Orang Tua harus dalam format Gambar',
+            'foto_KTP_orangtua.mimes' => 'Foto KTP Orang Tua format: JPG,JPEG,PNG',
+            'foto_KTP_orangtua.max' => 'Foto KTP Orang Tua: Ukuran Maksimal 2 MB',
             'foto_slip_gaji.required' => 'Foto Slip Gaji tidak boleh kosong',
             'foto_slip_gaji.image' => 'Foto Slip Gaji harus dalam format gambar',
             'foto_slip_gaji.mimes' => 'Foto Slip Gaji format: JPG,JPEG,PNG',
@@ -207,11 +215,16 @@ class DataUktController extends Controller
             'foto_beasiswa.image' => 'Foto Beasiswa harus dalam format gambar',
             'foto_beasiswa.mimes' => 'Foto Beasiswa format: JPG,JPEG,PNG',
             'foto_beasiswa.max' => 'Foto Beasiswa: Ukuran Maksimal 2 MB',
+            'pekerjaan_orangtua_wali.required' => 'Pekerjaan Orang Tua/Wali tidak boleh kosong',
+            'pekerjaan_ortu_lainnya.string' => 'Isi dengan Teks/Huruf',
         ];
 
         $validatedData = $request->validate([
-
+            'pekerjaan_orangtua_wali' => 'required|string',
+            'pekerjaan_ortu_lainnya' => 'nullable|string',
             'foto_tempat_tinggal' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'foto_kartu_keluarga' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'foto_KTP_orangtua' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'foto_slip_gaji'=>'required|image|mimes:jpeg,png,jpg|max:2048',
             'foto_daya_listrik'=>'required|image|mimes:jpeg,png,jpg|max:2048',
             'foto_kendaraan' => $request->has('foto_kendaraan') ? 'required|image|mimes:jpeg,png,jpg|max:2048' : 'nullable',
@@ -285,6 +298,7 @@ class DataUktController extends Controller
         } else {
             $nominalUkt = null;
         }
+        $pekerjaanOrtu = $request->pekerjaan_orangtua_wali === 'lainnya' ? $request->pekerjaan_ortu_lainnya : $request->pekerjaan_orangtua_wali;
         $tempFilePaths = [];
 
         if ($request->hasFile('foto_tempat_tinggal')) {
@@ -293,6 +307,20 @@ class DataUktController extends Controller
             $path = public_path('foto_tempat_tinggal');
             $foto_tempat_tinggal->move($path, $file_tempat_tinggal);
             $tempFilePaths['foto_tempat_tinggal'] = $file_tempat_tinggal;
+        }
+        if ($request->hasFile('foto_kartu_keluarga')) {
+            $foto_kartu_keluarga = $request->file('foto_kartu_keluarga');
+            $file_kartu_keluarga = date('YmdHis').'_'.$foto_kartu_keluarga->getClientOriginalName();
+            $path = public_path('foto_kartu_keluarga');
+            $foto_kartu_keluarga->move($path, $file_kartu_keluarga);
+            $tempFilePaths['foto_kartu_keluarga'] = $file_kartu_keluarga;
+        }
+        if ($request->hasFile('foto_KTP_orangtua')) {
+            $foto_KTP_orangtua = $request->file('foto_KTP_orangtua');
+            $file_KTP_orangtua = date('YmdHis').'_'.$foto_KTP_orangtua->getClientOriginalName();
+            $path = public_path('foto_KTP_orangtua');
+            $foto_KTP_orangtua->move($path, $file_KTP_orangtua);
+            $tempFilePaths['foto_KTP_orangtua'] = $file_KTP_orangtua;
         }
 
 
@@ -336,11 +364,17 @@ class DataUktController extends Controller
 
         Berkas::create([
             'mahasiswa_id' => $mahasiswa->id,
+            'pekerjaan_orangtua_wali' => $pekerjaanOrtu,
             'foto_slip_gaji' => $tempFilePaths['foto_slip_gaji'] ?? null,
             'foto_tempat_tinggal' => $tempFilePaths['foto_tempat_tinggal'] ?? null,
+            'foto_kartu_keluarga' => $tempFilePaths['foto_kartu_keluarga'] ?? null,
+            'foto_KTP_orangtua' => $tempFilePaths['foto_KTP_orangtua'] ?? null,
             'foto_daya_listrik' => $tempFilePaths['foto_daya_listrik'] ?? null,
             'foto_kendaraan' => $tempFilePaths['foto_kendaraan'] ?? null,
             'foto_beasiswa' => $tempFilePaths['foto_beasiswa'] ?? null,
+            'nama_ayah' => $request->nama_ayah,
+            'nama_ibu' => $request->nama_ibu,
+            'nama_wali' => $request->nama_wali,
             'status' => 'Menunggu Verifikasi',
             'golongan_id' => $dataGolongan->id,
             'nominal_ukt' => $nominalUkt,
@@ -433,6 +467,14 @@ class DataUktController extends Controller
                 'foto_tempat_tinggal.image' => 'Foto Tempat Tinggal harus dalam format Gambar',
                 'foto_tempat_tinggal.mimes' => 'Foto Tempat Tinggal format: JPG,JPEG,PNG',
                 'foto_tempat_tinggal.max' => 'Foto Tempat Tinggal: Ukuran Maksimal 2 MB',
+                'foto_kartu_keluarga.required' => 'Foto Kartu Keluarga tidak boleh kosong',
+                'foto_kartu_keluarga.image' => 'Foto Kartu Keluarga harus dalam format Gambar',
+                'foto_kartu_keluarga.mimes' => 'Foto Kartu Keluarga format: JPG,JPEG,PNG',
+                'foto_kartu_keluarga.max' => 'Foto Kartu Keluarga: Ukuran Maksimal 2 MB',
+                'foto_KTP_orangtua.required' => 'Foto KTP Orang Tua tidak boleh kosong',
+                'foto_KTP_orangtua.image' => 'Foto KTP Orang Tua harus dalam format Gambar',
+                'foto_KTP_orangtua.mimes' => 'Foto KTP Orang Tua format: JPG,JPEG,PNG',
+                'foto_KTP_orangtua.max' => 'Foto KTP Orang Tua: Ukuran Maksimal 2 MB',
                 'foto_slip_gaji.required' => 'Foto Slip Gaji tidak boleh kosong',
                 'foto_slip_gaji.image' => 'Foto Slip Gaji harus dalam format gambar',
                 'foto_slip_gaji.mimes' => 'Foto Slip Gaji format: JPG,JPEG,PNG',
@@ -449,13 +491,20 @@ class DataUktController extends Controller
                 'foto_beasiswa.image' => 'Foto Beasiswa harus dalam format gambar',
                 'foto_beasiswa.mimes' => 'Foto Beasiswa format: JPG,JPEG,PNG',
                 'foto_beasiswa.max' => 'Foto Beasiswa: Ukuran Maksimal 2 MB',
+                'pekerjaan_orangtua_wali.required' => 'Pekerjaan Orang Tua/Wali tidak boleh kosong',
+                'pekerjaan_ortu_lainnya.required' => 'Pekerjaan Orang Tua/Wali tidak boleh kosong',
+                'pekerjaan_ortu_lainnya.string' => 'Isi dengan Teks/Huruf',
             ];
             $request->validate([
                 'foto_tempat_tinggal' => $request->has('foto_tempat_tinggal') ? 'required|image|mimes:jpeg,png,jpg|max:2048' : 'nullable',
+                'foto_kartu_keluarga' => $request->has('foto_kartu_keluarga') ? 'required|image|mimes:jpeg,png,jpg|max:2048' : 'nullable',
+                'foto_KTP_orangtua' => $request->has('foto_KTP_orangtua') ? 'required|image|mimes:jpeg,png,jpg|max:2048' : 'nullable',
                 'foto_kendaraan'=> $request->has('foto_kendaraan') ? 'required|image|mimes:jpeg,png,jpg|max:2048' : 'nullable',
                 'foto_beasiswa'=> $request->has('foto_beasiswa') ? 'required|image|mimes:jpeg,png,jpg|max:2048' : 'nullable',
                 'foto_slip_gaji'=> $request->has('foto_slip_gaji') ? 'required|image|mimes:jpeg,png,jpg|max:2048' : 'nullable',
                 'foto_daya_listrik'=>$request->has('foto_daya_listrik') ? 'required|image|mimes:jpeg,png,jpg|max:2048' : 'nullable',
+                'pekerjaan_orangtua_wali' => 'required|string',
+                'pekerjaan_ortu_lainnya' => 'nullable|string|required_if:pekerjaan_orangtua_wali,lainnya',
             ],$messages);
 
             try
@@ -557,6 +606,14 @@ class DataUktController extends Controller
             $nominalUkt = null;
         }
 
+                $input['nama_ayah'] = $request->nama_ayah;
+                $input['nama_ibu'] = $request->nama_ibu;
+                $input['nama_wali'] = $request->nama_wali;
+                if ($request->pekerjaan_orangtua_wali == 'lainnya') {
+                    $input['pekerjaan_orangtua_wali'] = $request->pekerjaan_ortu_lainnya;
+                } else {
+                    $input['pekerjaan_orangtua_wali'] = $request->pekerjaan_orangtua_wali;
+                }
                 $input['status'] = "Menunggu Verifikasi";
                 $input['golongan_id'] = $dataGolongan->id;
                 $input['nominal_ukt'] = $nominalUkt;
@@ -564,7 +621,7 @@ class DataUktController extends Controller
 
                 unset($input['kriteria']);
                 // Jika input tempat tinggal ada filenya
-                foreach (['foto_tempat_tinggal', 'foto_kendaraan', 'foto_slip_gaji', 'foto_daya_listrik', 'foto_beasiswa']as $imageField) {
+                foreach (['foto_tempat_tinggal','foto_kartu_keluarga', 'foto_KTP_orangtua', 'foto_kendaraan', 'foto_slip_gaji', 'foto_daya_listrik', 'foto_beasiswa']as $imageField) {
                     if ($request->hasFile($imageField)) {
                         if (!is_null($berkas->$imageField)) {
                         // Hapus gambar sebelumnya
@@ -716,6 +773,12 @@ class DataUktController extends Controller
                 foreach ($berkas as $berkasItem) {
                     if ($berkasItem->foto_tempat_tinggal) {
                         $filePaths[] = public_path('foto_tempat_tinggal/' . $berkasItem->foto_tempat_tinggal);
+                    }
+                    if ($berkasItem->foto_kartu_keluarga) {
+                        $filePaths[] = public_path('foto_kartu_keluarga/' . $berkasItem->foto_kartu_keluarga);
+                    }
+                    if ($berkasItem->foto_KTP_orangtua) {
+                        $filePaths[] = public_path('foto_KTP_orangtua/' . $berkasItem->foto_KTP_orangtua);
                     }
                     if ($berkasItem->foto_kendaraan) {
                         $filePaths[] = public_path('foto_kendaraan/' . $berkasItem->foto_kendaraan);

@@ -70,6 +70,32 @@
                 <h5 class="card-header">Data Kriteria Mahasiswa</h5>
                 <div class="card-body">
                     <table class="table table-borderless w-75">
+                        <tr>
+                            <th>Nama Ayah</th>
+                            <td>:</td>
+                            <td>{{ $arsip->nama_ayah }}</td>
+                        </tr>
+                        <tr>
+                            <th>Nama Ibu</th>
+                            <td>:</td>
+                            <td>{{ $arsip->nama_ibu }}</td>
+                        </tr>
+                        <tr>
+                            <th>Nama Wali</th>
+                            <td>:</td>
+                            <td>
+                                @if ($arsip->nama_wali == null || $arsip->nama_wali == '')
+                                -
+                                @else
+                                {{ $arsip->nama_wali }}
+                                @endif
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Pekerjaan Orang Tua/Wali</th>
+                            <td>:</td>
+                            <td>{{ $arsip->pekerjaan_orangtua_wali }}</td>
+                        </tr>
                         @foreach ($penilaianarsip as $data => $nilai)
                             @foreach ($nilai as $data)
                                 <tr>
@@ -79,6 +105,24 @@
                                 </tr>
                             @endforeach
                         @endforeach
+                        <tr>
+                            <th>Foto Kartu Keluarga</th>
+                            <td>:</td>
+                            <td><a href="{{ asset('fotoarsip/foto_kartu_keluarga/' . $arsip->foto_kartu_keluarga) }}"
+                                    data-fancybox="gallery">
+                                    <img src="{{ asset('fotoarsip/foto_kartu_keluarga/' . $arsip->foto_kartu_keluarga) }}"
+                                        class="rounded img-fluid" width="300px" alt="Deskripsi Gambar"></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Foto KTP Orang Tua/Wali</th>
+                            <td>:</td>
+                            <td><a href="{{ asset('fotoarsip/foto_KTP_orangtua/' . $arsip->foto_KTP_orangtua) }}"
+                                    data-fancybox="gallery">
+                                    <img src="{{ asset('fotoarsip/foto_KTP_orangtua/' . $arsip->foto_KTP_orangtua) }}"
+                                        class="rounded img-fluid" width="300px" alt="Deskripsi Gambar"></a>
+                            </td>
+                        </tr>
                         <tr>
                             <th>Foto Tempat Tinggal</th>
                             <td>:</td>
@@ -121,7 +165,7 @@
                         <tr>
                             @if ($arsip->foto_beasiswa === null || $arsip->foto_beasiswa === '')
                             @else
-                                <th>Foto Bantuan Pemerintah</th>
+                                <th>Foto Bukti Bantuan Pemerintah</th>
                                 <td>:</td>
                                 <td>
                                     <a href="{{ asset('fotoarsip/foto_beasiswa/' . $arsip->foto_beasiswa) }}"

@@ -22,13 +22,13 @@
 
     /* Style the container div */
     .card-body {
-        margin-bottom: 20px;
+        margin-bottom: 3px;
     }
 
     /* Style the heading */
     .card-header {
         color: rgb(15, 14, 14);
-        margin: 5;
+        margin: 4;
     }
 
     /* Style the table headers */
@@ -41,11 +41,18 @@
         padding-left: 10px;
     }
 
+    table p {
+        padding-left: 10px;
+    }
+
     /* Style the images */
     .img-fluid {
-        max-width: 200px;
-        height: auto;
-        border-radius: 5px;
+        max-width: 120%;
+        height: 100%;
+        width: auto;
+        display: block;
+        margin: 0 auto;
+        max-height: 370px;
     }
 
     /* Style the form */
@@ -114,6 +121,32 @@
                 <td>{{ $berkas->mahasiswa->jalur }}</td>
             </tr>
             <h5 class="card-header">II. DATA KRITERIA MAHASISWA</h5>
+            <tr>
+                <td>Nama Ayah</td>
+                <td>:</td>
+                <td>{{ $berkas->nama_ayah }}</td>
+            </tr>
+            <tr>
+                <td>Nama Ibu</td>
+                <td>:</td>
+                <td>{{ $berkas->nama_ibu }}</td>
+            </tr>
+            <tr>
+                <td>Nama Wali</td>
+                <td>:</td>
+                <td>
+                    @if($berkas->nama_wali == null || $berkas->nama_wali == '' )
+                    -
+                    @else
+                    {{ $berkas->nama_wali }}
+                    @endif
+                </td>
+            </tr>
+            <tr>
+                <td>Pekerjaan Orang Tua/Wali</td>
+                <td>:</td>
+                <td>{{ $berkas->pekerjaan_orangtua_wali }}</td>
+            </tr>
             @foreach ($penilaians as $data => $nilai)
                 @foreach ($nilai as $data)
                     <tr>
@@ -123,40 +156,51 @@
                     </tr>
                 @endforeach
             @endforeach
+        </table>
+        <br><br><br><br><br>
+        <table class="table table-th w-80" style="text-align: justify">
+            <h5 class="card-header">III. FOTO LAMPIRAN</h5>
             <tr>
-                <td>Foto Tempat Tinggal</td>
-                <td>:</td>
-                <td><img src="{{ public_path('foto_tempat_tinggal/' . $berkas->foto_tempat_tinggal) }}"
-                        class="img-fluid"></td>
+                <p>Foto Kartu Keluarga</p>
+                <p style="text-align: center"><img src="{{ public_path('foto_kartu_keluarga/' . $berkas->foto_kartu_keluarga) }}"
+                        class="img-fluid"></p>
             </tr>
             <tr>
-                <td>Foto Slip Gaji</td>
-                <td>:</td>
-                <td><img src="{{ public_path('foto_slip_gaji/' . $berkas->foto_slip_gaji) }}" class="img-fluid"></td>
+                <p>Foto KTP Orang Tua/Wali</p>
+                <p style="text-align: center;"><img src="{{ public_path('foto_KTP_orangtua/' . $berkas->foto_KTP_orangtua) }}"
+                        class="img-fluid"></p>
             </tr>
             <tr>
-                <td>Foto Daya Listrik</td>
-                <td>:</td>
-                <td><img src="{{ public_path('foto_daya_listrik/' . $berkas->foto_daya_listrik) }}" class="img-fluid">
-                </td>
+                <p>Foto Tempat Tinggal</p>
+                <p style="text-align: center"><img src="{{ public_path('foto_tempat_tinggal/' . $berkas->foto_tempat_tinggal) }}"
+                        class="img-fluid"></p>
+            </tr>
+            <tr>
+                <p>Foto Slip Gaji</p>
+                <p style="text-align: center"><img src="{{ public_path('foto_slip_gaji/' . $berkas->foto_slip_gaji) }}" class="img-fluid"></p>
+            </tr>
+            <tr>
+                <p>Foto Daya Listrik</p>
+                <p style="text-align: center"><img src="{{ public_path('foto_daya_listrik/' . $berkas->foto_daya_listrik) }}" class="img-fluid">
+                </p>
             </tr>
             <tr>
                 @if ($berkas->foto_kendaraan === null || $berkas->foto_kendaraan === '')
                 @else
-                <td>Foto Kendaraan</td>
-                <td>:</td>
-                <td><img src="{{ public_path('foto_kendaraan/' . $berkas->foto_kendaraan) }}" class="img-fluid"></td>
+                <p>Foto Kendaraan :</p>
+                <p style="text-align: center"><img src="{{ public_path('foto_kendaraan/' . $berkas->foto_kendaraan) }}" class="img-fluid"></p>
                 @endif
             </tr>
             <tr>
                 @if ($berkas->foto_beasiswa === null || $berkas->foto_beasiswa === '')
                 @else
-                <td>Foto Bantuan Pemerintah</td>
-                <td>:</td>
-                <td><img src="{{ public_path('foto_beasiswa/' . $berkas->foto_beasiswa) }}" class="img-fluid"></td>
+                <p>Foto Bukti Bantuan Pemerintah</p>
+                <p style="text-align: center"><img src="{{ public_path('foto_beasiswa/' . $berkas->foto_beasiswa) }}" class="img-fluid"></p>
                 @endif
             </tr>
-            <h5 class="card-header">III. GOLONGAN UKT</h5>
+        </table>
+        <table class="table table-th w-80" style="text-align: justify">
+            <h5 class="card-header">IV. GOLONGAN UKT</h5>
                     <tr>
                         <td>Golongan</td>
                         <td>:</td>
@@ -169,8 +213,8 @@
                         <td>:</td>
                         <td>Rp{{ number_format($berkas->nominal_ukt,0,',','.') }}</td>
                     </tr>
-         </div>
         </table>
+         </div>
         <br>
 
 

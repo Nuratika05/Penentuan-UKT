@@ -151,6 +151,32 @@
             <div class="card-body">
                 <table class="table table-borderless w-75">
                     <tr>
+                        <th>Nama Ayah</th>
+                        <td>:</td>
+                        <td>{{ $berkas->nama_ayah }}</td>
+                    </tr>
+                    <tr>
+                        <th>Nama Ibu</th>
+                        <td>:</td>
+                        <td>{{ $berkas->nama_ibu }}</td>
+                    </tr>
+                    <tr>
+                        <th>Nama Wali</th>
+                        <td>:</td>
+                        <td>
+                            @if($berkas->nama_wali == null || $berkas->nama_wali == '' )
+                            -
+                            @else
+                            {{ $berkas->nama_wali }}
+                            @endif
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Pekerjaan Orang Tua/Wali</th>
+                        <td>:</td>
+                        <td>{{ $berkas->pekerjaan_orangtua_wali }}</td>
+                    </tr>
+                    <tr>
                         @foreach ($penilaians as $data => $nilai)
                             @foreach ($nilai as $data)
                     <tr>
@@ -161,6 +187,18 @@
                     @endforeach
                     @endforeach
 
+                    <tr>
+                        <th>Foto Kartu Keluarga</th>
+                        <td>:</td>
+                        <td><img src="{{ asset('foto_kartu_keluarga/' . $berkas->foto_kartu_keluarga) }}"
+                                class="rounded img-fluid" width="250px"></td>
+                    </tr>
+                    <tr>
+                        <th>Foto KTP Orang Tua/Wali</th>
+                        <td>:</td>
+                        <td><img src="{{ asset('foto_KTP_orangtua/' . $berkas->foto_KTP_orangtua) }}"
+                                class="rounded img-fluid" width="250px"></td>
+                    </tr>
                     <tr>
                         <th>Foto Tempat Tinggal</th>
                         <td>:</td>
@@ -191,7 +229,7 @@
                     @if ($berkas->foto_beasiswa === null || $berkas->foto_beasiswa === '')
                     @else
                         <tr>
-                            <th>Foto Bantuan Pemerintah</th>
+                            <th>Foto Bukti Bantuan Pemerintah</th>
                             <td>:</td>
                             <td><img src="{{ asset('foto_beasiswa/' . $berkas->foto_beasiswa) }}"
                                     class="rounded img-fluid" width="250px"></td>

@@ -36,7 +36,6 @@ class DataUktExport implements FromCollection, WithHeadings, ShouldAutoSize, Wit
         $exportData = collect();
 
         foreach ($Data as $berkas) {
-            $nominalFormatted = 'Rp '. number_format($berkas->nominal_ukt, 0, ',', '.');
 
             $exportDataRow = [
                 'no_pendaftaran' => $berkas->mahasiswa->id,
@@ -47,7 +46,7 @@ class DataUktExport implements FromCollection, WithHeadings, ShouldAutoSize, Wit
                 'jalur' => $berkas->mahasiswa->jalur,
                 'verifikator' => $berkas->admin->nama,
                 'golongan' => $berkas->golongan->nama,
-                'nominal' => $nominalFormatted,
+                'nominal' => $berkas->nominal_ukt,
             ];
             $exportData->push($exportDataRow);
         };

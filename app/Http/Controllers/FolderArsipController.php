@@ -61,6 +61,8 @@ class FolderArsipController extends Controller
 
                 $filePaths = [
                     'foto_tempat_tinggal' => 'foto_tempat_tinggal',
+                    'foto_kartu_keluarga' => 'foto_kartu_keluarga',
+                    'foto_KTP_orangtua' => 'foto_KTP_orangtua',
                     'foto_daya_listrik' => 'foto_daya_listrik',
                     'foto_slip_gaji' => 'foto_slip_gaji',
                     'foto_kendaraan' => 'foto_kendaraan',
@@ -93,8 +95,14 @@ class FolderArsipController extends Controller
                     'tahun_angkatan' => $request->tahun_angkatan,
                     'jalur' => $item->mahasiswa->jalur,
                     'admin' => $item->admin->nama,
+                    'nama_ayah' => $item->nama_ayah,
+                    'nama_ibu' => $item->nama_ibu,
+                    'nama_wali' => $item->nama_wali,
+                    'pekerjaan_orangtua_wali' => $item->pekerjaan_orangtua_wali,
                     'foto_slip_gaji' => $item->foto_slip_gaji,
                     'foto_tempat_tinggal' => $item->foto_tempat_tinggal,
+                    'foto_kartu_keluarga' => $item->foto_kartu_keluarga,
+                    'foto_KTP_orangtua' => $item->foto_KTP_orangtua,
                     'foto_kendaraan' => $item->foto_kendaraan,
                     'foto_daya_listrik' => $item->foto_daya_listrik,
                     'foto_beasiswa' => $item->foto_beasiswa,
@@ -191,6 +199,12 @@ class FolderArsipController extends Controller
                 foreach ($arsip as $arsipItem) {
                     if ($arsipItem->foto_tempat_tinggal) {
                         $filePaths[] = public_path('fotoarsip/foto_tempat_tinggal/' . $arsipItem->foto_tempat_tinggal);
+                    }
+                    if ($arsipItem->foto_kartu_keluarga) {
+                        $filePaths[] = public_path('fotoarsip/foto_kartu_keluarga/' . $arsipItem->foto_kartu_keluarga);
+                    }
+                    if ($arsipItem->foto_KTP_orangtua) {
+                        $filePaths[] = public_path('fotoarsip/foto_KTP_orangtua/' . $arsipItem->foto_KTP_orangtua);
                     }
                     if ($arsipItem->foto_kendaraan) {
                         $filePaths[] = public_path('fotoarsip/foto_kendaraan/' . $arsipItem->foto_kendaraan);

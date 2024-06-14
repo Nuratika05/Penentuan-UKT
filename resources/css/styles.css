@@ -57,4 +57,7 @@ form {
     border-radius: 5px;
     display: inline-block;
 }
+.hidden {
+    display: none !important;
+}
 

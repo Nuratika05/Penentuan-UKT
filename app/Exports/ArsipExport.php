@@ -39,7 +39,6 @@ class ArsipExport implements FromCollection, WithHeadings, ShouldAutoSize, WithS
         $exportData = collect();
 
         foreach ($DataArsips as $item) {
-        $nominalFormatted = 'Rp '.number_format($item->nominal, 0, ',', '.');
         $exportDataRow = [
             'no_pendaftaran' => $item->no_pendaftaran,
             'nama_mahasiswa' => $item->nama_mahasiswa,
@@ -50,7 +49,7 @@ class ArsipExport implements FromCollection, WithHeadings, ShouldAutoSize, WithS
             'verifikator' => $item->admin,
             'tahun_angkatan' => $item->tahun_angkatan,
             'nama_golongan' => $item->nama_golongan,
-            'nominal' => $nominalFormatted,
+            'nominal' => $item->nominal,
         ];
 
         $exportData->push($exportDataRow);
