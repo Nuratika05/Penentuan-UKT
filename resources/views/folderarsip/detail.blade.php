@@ -11,6 +11,9 @@
             border-color: #FF0000;
             /* Ganti dengan warna latar belakang yang diinginkan */
         }
+        table td {
+        vertical-align: top;
+    }
     </style>
     <div class="row">
         <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"></span> Detail Data UKT Mahasiswa</h4>

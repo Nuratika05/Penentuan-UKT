@@ -14,6 +14,10 @@
     .hidden {
         display: none;
     }
+    table td {
+        padding-left: 12px;
+        vertical-align: top;
+    }
 </style>
 @if (Auth::guard('admin')->check())
 <div class="row">

@@ -34,19 +34,19 @@
     /* Reset some default margin and padding */
     body,
     table {
-        margin: 5;
-        padding: 5;
+        margin: 3px; /* Atur margin untuk body dan table */
+        padding: 5px; /* Biarkan padding tetap 5px seperti yang sudah diatur */
     }
 
     /* Style the container div */
     .card-body {
-        margin-bottom: 20px;
+        margin-bottom: 3px;
     }
 
     /* Style the heading */
     .card-header {
         color: rgb(15, 14, 14);
-        margin: 5;
+        margin: 3px; /* Atur margin untuk card-header */
     }
 
     /* Style the table headers */
@@ -56,26 +56,36 @@
 
     /* Style the table cells */
     table td {
-        padding-left: 10px;
-    }    table p {
-        padding-left: 10px;
+        padding-left: 12px;
+        vertical-align: top;
     }
 
+    table p {
+        padding-left: 12px;
+    }
 
     /* Style the images */
     .img-fluid {
-        max-width: 120%;
-        height: 100%;
-        width: auto;
-        display: block;
-        margin: 0 auto;
-        max-height: 370px;
+        width: 60%; /* Atur lebar gambar agar mengisi container */
+        height: auto; /* Biarkan tinggi gambar menyesuaikan */
+        display: block; /* Memastikan gambar berada di tengah dengan margin: 0 auto */
+        margin: 5px auto; /* Atur margin rata untuk gambar */
+        text-align: center;
+    }
+
+    .image-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden; /* Mengatasi masalah overflow jika terjadi */
+        text-align: center;
     }
 
     /* Style the form */
     form {
         margin-top: 20px;
     }
+
 </style>
 
 <body>
@@ -91,7 +101,7 @@
     </div>
     <div>
         <h4 style="text-align:center">DATA UKT MAHASISWA <br>POLITEKNIK PERTANIAN NEGERI SAMARINDA</h4>
-        <table class="table table-th w-80" style="text-align: justify">
+        <table class="table table-th w-80">
             <h5 class="card-header">I. DATA MAHASISWA</h5>
             <tr>
                 <td>No. Pendaftaran</td>
@@ -108,7 +118,6 @@
                 <td>:</td>
                 <td>{{ $arsip->jenis_kelamin }}</td>
             </tr>
-
             <tr>
                 <td>No. Telepon</td>
                 <td>:</td>
@@ -148,12 +157,24 @@
             <tr>
                 <td>Nama Ayah</td>
                 <td>:</td>
-                <td>{{ $arsip->nama_ayah }}</td>
+                <td>
+                    @if ($arsip->nama_ayah == null || $arsip->nama_ayah == '')
+                    -
+                    @else
+                    {{ $arsip->nama_ayah }}
+                    @endif
+                </td>
             </tr>
             <tr>
                 <td>Nama Ibu</td>
                 <td>:</td>
-                <td>{{ $arsip->nama_ibu }}</td>
+                <td>
+                    @if ($arsip->nama_ibu == null || $arsip->nama_ibu == '')
+                    -
+                    @else
+                    {{ $arsip->nama_ibu }}
+                    @endif
+                </td>
             </tr>
             <tr>
                 <td>Nama Wali</td>
@@ -169,7 +190,13 @@
             <tr>
                 <td>Pekerjaan Orang Tua/Wali</td>
                 <td>:</td>
-                <td>{{ $arsip->pekerjaan_orangtua_wali }}</td>
+                <td>
+                    @if ($arsip->pekerjaan_orangtua_wali  == null || $arsip->pekerjaan_orangtua_wali  == '')
+                    -
+                    @else
+                    {{ $arsip->pekerjaan_orangtua_wali }}
+                    @endif
+                </td>
             </tr>
             @foreach ($penilaianarsip as $data => $nilai)
                 @foreach ($nilai as $data)
@@ -180,55 +207,7 @@
                     </tr>
                 @endforeach
             @endforeach
-        </table>
-        <br><br><br><br><br>
-        <table class="table table-th w-80" style="text-align: justify">
-            <h5 class="card-header">III. FOTO LAMPIRAN</h5>
-            <tr>
-                <p>Foto Kartu Keluarga</p>
-                <p style="text-align: center"><img src="{{ public_path('fotoarsip/foto_kartu_keluarga/' . $arsip->foto_kartu_keluarga) }}"
-                        class="img-fluid"></>
-            </tr>
-            <tr>
-                <p>Foto KTP Orang Tua/Wali</p>
-                <p style="text-align: center"><img src="{{ public_path('fotoarsip/foto_KTP_orangtua/' . $arsip->foto_KTP_orangtua) }}"
-                        class="img-fluid"></>
-            </tr>
-            <tr>
-                <p>Foto Tempat Tinggal</p>
-                <p style="text-align: center"><img src="{{ public_path('fotoarsip/foto_tempat_tinggal/' . $arsip->foto_tempat_tinggal) }}"
-                        class="img-fluid"></>
-            </tr>
-            <tr>
-                <p>Foto Slip Gaji</p>
-                <p style="text-align: center"><img src="{{ public_path('fotoarsip/foto_slip_gaji/' . $arsip->foto_slip_gaji) }}"
-                        class="img-fluid"></>
-            </tr>
-            <tr>
-                <p>Foto Daya Listrik</p>
-                <p style="text-align: center"><img src="{{ public_path('fotoarsip/foto_daya_listrik/' . $arsip->foto_daya_listrik) }}"
-                        class="img-fluid">
-                </>
-            </tr>
-            <tr>
-                @if ($arsip->foto_kendaraan === null || $arsip->foto_kendaraan === '')
-                @else
-                    <p>Foto Kendaraan</p>
-                    <p style="text-align: center"><img src="{{ public_path('fotoarsip/foto_kendaraan/' . $arsip->foto_kendaraan) }}"
-                            class="img-fluid"></>
-                @endif
-            </tr>
-            <tr>
-                @if ($arsip->foto_beasiswa === null || $arsip->foto_beasiswa === '')
-                @else
-                    <p>Foto Bukti Bantuan Pemerintah</p>
-                    <p style="text-align: center"><img src="{{ public_path('fotoarsip/foto_beasiswa/' . $arsip->foto_beasiswa) }}"
-                            class="img-fluid"></>
-                @endif
-            </tr>
-        </table>
-        <table class="table table-th w-80" style="text-align: justify">
-            <h5 class="card-header">IV. GOLONGAN UKT</h5>
+            <h5 class="card-header">III. GOLONGAN UKT</h5>
             <tr>
                 <td>Golongan</td>
                 <td>:</td>
@@ -241,6 +220,61 @@
                 <td>Nominal</td>
                 <td>:</td>
                 <td>Rp{{ number_format($arsip->nominal) }}</td>
+            </tr>
+        </table>
+        <table class="table table-th w-80" style="text-align: justify">
+            <tr>
+                <h5 class="card-header">IV. FOTO LAMPIRAN</h5>
+                <p>Foto Kartu Keluarga:</p>
+                @if ($arsip->foto_kartu_keluarga === null || $arsip->foto_kartu_keluarga === '')
+                <p> - </p>
+                @else
+                <p class="image-container"><img src="{{ public_path('fotoarsip/foto_kartu_keluarga/' . $arsip->foto_kartu_keluarga) }}"
+                        class="img-fluid">
+                </p>
+                @endif
+            </tr>
+            <tr>
+                <p>Foto KTP Orang Tua/Wali:</p>
+                @if ($arsip->foto_KTP_orangtua === null || $arsip->foto_KTP_orangtua === '')
+                <p> - </p>
+                @else
+                <p class="image-container"><img src="{{ public_path('fotoarsip/foto_KTP_orangtua/' . $arsip->foto_KTP_orangtua) }}"
+                        class="img-fluid">
+                </p>
+                @endif
+            </tr>
+            <tr>
+                <p>Foto Tempat Tinggal:</p>
+                <p class="image-container"><img src="{{ public_path('fotoarsip/foto_tempat_tinggal/' . $arsip->foto_tempat_tinggal) }}"
+                        class="img-fluid"></>
+            </tr>
+            <tr>
+                <p>Foto Slip Gaji:</p>
+                <p class="image-container"><img src="{{ public_path('fotoarsip/foto_slip_gaji/' . $arsip->foto_slip_gaji) }}"
+                        class="img-fluid"></>
+            </tr>
+            <tr>
+                <p>Foto Daya Listrik:</p>
+                <p class="image-container"><img src="{{ public_path('fotoarsip/foto_daya_listrik/' . $arsip->foto_daya_listrik) }}"
+                        class="img-fluid">
+                </>
+            </tr>
+            <tr>
+                @if ($arsip->foto_kendaraan === null || $arsip->foto_kendaraan === '')
+                @else
+                    <p>Foto Kendaraan:</p>
+                    <p class="image-container"><img src="{{ public_path('fotoarsip/foto_kendaraan/' . $arsip->foto_kendaraan) }}"
+                            class="img-fluid"></>
+                @endif
+            </tr>
+            <tr>
+                @if ($arsip->foto_beasiswa === null || $arsip->foto_beasiswa === '')
+                @else
+                    <p>Foto Bukti Bantuan Pemerintah:</p>
+                    <p class="image-container"><img src="{{ public_path('fotoarsip/foto_beasiswa/' . $arsip->foto_beasiswa) }}"
+                            class="img-fluid"></>
+                @endif
             </tr>
         </table>
     </div>

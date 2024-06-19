@@ -221,25 +221,23 @@
             <tr>
             <h5 class="card-header">IV. FOTO LAMPIRAN</h5>
                 <p>Foto Kartu Keluarga:</p>
-                <p
-                    @if ($berkas->foto_kartu_keluarga === null || $berkas->foto_kartu_keluarga === '')
-                        -
-                    @else
-                        class="image-container"><img
+                @if ($berkas->foto_kartu_keluarga === null || $berkas->foto_kartu_keluarga === '')
+                -
+                @else
+                <p class="image-container"><img
                             src="{{ public_path('foto_kartu_keluarga/' . $berkas->foto_kartu_keluarga) }}" class="img-fluid">
-                    @endif
                 </p>
+                @endif
             </tr>
             <tr>
                 <p>Foto KTP Orang Tua/Wali:</p>
-                <p
-                    @if ($berkas->foto_KTP_orangtua === null || $berkas->foto_KTP_orangtua === '')
-                        -
-                    @else
-                        class="image-container"><img
+                @if ($berkas->foto_KTP_orangtua === null || $berkas->foto_KTP_orangtua === '')
+                    -
+                @else
+                <p class="image-container"><img
                             src="{{ public_path('foto_KTP_orangtua/' . $berkas->foto_KTP_orangtua) }}" class="img-fluid">
-                    @endif
                 </p>
+                @endif
             </tr>
             <tr>
                 <p>Foto Tempat Tinggal:</p>
