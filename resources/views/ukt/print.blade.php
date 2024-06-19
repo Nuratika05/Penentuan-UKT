@@ -58,6 +58,7 @@
     /* Style the table cells */
     table td {
         padding-left: 12px;
+        vertical-align: top;
     }
 
     table p {
@@ -66,7 +67,7 @@
 
     /* Style the images */
     .img-fluid {
-        width: 75%; /* Atur lebar gambar agar mengisi container */
+        width: 60%; /* Atur lebar gambar agar mengisi container */
         height: auto; /* Biarkan tinggi gambar menyesuaikan */
         display: block; /* Memastikan gambar berada di tengah dengan margin: 0 auto */
         margin: 5px auto; /* Atur margin rata untuk gambar */
@@ -101,7 +102,7 @@
     </div>
     <div>
         <h4 style="text-align:center">DATA UKT MAHASISWA <br>POLITEKNIK PERTANIAN NEGERI SAMARINDA</h4>
-        <table class="table table-th w-80" style="text-align: justify">
+        <table class="table table-th w-80" >
             <h5 class="card-header">I. DATA MAHASISWA</h5>
             <tr>
                 <td>No. Pendaftaran</td>
@@ -216,7 +217,7 @@
                 <td>Rp{{ number_format($berkas->nominal_ukt, 0, ',', '.') }}</td>
             </tr>
         </table>
-        <table class="table table-th w-80" style="text-align: justify">
+        <table class="table table-th w-80">
             <tr>
             <h5 class="card-header">IV. FOTO LAMPIRAN</h5>
                 <p>Foto Kartu Keluarga:</p>
