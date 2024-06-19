@@ -621,26 +621,25 @@ class DataUktController extends Controller
 
                 unset($input['kriteria']);
                 // Jika input tempat tinggal ada filenya
-                foreach (['foto_tempat_tinggal','foto_kartu_keluarga', 'foto_KTP_orangtua', 'foto_kendaraan', 'foto_slip_gaji', 'foto_daya_listrik', 'foto_beasiswa']as $imageField) {
+                foreach (['foto_tempat_tinggal', 'foto_kartu_keluarga', 'foto_KTP_orangtua', 'foto_kendaraan', 'foto_slip_gaji', 'foto_daya_listrik', 'foto_beasiswa'] as $imageField) {
                     if ($request->hasFile($imageField)) {
                         if (!is_null($berkas->$imageField)) {
-                        // Hapus gambar sebelumnya
-                        $path = public_path($imageField.'/'.$berkas->$imageField);
-                        if (file_exists($path)) {
-                            unlink($path);
+                            // Hapus gambar sebelumnya
+                            $path = public_path($imageField . '/' . $berkas->$imageField);
+                            if (file_exists($path) && is_file($path)) {
+                                unlink($path);
+                            }
                         }
-                    }
 
                         // Insert Gambar Baru
-                        $filename = date('YmdHis').'_'.$request->file($imageField)->getClientOriginalName();
+                        $filename = date('YmdHis') . '_' . $request->file($imageField)->getClientOriginalName();
                         $Newpath = public_path($imageField);
                         $request->file($imageField)->move($Newpath, $filename);
 
                         // Update the $input array with the new filename
                         $input[$imageField] = $filename;
-
+                    }
                 }
-            }
 
                 $berkas->update($input);
 

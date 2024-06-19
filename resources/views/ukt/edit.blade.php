@@ -442,18 +442,18 @@
                         <span class="text-danger" style="font-size: 15px;"><i> *wajib terisi</i></span>
                         <select id="pekerjaan_orangtua_wali" name="pekerjaan_orangtua_wali" onchange="toggleInput(this)" class="form-select" required>
                             <option value="">-- Pilih --</option>
-                            <option value="Petani" {{ $berkas->pekerjaan_orangtua_wali == 'Petani' ? 'selected' : '' }}>Petani</option>
-                            <option value="Nelayan" {{ $berkas->pekerjaan_orangtua_wali == 'Nelayan' ? 'selected' : '' }}>Nelayan</option>
-                            <option value="Guru" {{ $berkas->pekerjaan_orangtua_wali == 'Guru' ? 'selected' : '' }}>Guru</option>
-                            <option value="Dokter" {{ $berkas->pekerjaan_orangtua_wali == 'Dokter' ? 'selected' : '' }}>Dokter</option>
-                            <option value="Polisi" {{ $berkas->pekerjaan_orangtua_wali == 'Polisi' ? 'selected' : '' }}>Polisi</option>
-                            <option value="Tentara" {{ $berkas->pekerjaan_orangtua_wali == 'Tentara' ? 'selected' : '' }}>Tentara</option>
-                            <option value="Pegawai Negeri" {{ $berkas->pekerjaan_orangtua_wali == 'Pegawai Negeri' ? 'selected' : '' }}>Pegawai Negeri</option>
-                            <option value="Wiraswasta" {{ $berkas->pekerjaan_orangtua_wali == 'Wiraswasta' ? 'selected' : '' }}>Wiraswasta</option>
-                            <option value="Karyawan Swasta" {{ $berkas->pekerjaan_orangtua_wali == 'Karyawan Swasta' ? 'selected' : '' }}>Karyawan Swasta</option>
-                            <option value="lainnya" {{ $berkas->pekerjaan_orangtua_wali != null && !in_array($berkas->pekerjaan_orangtua_wali, ['Petani', 'Nelayan', 'Guru', 'Dokter', 'Polisi', 'Tentara', 'Pegawai Negeri', 'Wiraswasta', 'Karyawan Swasta']) ? 'selected' : '' }}>Lainnya...</option>
+                            <option value="Petani" {{ old('pekerjaan_orangtua_wali', $berkas->pekerjaan_orangtua_wali) == 'Petani' ? 'selected' : '' }}>Petani</option>
+                            <option value="Nelayan" {{ old('pekerjaan_orangtua_wali', $berkas->pekerjaan_orangtua_wali) == 'Nelayan' ? 'selected' : '' }}>Nelayan</option>
+                            <option value="Guru" {{ old('pekerjaan_orangtua_wali', $berkas->pekerjaan_orangtua_wali) == 'Guru' ? 'selected' : '' }}>Guru</option>
+                            <option value="Dokter" {{ old('pekerjaan_orangtua_wali', $berkas->pekerjaan_orangtua_wali) == 'Dokter' ? 'selected' : '' }}>Dokter</option>
+                            <option value="Polisi" {{ old('pekerjaan_orangtua_wali', $berkas->pekerjaan_orangtua_wali) == 'Polisi' ? 'selected' : '' }}>Polisi</option>
+                            <option value="Tentara" {{ old('pekerjaan_orangtua_wali', $berkas->pekerjaan_orangtua_wali) == 'Tentara' ? 'selected' : '' }}>Tentara</option>
+                            <option value="Pegawai Negeri" {{ old('pekerjaan_orangtua_wali', $berkas->pekerjaan_orangtua_wali) == 'Pegawai Negeri' ? 'selected' : '' }}>Pegawai Negeri</option>
+                            <option value="Wiraswasta" {{ old('pekerjaan_orangtua_wali', $berkas->pekerjaan_orangtua_wali) == 'Wiraswasta' ? 'selected' : '' }}>Wiraswasta</option>
+                            <option value="Karyawan Swasta" {{ old('pekerjaan_orangtua_wali', $berkas->pekerjaan_orangtua_wali) == 'Karyawan Swasta' ? 'selected' : '' }}>Karyawan Swasta</option>
+                            <option value="lainnya" {{ old('pekerjaan_orangtua_wali', $berkas->pekerjaan_orangtua_wali) != null && !in_array($berkas->pekerjaan_orangtua_wali, ['Petani', 'Nelayan', 'Guru', 'Dokter', 'Polisi', 'Tentara', 'Pegawai Negeri', 'Wiraswasta', 'Karyawan Swasta']) ? 'selected' : '' }}>Lainnya...</option>
                         </select>
-                        <input type="text" id="pekerjaan_ortu_lainnya" name="pekerjaan_ortu_lainnya" class="form-control {{ $berkas->pekerjaan_orangtua_wali == 'lainnya' ? '' : 'hidden' }}" value="{{ $berkas->pekerjaan_orangtua_wali != null && !in_array($berkas->pekerjaan_orangtua_wali, ['Petani', 'Nelayan', 'Guru', 'Dokter', 'Polisi', 'Tentara', 'Pegawai Negeri', 'Wiraswasta', 'Karyawan Swasta']) ? $berkas->pekerjaan_orangtua_wali : '' }}" placeholder="Masukkan pekerjaan orang tua/wali">
+                        <input type="text" id="pekerjaan_ortu_lainnya" name="pekerjaan_ortu_lainnya" class="form-control {{ old('pekerjaan_orangtua_wali', $berkas->pekerjaan_orangtua_wali) == 'lainnya' || (old('pekerjaan_orangtua_wali') != null && !in_array(old('pekerjaan_orangtua_wali'), ['Petani', 'Nelayan', 'Guru', 'Dokter', 'Polisi', 'Tentara', 'Pegawai Negeri', 'Wiraswasta', 'Karyawan Swasta'])) ? '' : 'hidden' }}" value="{{ old('pekerjaan_orangtua_wali', $berkas->pekerjaan_orangtua_wali) != null && !in_array(old('pekerjaan_orangtua_wali', $berkas->pekerjaan_orangtua_wali), ['Petani', 'Nelayan', 'Guru', 'Dokter', 'Polisi', 'Tentara', 'Pegawai Negeri', 'Wiraswasta', 'Karyawan Swasta']) ? $berkas->pekerjaan_orangtua_wali : '' }}" placeholder="Masukkan pekerjaan orang tua/wali">
                         @error('pekerjaan_orangtua_wali')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -474,6 +474,21 @@
                         </select>
                     @endforeach
                     <br>
+                    @if ($berkas->foto_kartu_keluarga === null || $berkas->foto_kartu_keluarga === '')
+                    <div class="mb-3" id="foto_kartu_keluarga">
+                        <label for="foto_kartu_keluarga" class="form-label">Foto Kartu Keluarga</label><span
+                            class="text-danger" style="font-size: 15px;"><i> *Upload gambar format: jpeg, jpg,
+                                png Ukuran max: 2MB</i></span>
+                            <input class="form-control @error('foto_kartu_keluarga') is-invalid @enderror" type="file"
+                                id="foto_kartu_keluarga" accept=".jpeg, .jpg, .png" name="foto_kartu_keluarga" required>
+                            @error('foto_kartu_keluarga')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+
+                                </div>
+                            @enderror
+                    </div>
+                    @else
                     <div class="mb-3">
                         <label for="foto_kartu_keluarga" class="form-label">Foto Kartu Keluarga</label><span
                             class="text-danger" style="font-size: 15px;"><i> *Abaikan jika tidak ingin
@@ -490,6 +505,22 @@
                                 </div>
                             @enderror
                     </div>
+                    @endif
+                    @if ($berkas->foto_KTP_orangtua === null || $berkas->foto_KTP_orangtua === '')
+                    <div class="mb-3">
+                        <label for="foto_KTP_orangtua" class="form-label">Foto KTP Orang Tua/Wali</label><span
+                            class="text-danger" style="font-size: 15px;"><i> *Upload gambar format: jpeg, jpg,
+                                png Ukuran max: 2MB</i></span>
+                            <input class="form-control @error('foto_KTP_orangtua') is-invalid @enderror" type="file"
+                            id="foto_KTP_orangtua" accept=".jpeg, .jpg, .png" name="foto_KTP_orangtua" required>
+                            @error('foto_KTP_orangtua')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+
+                                </div>
+                            @enderror
+                    </div>
+                    @else
                     <div class="mb-3">
                         <label for="foto_KTP_orangtua" class="form-label">Foto KTP Orang Tua/Wali</label><span
                             class="text-danger" style="font-size: 15px;"><i> *Abaikan jika tidak ingin
@@ -506,6 +537,7 @@
                                 </div>
                             @enderror
                     </div>
+                    @endif
                     <div class="mb-3">
                         <label for="foto_tempat_tinggal" class="form-label">Foto Tempat Tinggal</label><span
                             class="text-danger" style="font-size: 15px;"><i> *Abaikan jika tidak ingin
@@ -736,12 +768,13 @@
 </script>
 <script>
     function toggleInput(select) {
-        var inputPekerjaanLainnya = document.getElementById('pekerjaan_ortu_lainnya');
-        if (select.value === 'lainnya') {
-            inputPekerjaanLainnya.classList.remove('hidden');
+        var input = document.getElementById('pekerjaan_ortu_lainnya');
+        if (select.value === 'lainnya' || (select.value !== '' && !['Petani', 'Nelayan', 'Guru', 'Dokter', 'Polisi', 'Tentara', 'Pegawai Negeri', 'Wiraswasta', 'Karyawan Swasta'].includes(select.value))) {
+            input.classList.remove('hidden');
+            input.required = true;
         } else {
-            inputPekerjaanLainnya.classList.add('hidden');
-            inputPekerjaanLainnya.value = ''; // Kosongkan nilai input jika tidak dipilih 'lainnya'
+            input.classList.add('hidden');
+            input.required = false;
         }
     }
 
