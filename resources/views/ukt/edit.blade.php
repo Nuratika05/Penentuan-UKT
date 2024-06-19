@@ -79,12 +79,24 @@
                     <tr>
                         <th>Nama Ayah</th>
                         <td>:</td>
-                        <td>{{ $berkas->nama_ayah }}</td>
+                        <td>
+                            @if($berkas->nama_ayah == null || $berkas->nama_ayah == '' )
+                            -
+                            @else
+                            {{ $berkas->nama_ayah }}
+                            @endif
+                        </td>
                     </tr>
                     <tr>
                         <th>Nama Ibu</th>
                         <td>:</td>
-                        <td>{{ $berkas->nama_ibu }}</td>
+                        <td>
+                            @if($berkas->nama_ibu == null || $berkas->nama_ibu == '' )
+                            -
+                            @else
+                            {{ $berkas->nama_ibu }}
+                            @endif
+                        </td>
                     </tr>
                     <tr>
                         <th>Nama Wali</th>
@@ -100,7 +112,13 @@
                     <tr>
                         <th>Pekerjaan Orang Tua/Wali</th>
                         <td>:</td>
-                        <td>{{ $berkas->pekerjaan_orangtua_wali }}</td>
+                        <td>
+                            @if($berkas->pekerjaan_orangtua_wali == null || $berkas->pekerjaan_orangtua_wali == '' )
+                            -
+                            @else
+                            {{ $berkas->pekerjaan_orangtua_wali }}
+                            @endif
+                        </td>
                     </tr>
                     @foreach ($penilaians as $data => $nilai)
                         @foreach ($nilai as $data)
@@ -120,19 +138,29 @@
                     <tr>
                         <th>Foto Kartu Keluarga</th>
                         <td>:</td>
-                        <td><a href="{{ asset('foto_kartu_keluarga/' . $berkas->foto_kartu_keluarga) }}"
+                        <td>
+                            @if ($berkas->foto_kartu_keluarga === null || $berkas->foto_kartu_keluarga === '')
+                            -
+                            @else
+                            <a href="{{ asset('foto_kartu_keluarga/' . $berkas->foto_kartu_keluarga) }}"
                                 data-fancybox="gallery">
                                 <img src="{{ asset('foto_kartu_keluarga/' . $berkas->foto_kartu_keluarga) }}"
                                     class="rounded img-fluid" width="300px" alt="Deskripsi Gambar"></a>
+                            @endif
                         </td>
                     </tr>
                     <tr>
                         <th>Foto KTP Orang Tua/Wali</th>
                         <td>:</td>
-                        <td><a href="{{ asset('foto_KTP_orangtua/' . $berkas->foto_KTP_orangtua) }}"
+                        <td>
+                            @if ($berkas->foto_KTP_orangtua === null || $berkas->foto_KTP_orangtua === '')
+                            -
+                            @else
+                            <a href="{{ asset('foto_KTP_orangtua/' . $berkas->foto_KTP_orangtua) }}"
                                 data-fancybox="gallery">
                                 <img src="{{ asset('foto_KTP_orangtua/' . $berkas->foto_KTP_orangtua) }}"
                                     class="rounded img-fluid" width="300px" alt="Deskripsi Gambar"></a>
+                            @endif
                         </td>
                     </tr>
                     <tr>

@@ -124,12 +124,22 @@
             <tr>
                 <td>Nama Ayah</td>
                 <td>:</td>
+                @if($berkas->nama_ayah == null || $berkas->nama_ayah == '' )
+                -
+                @else
                 <td>{{ $berkas->nama_ayah }}</td>
+                @endif
             </tr>
             <tr>
                 <td>Nama Ibu</td>
                 <td>:</td>
-                <td>{{ $berkas->nama_ibu }}</td>
+                <td>
+                    @if($berkas->nama_ibu == null || $berkas->nama_ibu == '' )
+                    -
+                    @else
+                    {{ $berkas->nama_ibu }}
+                    @endif
+                </td>
             </tr>
             <tr>
                 <td>Nama Wali</td>
@@ -145,7 +155,13 @@
             <tr>
                 <td>Pekerjaan Orang Tua/Wali</td>
                 <td>:</td>
-                <td>{{ $berkas->pekerjaan_orangtua_wali }}</td>
+                <td>
+                    @if($berkas->pekerjaan_orangtua_wali == null || $berkas->pekerjaan_orangtua_wali == '' )
+                    -
+                    @else
+                    {{ $berkas->pekerjaan_orangtua_wali }}
+                    @endif
+                </td>
             </tr>
             @foreach ($penilaians as $data => $nilai)
                 @foreach ($nilai as $data)
@@ -162,13 +178,25 @@
             <h5 class="card-header">III. FOTO LAMPIRAN</h5>
             <tr>
                 <p>Foto Kartu Keluarga</p>
-                <p style="text-align: center"><img src="{{ public_path('foto_kartu_keluarga/' . $berkas->foto_kartu_keluarga) }}"
-                        class="img-fluid"></p>
+                <p
+                @if ($berkas->foto_kartu_keluarga === null || $berkas->foto_kartu_keluarga === '')
+                -
+                @else
+                style="text-align: center"><img src="{{ public_path('foto_kartu_keluarga/' . $berkas->foto_kartu_keluarga) }}"
+                        class="img-fluid">
+                @endif
+                </p>
             </tr>
             <tr>
                 <p>Foto KTP Orang Tua/Wali</p>
-                <p style="text-align: center;"><img src="{{ public_path('foto_KTP_orangtua/' . $berkas->foto_KTP_orangtua) }}"
-                        class="img-fluid"></p>
+                <p
+                @if ($berkas->foto_KTP_orangtua === null || $berkas->foto_KTP_orangtua === '')
+                -
+                @else
+                style="text-align: center;"><img src="{{ public_path('foto_KTP_orangtua/' . $berkas->foto_KTP_orangtua) }}"
+                        class="img-fluid">
+                @endif
+                </p>
             </tr>
             <tr>
                 <p>Foto Tempat Tinggal</p>
