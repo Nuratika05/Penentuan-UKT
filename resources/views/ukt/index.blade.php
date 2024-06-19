@@ -127,10 +127,11 @@
         @endif
     </div>
     <div class="col-md-4 text-end m-auto">
+        @if ($berkas->status != "Lulus Verifikasi")
         <a href="{{ route('data-ukt.edit', $berkas->id) }}" class="btn btn-outline-primary float-end mb-1 ">Edit
             Data
         </a>
-        @if ($berkas->status == "Lulus Verifikasi")
+        @else
         <a class="btn btn-outline-secondary float-end mb-1 "
             href="{{ route('data-ukt.print', $berkas->id) }}">Print</a>
         @endif
