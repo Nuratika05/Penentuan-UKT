@@ -66,10 +66,10 @@
 
     /* Style the images */
     .img-fluid {
-        width: 85%; /* Atur lebar gambar agar mengisi container */
+        width: 75%; /* Atur lebar gambar agar mengisi container */
         height: auto; /* Biarkan tinggi gambar menyesuaikan */
         display: block; /* Memastikan gambar berada di tengah dengan margin: 0 auto */
-        margin: 3px auto; /* Atur margin rata untuk gambar */
+        margin: 5px auto; /* Atur margin rata untuk gambar */
         text-align: center;
     }
 
