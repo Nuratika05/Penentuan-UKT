@@ -154,50 +154,46 @@
                 <td>{{ $arsip->tahun_angkatan }}</td>
             </tr>
             <h5 class="card-header">II. DATA KRITERIA MAHASISWA</h5>
+            @if ($arsip->nama_ayah == null || $arsip->nama_ayah == '')
+            @else
             <tr>
                 <td>Nama Ayah</td>
                 <td>:</td>
                 <td>
-                    @if ($arsip->nama_ayah == null || $arsip->nama_ayah == '')
-                    -
-                    @else
                     {{ $arsip->nama_ayah }}
-                    @endif
                 </td>
             </tr>
+            @endif
+            @if ($arsip->nama_ibu == null || $arsip->nama_ibu == '')
+            @else
             <tr>
                 <td>Nama Ibu</td>
                 <td>:</td>
                 <td>
-                    @if ($arsip->nama_ibu == null || $arsip->nama_ibu == '')
-                    -
-                    @else
                     {{ $arsip->nama_ibu }}
-                    @endif
                 </td>
             </tr>
+            @endif
+            @if ($arsip->nama_wali == null || $arsip->nama_wali == '')
+            @else
             <tr>
                 <td>Nama Wali</td>
                 <td>:</td>
                 <td>
-                    @if ($arsip->nama_wali == null || $arsip->nama_wali == '')
-                    -
-                    @else
                     {{ $arsip->nama_wali }}
-                    @endif
                 </td>
             </tr>
+            @endif
+            @if ($arsip->pekerjaan_orangtua_wali  == null || $arsip->pekerjaan_orangtua_wali  == '')
+            @else
             <tr>
                 <td>Pekerjaan Orang Tua/Wali</td>
                 <td>:</td>
                 <td>
-                    @if ($arsip->pekerjaan_orangtua_wali  == null || $arsip->pekerjaan_orangtua_wali  == '')
-                    -
-                    @else
                     {{ $arsip->pekerjaan_orangtua_wali }}
-                    @endif
                 </td>
             </tr>
+            @endif
             @foreach ($penilaianarsip as $data => $nilai)
                 @foreach ($nilai as $data)
                     <tr>
@@ -225,25 +221,23 @@
         <table class="table table-th w-80" style="text-align: justify">
             <tr>
                 <h5 class="card-header">IV. FOTO LAMPIRAN</h5>
-                <p>Foto Kartu Keluarga:</p>
                 @if ($arsip->foto_kartu_keluarga === null || $arsip->foto_kartu_keluarga === '')
-                <p> - </p>
                 @else
+                <p>Foto Kartu Keluarga:</p>
                 <p class="image-container"><img src="{{ public_path('fotoarsip/foto_kartu_keluarga/' . $arsip->foto_kartu_keluarga) }}"
                         class="img-fluid">
                 </p>
                 @endif
             </tr>
+            @if ($arsip->foto_KTP_orangtua === null || $arsip->foto_KTP_orangtua === '')
+            @else
             <tr>
                 <p>Foto KTP Orang Tua/Wali:</p>
-                @if ($arsip->foto_KTP_orangtua === null || $arsip->foto_KTP_orangtua === '')
-                <p> - </p>
-                @else
                 <p class="image-container"><img src="{{ public_path('fotoarsip/foto_KTP_orangtua/' . $arsip->foto_KTP_orangtua) }}"
                         class="img-fluid">
                 </p>
-                @endif
             </tr>
+            @endif
             <tr>
                 <p>Foto Tempat Tinggal:</p>
                 <p class="image-container"><img src="{{ public_path('fotoarsip/foto_tempat_tinggal/' . $arsip->foto_tempat_tinggal) }}"
@@ -260,14 +254,14 @@
                         class="img-fluid">
                 </>
             </tr>
+            @if ($arsip->foto_kendaraan === null || $arsip->foto_kendaraan === '')
+            @else
             <tr>
-                @if ($arsip->foto_kendaraan === null || $arsip->foto_kendaraan === '')
-                @else
                     <p>Foto Kendaraan:</p>
                     <p class="image-container"><img src="{{ public_path('fotoarsip/foto_kendaraan/' . $arsip->foto_kendaraan) }}"
                             class="img-fluid"></>
-                @endif
             </tr>
+            @endif
             <tr>
                 @if ($arsip->foto_beasiswa === null || $arsip->foto_beasiswa === '')
                 @else

@@ -26,17 +26,17 @@
                         <div class="mb-3">
                             <label for="nama_ayah" name="nama_ayah" class="form-label">Nama Ayah</label><span
                             class="text-danger" style="font-size: 15px;"><i> *wajib diisi</i></span>
-                            <input type="text" id="nama_ayah" name="nama_ayah" class="form-control" autofocus required>
+                            <input type="text" id="nama_ayah" name="nama_ayah" class="form-control" value="{{ old('nama_ayah') }}" autofocus required>
                         </div>
                         <div class="mb-3">
                             <label for="nama_ibu" name="nama_ibu" class="form-label">Nama Ibu</label><span
                             class="text-danger" style="font-size: 15px;"><i> *wajib diisi</i></span>
-                            <input type="text" id="nama_ibu" name="nama_ibu" class="form-control" required>
+                            <input type="text" id="nama_ibu" name="nama_ibu" class="form-control" value="{{ old('nama_ibu') }}" required>
                         </div>
                         <div class="mb-3">
                             <label for="nama_wali" name="nama_wali" class="form-label">Nama Wali</label><span
                             class="text-danger" style="font-size: 15px;"><i> *wajib diisi jika ada</i></span>
-                            <input type="text" id="nama_wali" name="nama_wali" class="form-control">
+                            <input type="text" id="nama_wali" name="nama_wali" class="form-control" value="{{ old('nama_wali') }}">
                         </div>
                         <div class="mb-3">
                             <label for="pekerjaan_orangtua_wali" class="form-label">Pekerjaan Orang Tua/Wali</label>

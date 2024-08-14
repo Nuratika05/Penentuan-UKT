@@ -80,50 +80,47 @@
         <div class="card mt-3"> <h4 class="card-header">Data Kriteria Mahasiswa</h4>
             <div class="card-body">
                 <table class="table table-borderless w-75">
+                    @if($berkas->nama_ayah == null || $berkas->nama_ayah == '' )
+                    @else
                     <tr>
                         <th>Nama Ayah</th>
                         <td>:</td>
                         <td>
-                            @if($berkas->nama_ayah == null || $berkas->nama_ayah == '' )
-                            -
-                            @else
                             {{ $berkas->nama_ayah }}
-                            @endif
                         </td>
                     </tr>
+                    @endif
+                    @if($berkas->nama_ibu == null || $berkas->nama_ibu == '' )
+                    @else
                     <tr>
                         <th>Nama Ibu</th>
                         <td>:</td>
                         <td>
-                            @if($berkas->nama_ibu == null || $berkas->nama_ibu == '' )
-                            -
-                            @else
                             {{ $berkas->nama_ibu }}
-                            @endif
                         </td>
                     </tr>
+                    @endif
+                    @if($berkas->nama_wali == null || $berkas->nama_wali == '' )
+                    @else
                     <tr>
                         <th>Nama Wali</th>
                         <td>:</td>
                         <td>
-                            @if($berkas->nama_wali == null || $berkas->nama_wali == '' )
-                            -
-                            @else
                             {{ $berkas->nama_wali }}
-                            @endif
+
                         </td>
                     </tr>
+                    @endif
+                    @if($berkas->pekerjaan_orangtua_wali == null || $berkas->pekerjaan_orangtua_wali == '' )
+                    @else
                     <tr>
                         <th>Pekerjaan Orang Tua/Wali</th>
                         <td>:</td>
                         <td>
-                            @if($berkas->pekerjaan_orangtua_wali == null || $berkas->pekerjaan_orangtua_wali == '' )
-                            -
-                            @else
                             {{ $berkas->pekerjaan_orangtua_wali }}
-                            @endif
                         </td>
                     </tr>
+                    @endif
                     @foreach ($penilaians as $data => $nilai)
                         @foreach ($nilai as $data)
                             <tr>
@@ -139,85 +136,102 @@
         <div class="card mt-3"> <h4 class="card-header">foto Lampiran</h4>
             <div class="card-body">
                 <table class="table table-borderless w-75">
+                    @if ($berkas->foto_kartu_keluarga === null || $berkas->foto_kartu_keluarga === '')
+                    @else
                     <tr>
                         <th>Foto Kartu Keluarga</th>
                         <td>:</td>
                         <td>
-                            @if ($berkas->foto_kartu_keluarga === null || $berkas->foto_kartu_keluarga === '')
-                            -
-                            @else
                             <a href="{{ asset('foto_kartu_keluarga/' . $berkas->foto_kartu_keluarga) }}"
                                 data-fancybox="gallery">
                                 <img src="{{ asset('foto_kartu_keluarga/' . $berkas->foto_kartu_keluarga) }}"
                                     class="rounded img-fluid" width="300px" alt="Deskripsi Gambar"></a>
-                            @endif
                         </td>
                     </tr>
+                    @endif
+                    @if ($berkas->foto_KTP_orangtua === null || $berkas->foto_KTP_orangtua === '')
+                    @else
                     <tr>
                         <th>Foto KTP Orang Tua/Wali</th>
                         <td>:</td>
                         <td>
-                            @if ($berkas->foto_KTP_orangtua === null || $berkas->foto_KTP_orangtua === '')
-                            -
-                            @else
                             <a href="{{ asset('foto_KTP_orangtua/' . $berkas->foto_KTP_orangtua) }}"
                                 data-fancybox="gallery">
                                 <img src="{{ asset('foto_KTP_orangtua/' . $berkas->foto_KTP_orangtua) }}"
                                     class="rounded img-fluid" width="300px" alt="Deskripsi Gambar"></a>
-                            @endif
                         </td>
                     </tr>
+                    @endif
                     <tr>
                         <th>Foto Tempat Tinggal</th>
                         <td>:</td>
-                        <td><a href="{{ asset('foto_tempat_tinggal/' . $berkas->foto_tempat_tinggal) }}"
+                        <td>
+                            @if ($berkas->foto_tempat_tinggal === null || $berkas->foto_tempat_tinggal === '')
+                            -
+                            @else
+                            <a href="{{ asset('foto_tempat_tinggal/' . $berkas->foto_tempat_tinggal) }}"
                                 data-fancybox="gallery">
                                 <img src="{{ asset('foto_tempat_tinggal/' . $berkas->foto_tempat_tinggal) }}"
                                     class="rounded img-fluid" width="300px" alt="Deskripsi Gambar"></a>
+                                @endif
                         </td>
                     </tr>
 
                     <tr>
                         <th>Foto Slip Gaji</th>
                         <td>:</td>
-                        <td><a href="{{ asset('foto_slip_gaji/' . $berkas->foto_slip_gaji) }}"
+                        <td>
+                            @if ($berkas->foto_slip_gaji === null || $berkas->foto_slip_gaji === '')
+                            -
+                            @else
+                            <a href="{{ asset('foto_slip_gaji/' . $berkas->foto_slip_gaji) }}"
                                 data-fancybox="gallery">
                                 <img src="{{ asset('foto_slip_gaji/' . $berkas->foto_slip_gaji) }}"
-                                    class="rounded img-fluid" width="300px" alt="Deskripsi Gambar"></a></td>
+                                    class="rounded img-fluid" width="300px" alt="Deskripsi Gambar"></a>
+                                @endif
+                            </td>
                     </tr>
                     <tr>
                         <th>Foto Daya Listrik</th>
                         <td>:</td>
-                        <td><a href="{{ asset('foto_daya_listrik/' . $berkas->foto_daya_listrik) }}"
+                        <td>
+                            @if ($berkas->foto_daya_listrik === null || $berkas->foto_daya_listrik === '')
+                            -
+                            @else
+                            <a href="{{ asset('foto_daya_listrik/' . $berkas->foto_daya_listrik) }}"
                                 data-fancybox="gallery">
                                 <img src="{{ asset('foto_daya_listrik/' . $berkas->foto_daya_listrik) }}"
-                                    class="rounded img-fluid" width="300px" alt="Deskripsi Gambar"></a></td>
+                                    class="rounded img-fluid" width="300px" alt="Deskripsi Gambar"></a>
+                            @endif
+                        </td>
                     </tr>
                     <tr>
-                        @if ($berkas->foto_kendaraan === null || $berkas->foto_kendaraan === '')
-                        @else
                             <th>Foto Kendaraan</th>
                             <td>:</td>
                             <td>
+                                @if ($berkas->foto_kendaraan === null || $berkas->foto_kendaraan === '')
+                                Tidak Ada
+                                @else
                                 <a href="{{ asset('foto_kendaraan/' . $berkas->foto_kendaraan) }}"
                                     data-fancybox="gallery">
                                     <img src="{{ asset('foto_kendaraan/' . $berkas->foto_kendaraan) }}"
                                         class="rounded img-fluid" width="300px" alt="Deskripsi Gambar"></a>
+                                @endif
                             </td>
-                        @endif
                     </tr>
                     <tr>
-                        @if ($berkas->foto_beasiswa === null || $berkas->foto_beasiswa === '')
-                        @else
                             <th>Foto Bukti Bantuan Pemerintah</th>
                             <td>:</td>
                             <td>
+                                @if ($berkas->foto_beasiswa === null || $berkas->foto_beasiswa === '')
+                                Tidak Ada
+                                @else
                                 <a href="{{ asset('foto_beasiswa/' . $berkas->foto_beasiswa) }}" data-fancybox="gallery">
                                     <img src="{{ asset('foto_beasiswa/' . $berkas->foto_beasiswa) }}"
                                         class="rounded img-fluid" width="300px" alt="Deskripsi Gambar">
                                 </a>
+                                @endif
                             </td>
-                        @endif
                     </tr>
                 </table>
             </div>
