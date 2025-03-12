@@ -132,7 +132,7 @@
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label for="foto_daya_listrik" class="form-label">Foto Daya Listrik</label><span
+                            <label for="foto_daya_listrik" class="form-label">Foto Bukti Pembayaran Listrik 3 Bulan Terakhir</label><span
                                 class="text-danger" style="font-size: 15px;"><i> *upload gambar format jpeg.jpg.png uk. max
                                     2 MB</i></span>
                             <input class="form-control @error('foto_daya_listrik') is-invalid @enderror" type="file"

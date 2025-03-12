@@ -247,7 +247,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <th>Foto Daya Listrik</th>
+                        <th>Foto Bukti Pembayaran Listrik 3 Bulan Terakhir</th>
                         <td>:</td>
                         <td>
                             @if ($berkas->foto_daya_listrik === null || $berkas->foto_daya_listrik === '')

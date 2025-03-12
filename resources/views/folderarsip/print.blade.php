@@ -249,7 +249,7 @@
                         class="img-fluid"></>
             </tr>
             <tr>
-                <p>Foto Daya Listrik:</p>
+                <p>Foto Bukti Pembayaran Listrik 3 Bulan Terakhir:</p>
                 <p class="image-container"><img src="{{ public_path('fotoarsip/foto_daya_listrik/' . $arsip->foto_daya_listrik) }}"
                         class="img-fluid">
                 </>

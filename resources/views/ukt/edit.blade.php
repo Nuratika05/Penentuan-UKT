@@ -192,7 +192,7 @@
                             </td>
                     </tr>
                     <tr>
-                        <th>Foto Daya Listrik</th>
+                        <th>Foto Bukti Pembayaran Listrik 3 Bulan Terakhir</th>
                         <td>:</td>
                         <td>
                             @if ($berkas->foto_daya_listrik === null || $berkas->foto_daya_listrik === '')
@@ -589,7 +589,7 @@
                             @enderror
                     </div>
                     <div class="mb-3">
-                        <label for="foto_daya_listrik" class="form-label">Foto Daya Listrik</label><span
+                        <label for="foto_daya_listrik" class="form-label">Foto Bukti Pembayaran Listrik 3 Bulan Terakhir</label><span
                             class="text-danger" style="font-size: 15px;"><i> *Abaikan jika tidak ingin
                                 merubah gambar</i></span>
                             <input class="form-control @error('foto_daya_listrik') is-invalid @enderror" type="file"

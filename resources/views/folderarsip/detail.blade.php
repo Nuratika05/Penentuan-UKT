@@ -169,7 +169,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <th>Foto Daya Listrik</th>
+                            <th>Foto Bukti Pembayaran Listrik 3 Bulan Terakhir</th>
                             <td>:</td>
                             <td>
                                 @if ($arsip->foto_daya_listrik == null || $arsip->foto_daya_listrik == '')
